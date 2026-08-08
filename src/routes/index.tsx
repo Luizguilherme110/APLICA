@@ -20,6 +20,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { EbookCard } from "@/components/site/EbookCard";
 import { BookCover } from "@/components/site/BookCover";
+import { Testimonials } from "@/components/site/Testimonials";
 import { ebooks, STORE } from "@/data/ebooks";
 
 const title = `${STORE.name} | ${STORE.tagline}`;
@@ -76,10 +77,6 @@ const faqs = [
   {
     q: "Quais são as formas de pagamento?",
     a: "Somente Pix, com aprovação rápida, processado pela Cakto.",
-  },
-  {
-    q: "E se o conteúdo não fizer sentido para mim?",
-    a: "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar.",
   },
 ];
 
@@ -203,6 +200,8 @@ function Index() {
             ))}
           </div>
         </section>
+
+        <Testimonials />
 
         <section className="border-t border-border/70 bg-secondary/40">
           <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">

@@ -5,6 +5,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { StickyCta } from "@/components/site/StickyCta";
 import { BookCover } from "@/components/site/BookCover";
+import { Testimonials } from "@/components/site/Testimonials";
 import { ebooks, getEbook, type Ebook } from "@/data/ebooks";
 import { cn } from "@/lib/utils";
 
@@ -195,6 +196,12 @@ function EbookPage() {
             </div>
           </div>
         </section>
+
+        <Testimonials
+          ebookSlug={ebook.slug}
+          title="Depoimentos de quem comprou"
+          className="border-t-0 bg-background"
+        />
 
         <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
           <div className="rounded-2xl border border-border/70 bg-card p-6 text-center sm:p-8">
