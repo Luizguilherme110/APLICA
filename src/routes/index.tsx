@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   Download,
@@ -40,7 +41,7 @@ export const Route = createFileRoute("/")({
 });
 
 const perks = [
-  { icon: Download, text: "Acesso liberado assim que o pagamento é confirmado" },
+  { icon: Download, text: "PDF por e-mail assim que o pagamento é confirmado" },
   { icon: Smartphone, text: "Leia no celular, no tablet ou no computador" },
   { icon: ShieldCheck, text: "7 dias de garantia, sem perguntas" },
 ];
@@ -66,7 +67,7 @@ const steps = [
 const faqs = [
   {
     q: "Como eu recebo o guia?",
-    a: "Assim que o pagamento é aprovado, o acesso ao PDF é liberado no seu e-mail de compra. Nenhum app extra é necessário.",
+    a: "Assim que o pagamento é aprovado, a Cakto envia um e-mail com o link do PDF para o endereço que você informou no checkout. Nenhum app extra é necessário.",
   },
   {
     q: "Preciso entender de tecnologia?",
@@ -83,7 +84,16 @@ const faqs = [
 ];
 
 function Index() {
-  const featured = ebooks[0];
+  const [featuredIndex, setFeaturedIndex] = useState(0);
+  const featured = ebooks[featuredIndex];
+
+  useEffect(() => {
+    if (ebooks.length < 2) return;
+    const id = setInterval(() => {
+      setFeaturedIndex((i) => (i + 1) % ebooks.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -109,23 +119,44 @@ function Index() {
                 </Button>
                 {featured ? (
                   <p className="text-sm text-muted-foreground">
-                    A partir de <span className="font-bold text-foreground">{featured.price}</span>
+                    A partir de{" "}
+                    <span
+                      key={featured.slug}
+                      className="animate-fade-up inline-block font-bold text-foreground"
+                    >
+                      {featured.price}
+                    </span>
                   </p>
                 ) : null}
               </div>
             </div>
 
             {featured ? (
-              <div className="animate-fade-up mx-auto w-full max-w-xs [animation-delay:120ms] sm:max-w-sm">
+              <div className="mx-auto w-full max-w-xs [animation-delay:120ms] sm:max-w-sm">
                 <div className="relative">
                   <div className="absolute -inset-6 -z-10 rounded-full bg-brand/15 blur-3xl" />
-                  <BookCover
-                    title={featured.title}
-                    category={featured.category}
-                    format={featured.format}
-                    className="rotate-2 shadow-float"
-                  />
+                  <div key={featured.slug} className="animate-fade-up">
+                    <BookCover
+                      title={featured.title}
+                      category={featured.category}
+                      format={featured.format}
+                      image={featured.coverImage}
+                      className="rotate-2 shadow-float"
+                    />
+                  </div>
                 </div>
+                {ebooks.length > 1 ? (
+                  <div className="mt-4 flex items-center justify-center gap-1.5">
+                    {ebooks.map((e, i) => (
+                      <span
+                        key={e.slug}
+                        className={`h-1.5 rounded-full transition-all ${
+                          i === featuredIndex ? "w-5 bg-brand-strong" : "w-1.5 bg-border"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                ) : null}
               </div>
             ) : null}
           </div>

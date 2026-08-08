@@ -5,7 +5,10 @@ export function StickyCta({ price, href }: { price: string; href: string }) {
   const pending = href === "#checkout-pendente";
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 p-3 backdrop-blur-md sm:hidden">
+    <div
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 p-3 backdrop-blur-md sm:hidden"
+      style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
+    >
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
         <p className="min-w-0 truncate text-lg font-extrabold text-foreground">{price}</p>
         {pending ? (

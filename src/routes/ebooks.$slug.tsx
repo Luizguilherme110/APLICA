@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Calendar, Check, Lock, ShieldCheck, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, Check, Download, Lock, ShieldCheck, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
@@ -101,6 +101,10 @@ function EbookPage() {
                 <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
                   <Lock className="size-3.5" /> Pagamento seguro via Cakto • Pix
                 </p>
+                <p className="mt-1.5 flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <Download className="size-3.5" /> PDF por e-mail assim que o pagamento é
+                  confirmado
+                </p>
               </div>
 
               <div className="mx-auto w-full max-w-[15rem] sm:max-w-xs">
@@ -108,6 +112,7 @@ function EbookPage() {
                   title={ebook.title}
                   category={ebook.category}
                   format={ebook.format}
+                  image={ebook.coverImage}
                   className="-rotate-2 shadow-float"
                 />
               </div>

@@ -1,4 +1,4 @@
-import { Store } from "lucide-react";
+import logo from "@/assets/logo-light.png";
 import { STORE } from "@/data/ebooks";
 
 export function Footer() {
@@ -7,26 +7,11 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="max-w-xs">
-            <div className="flex items-center gap-2.5">
-              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
-                <Store className="size-4" />
-              </span>
-              <span className="text-[15px] font-extrabold tracking-tight text-foreground">
-                {STORE.name}
-              </span>
-            </div>
+            <img src={logo} alt={STORE.name} className="h-9 w-auto" />
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{STORE.tagline}</p>
           </div>
 
           <nav className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted-foreground">
-            <a
-              href={STORE.whatsapp}
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-foreground"
-            >
-              WhatsApp
-            </a>
             <a href={`mailto:${STORE.supportEmail}`} className="hover:text-foreground">
               {STORE.supportEmail}
             </a>

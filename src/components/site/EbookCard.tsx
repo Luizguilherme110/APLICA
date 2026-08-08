@@ -19,6 +19,7 @@ export function EbookCard({ ebook, className }: { ebook: Ebook; className?: stri
           title={ebook.title}
           category={ebook.category}
           format={ebook.format}
+          image={ebook.coverImage}
           interactive
           compact
           className="mx-auto max-w-[12rem]"

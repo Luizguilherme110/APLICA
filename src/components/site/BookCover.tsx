@@ -5,6 +5,7 @@ export function BookCover({
   title,
   category,
   format,
+  image,
   className,
   interactive = false,
   compact = false,
@@ -12,10 +13,25 @@ export function BookCover({
   title: string;
   category: string;
   format: string;
+  image?: string;
   className?: string;
   interactive?: boolean;
   compact?: boolean;
 }) {
+  if (image) {
+    return (
+      <div
+        className={cn(
+          "relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-[oklch(0.2_0.018_50)] shadow-float",
+          interactive && "transition-transform duration-300 group-hover:-translate-y-1",
+          className,
+        )}
+      >
+        <img src={image} alt={title} className="absolute inset-0 size-full object-cover" />
+      </div>
+    );
+  }
+
   return (
     <div
       className={cn(
