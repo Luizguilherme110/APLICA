@@ -121,7 +121,7 @@ export const ebooks: Ebook[] = [
     ],
     highlights: [
       "Os seis comandos essenciais com passo a passo: senta, deita, fica, vem, junto e solta",
-      "Caixa \"Treino na prática\" em cada comando, com o roteiro exato da sessão",
+      'Caixa "Treino na prática" em cada comando, com o roteiro exato da sessão',
       "Passeios sem puxar e socialização, com sinais de quando procurar um profissional",
       "Solução para latido, pular em visita, mordida de filhote, higiene e ansiedade de ficar sozinho",
       "Plano de 7 dias e desafio de 30 dias pra transformar o treino em rotina",
@@ -140,7 +140,7 @@ export const ebooks: Ebook[] = [
       {
         title: "Os Seis Comandos Essenciais",
         description:
-          "Senta, deita, fica, vem, junto e solta, cada um com o passo a passo completo e a caixa \"Treino na prática\" com o roteiro exato da sessão.",
+          'Senta, deita, fica, vem, junto e solta, cada um com o passo a passo completo e a caixa "Treino na prática" com o roteiro exato da sessão.',
       },
       {
         title: "Passeios e Socialização",
