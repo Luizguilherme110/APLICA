@@ -86,7 +86,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "eBooks objetivos e sem enrolação para quem toca um negócio no dia a dia. Aplique ainda hoje.",
       },
-      { name: "theme-color", content: "#faf6f2" },
+      { name: "theme-color", content: "#f4f6fb" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },

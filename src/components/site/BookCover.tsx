@@ -22,7 +22,7 @@ export function BookCover({
     return (
       <div
         className={cn(
-          "relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-[oklch(0.2_0.018_50)] shadow-float",
+          "relative aspect-[2/3] w-full overflow-hidden rounded-2xl bg-[oklch(0.2_0.028_258)] shadow-float",
           interactive && "transition-transform duration-300 group-hover:-translate-y-1",
           className,
         )}
@@ -35,7 +35,7 @@ export function BookCover({
   return (
     <div
       className={cn(
-        "relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-[oklch(0.2_0.018_50)] shadow-float",
+        "relative aspect-[2/3] w-full overflow-hidden rounded-2xl bg-[oklch(0.2_0.028_258)] shadow-float",
         interactive && "transition-transform duration-300 group-hover:-translate-y-1",
         className,
       )}

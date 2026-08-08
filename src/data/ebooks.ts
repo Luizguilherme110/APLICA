@@ -1,5 +1,5 @@
-import coverCaoEducado from "@/assets/cover-cao-educado.png";
-import coverClienteNaPorta from "@/assets/cover-cliente-na-porta.png";
+import coverCaoEducado from "@/assets/cover-cao-educado.jpg";
+import coverClienteNaPorta from "@/assets/cover-cliente-na-porta.jpg";
 
 export type Module = {
   title: string;
