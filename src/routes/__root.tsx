@@ -4,14 +4,16 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { metaPixelNoscriptSrc, metaPixelSnippet, trackPageView } from "../lib/meta-pixel";
 
 function NotFoundComponent() {
   return (
@@ -117,6 +119,12 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="pt-BR">
       <head>
         <HeadContent />
+        {/* Meta Pixel */}
+        <script dangerouslySetInnerHTML={{ __html: metaPixelSnippet }} />
+        <noscript>
+          <img height="1" width="1" style={{ display: "none" }} alt="" src={metaPixelNoscriptSrc} />
+        </noscript>
+        {/* End Meta Pixel */}
       </head>
       <body>
         {children}
@@ -129,6 +137,19 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  // O snippet no <head> já dispara o PageView do primeiro carregamento. Como a
+  // navegação entre rotas é client-side, as trocas seguintes precisam disparar
+  // manualmente — senão só a página de entrada seria contabilizada.
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isFirstPageView = useRef(true);
+  useEffect(() => {
+    if (isFirstPageView.current) {
+      isFirstPageView.current = false;
+      return;
+    }
+    trackPageView();
+  }, [pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>

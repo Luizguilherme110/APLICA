@@ -1,7 +1,15 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function StickyCta({ price, href }: { price: string; href: string }) {
+export function StickyCta({
+  price,
+  href,
+  onCheckout,
+}: {
+  price: string;
+  href: string;
+  onCheckout?: () => void;
+}) {
   const pending = href === "#checkout-pendente";
 
   return (
@@ -17,7 +25,7 @@ export function StickyCta({ price, href }: { price: string; href: string }) {
           </Button>
         ) : (
           <Button asChild variant="cta" className="h-11 shrink-0 px-5">
-            <a href={href}>
+            <a href={href} onClick={onCheckout}>
               Comprar agora <ArrowRight />
             </a>
           </Button>

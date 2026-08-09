@@ -1,5 +1,14 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Calendar, Check, Download, Lock, ShieldCheck, X } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Calendar,
+  Check,
+  Download,
+  Lock,
+  ShieldCheck,
+  X,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
@@ -7,7 +16,17 @@ import { StickyCta } from "@/components/site/StickyCta";
 import { BookCover } from "@/components/site/BookCover";
 import { Testimonials } from "@/components/site/Testimonials";
 import { ebooks, getEbook, type Ebook } from "@/data/ebooks";
+import { parsePriceBRL, trackInitiateCheckout } from "@/lib/meta-pixel";
 import { cn } from "@/lib/utils";
+
+/** Sinaliza à Meta que o visitante saiu para o checkout da Cakto. */
+function reportCheckoutIntent(ebook: Ebook) {
+  trackInitiateCheckout({
+    contentName: ebook.title,
+    contentId: ebook.slug,
+    value: parsePriceBRL(ebook.price),
+  });
+}
 
 export const Route = createFileRoute("/ebooks/$slug")({
   loader: ({ params }) => {
@@ -47,7 +66,7 @@ function BuyButton({ ebook, className }: { ebook: Ebook; className?: string }) {
 
   return (
     <Button asChild variant="cta" size="xl" className={className}>
-      <a href={ebook.checkoutUrl}>
+      <a href={ebook.checkoutUrl} onClick={() => reportCheckoutIntent(ebook)}>
         Comprar agora <ArrowRight />
       </a>
     </Button>
@@ -243,7 +262,11 @@ function EbookPage() {
       </main>
 
       <Footer />
-      <StickyCta price={ebook.price} href={ebook.checkoutUrl} />
+      <StickyCta
+        price={ebook.price}
+        href={ebook.checkoutUrl}
+        onCheckout={() => reportCheckoutIntent(ebook)}
+      />
     </div>
   );
 }
