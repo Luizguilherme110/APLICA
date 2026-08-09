@@ -16,8 +16,8 @@ import { StickyCta } from "@/components/site/StickyCta";
 import { BookCover } from "@/components/site/BookCover";
 import { Testimonials } from "@/components/site/Testimonials";
 import { ebooks, getEbook, type Ebook } from "@/data/ebooks";
-import { parsePriceBRL, trackInitiateCheckout } from "@/lib/meta-pixel";
-import { cn } from "@/lib/utils";
+import { trackInitiateCheckout } from "@/lib/meta-pixel";
+import { cn, parsePriceBRL } from "@/lib/utils";
 
 /** Sinaliza à Meta que o visitante saiu para o checkout da Cakto. */
 function reportCheckoutIntent(ebook: Ebook) {
@@ -119,7 +119,8 @@ function EbookPage() {
                   <BuyButton ebook={ebook} />
                 </div>
                 <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Lock className="size-3.5" /> Pagamento seguro via Cakto • Pix
+                  <Lock className="size-3.5" /> Pagamento seguro via Cakto • Pix, cartão ou carteira
+                  digital
                 </p>
                 <p className="mt-1.5 flex items-center gap-1.5 text-xs text-muted-foreground">
                   <Download className="size-3.5" /> PDF por e-mail assim que o pagamento é

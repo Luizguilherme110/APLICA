@@ -13,7 +13,7 @@ export function BookCover({
   title: string;
   category: string;
   format: string;
-  image?: string;
+  image?: string | undefined;
   className?: string;
   interactive?: boolean;
   compact?: boolean;

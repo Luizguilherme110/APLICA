@@ -1,4 +1,4 @@
-import logo from "@/assets/logo-light.png";
+import logo from "@/assets/logo-mark-light-blue.png";
 import { STORE } from "@/data/ebooks";
 
 export function Footer() {
@@ -7,7 +7,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="max-w-xs">
-            <img src={logo} alt={STORE.name} className="h-9 w-auto" />
+            <img src={logo} alt={STORE.name} className="h-10 w-auto" />
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{STORE.tagline}</p>
           </div>
 

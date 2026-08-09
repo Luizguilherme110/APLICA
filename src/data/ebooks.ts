@@ -1,5 +1,8 @@
 import coverCaoEducado from "@/assets/cover-cao-educado.jpg";
+import coverCelularSemMedo from "@/assets/cover-celular-sem-medo.jpg";
 import coverClienteNaPorta from "@/assets/cover-cliente-na-porta.jpg";
+import coverIaParaIniciantes from "@/assets/cover-ia-para-iniciantes.jpg";
+import { parsePriceBRL } from "@/lib/utils";
 
 export type Module = {
   title: string;
@@ -13,7 +16,8 @@ export type Ebook = {
   category: string;
   format: string;
   price: string;
-  coverImage: string;
+  /** Sem capa, o BookCover desenha uma capa tipográfica com o título e a categoria. */
+  coverImage?: string | undefined;
   headline: string;
   subheadline: string;
   audience: string[];
@@ -121,7 +125,7 @@ export const ebooks: Ebook[] = [
     ],
     highlights: [
       "Os seis comandos essenciais com passo a passo: senta, deita, fica, vem, junto e solta",
-      "Caixa \"Treino na prática\" em cada comando, com o roteiro exato da sessão",
+      'Caixa "Treino na prática" em cada comando, com o roteiro exato da sessão',
       "Passeios sem puxar e socialização, com sinais de quando procurar um profissional",
       "Solução para latido, pular em visita, mordida de filhote, higiene e ansiedade de ficar sozinho",
       "Plano de 7 dias e desafio de 30 dias pra transformar o treino em rotina",
@@ -140,7 +144,7 @@ export const ebooks: Ebook[] = [
       {
         title: "Os Seis Comandos Essenciais",
         description:
-          "Senta, deita, fica, vem, junto e solta, cada um com o passo a passo completo e a caixa \"Treino na prática\" com o roteiro exato da sessão.",
+          'Senta, deita, fica, vem, junto e solta, cada um com o passo a passo completo e a caixa "Treino na prática" com o roteiro exato da sessão.',
       },
       {
         title: "Passeios e Socialização",
@@ -159,6 +163,144 @@ export const ebooks: Ebook[] = [
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/36z2u29_1028969",
   },
+  {
+    slug: "ia-para-iniciantes",
+    title: "IA para Iniciantes",
+    tagline:
+      "101 maneiras de usar inteligência artificial para economizar 1 hora por dia, com prompts prontos para copiar.",
+    category: "Inteligência Artificial",
+    format: "PDF · 30 páginas · 7 módulos + bônus",
+    price: "R$ 57,90",
+    coverImage: coverIaParaIniciantes,
+    headline: "Uma hora por dia é muito tempo de volta no seu bolso",
+    subheadline:
+      "Um guia direto, do zero e sem termos técnicos, com exemplos e prompts prontos para copiar, que transforma ChatGPT, Gemini e outras ferramentas em um assistente para o seu trabalho, seus estudos e a sua vida.",
+    audience: [
+      "Quem nunca usou IA e não quer perder tempo com termo técnico",
+      "Quem já abriu o ChatGPT, achou o resultado genérico e desistiu",
+      "Quem passa o dia em tarefa repetitiva de escrever, resumir, organizar ou pesquisar",
+    ],
+    notFor: [
+      "Quem já escreve prompts com contexto, formato e tom no automático",
+      "Quem procura programação, integração por API ou criação de agentes",
+    ],
+    highlights: [
+      "101 maneiras numeradas e separadas por área: e-mails, escrita, trabalho, estudos, casa e negócio",
+      "Prompts prontos para copiar, trocar o que está entre colchetes e colar",
+      "A fórmula que faz a IA acertar: contexto, tarefa, formato e tom",
+      "Funciona com ChatGPT, Gemini, Copilot ou Claude, todas com versão gratuita",
+      "Os 10 erros que fazem a IA devolver resposta ruim, e como sair de cada um",
+    ],
+    modules: [
+      {
+        title: "Fundamentos",
+        description:
+          "Como conversar com a IA e escrever pedidos que funcionam. Quais ferramentas usar, a fórmula de contexto, tarefa, formato e tom, e por que continuar a conversa rende mais que aceitar a primeira resposta.",
+      },
+      {
+        title: "E-mails e comunicação",
+        description:
+          "Maneiras 1 a 16. Rascunhar do zero, responder o que está parado, resumir a conversa longa e ajustar o tom daquela mensagem difícil antes de enviar.",
+      },
+      {
+        title: "Escrita, textos e redes",
+        description:
+          "Maneiras 17 a 34. Sair da página em branco, gerar ideias, montar calendário de conteúdo e adaptar o mesmo texto para cada canal sem reescrever tudo.",
+      },
+      {
+        title: "Produtividade no trabalho",
+        description:
+          "Maneiras 35 a 52. Organizar tarefas, criar modelos reutilizáveis, preparar reuniões e transformar o que é repetitivo em processo que se resolve em minutos.",
+      },
+      {
+        title: "Estudos e aprendizado",
+        description:
+          "Maneiras 53 a 68. Aprender no modo ativo respondendo às perguntas da IA, resumir material longo e treinar para prova com quem nunca se cansa de explicar.",
+      },
+      {
+        title: "Casa, finanças e vida pessoal",
+        description:
+          "Maneiras 69 a 85. Cardápio da semana e lista de compras, orçamento simples, planejamento de viagem e as pequenas decisões que tomam tempo todo dia.",
+      },
+      {
+        title: "Pequenos negócios",
+        description:
+          "Maneiras 86 a 101. Anúncios, respostas prontas de atendimento, descrição de produto e ideias de conteúdo para quem toca o próprio negócio sozinho.",
+      },
+    ],
+    actionPlan:
+      "O guia fecha com três bônus (a fórmula do prompt perfeito, os 10 erros que estragam a resposta e um capítulo de uso responsável, sobre conferir dados e não expor informação sensível) e dois planos de ação: sete dias para pegar o jeito e um desafio de 30 dias para virar hábito.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/irmwj6t_1031016",
+  },
+  {
+    slug: "celular-sem-medo",
+    title: "Celular Sem Medo",
+    tagline:
+      "Guia em letras grandes e passo a passo para a pessoa idosa usar o celular com autonomia e segurança.",
+    category: "Terceira Idade",
+    format: "PDF · 32 páginas · 5 módulos + bônus",
+    price: "R$ 27,90",
+    coverImage: coverCelularSemMedo,
+    headline: "O celular pode ser seu amigo, não um problema",
+    subheadline:
+      "O guia simples, em letras grandes e passo a passo, para você usar o seu celular com autonomia, tranquilidade e segurança, no seu tempo e sem depender de ninguém.",
+    audience: [
+      "Quem tem 60 anos ou mais e quer resolver as próprias coisas no celular",
+      "Quem já tem o aparelho mas usa só o básico, com receio de mexer e estragar",
+      "Filhos e netos que querem ensinar os pais e avós sem perder a paciência",
+    ],
+    notFor: [
+      "Quem já usa aplicativo de banco, mapas e redes sociais com desenvoltura",
+      "Quem procura comparação técnica entre marcas e modelos de aparelho",
+    ],
+    highlights: [
+      "Letras grandes e passos curtos, feito para a pessoa ler sozinha, sem ajuda",
+      "WhatsApp inteiro: mensagem, áudio, foto e chamada de vídeo com os netos",
+      "O módulo de golpes, o mais importante do guia: falso parente, falso banco e o código do WhatsApp",
+      'Cartão "Não caia em golpes" e ficha "Meu celular" para imprimir e deixar à mão',
+      "Um capítulo para a família ensinar com paciência, sem atropelar",
+    ],
+    modules: [
+      {
+        title: "Conhecendo o celular",
+        description:
+          "Os primeiros passos, sem pressa: os botões da lateral, a tela, aumentar as letras, ajustar o brilho, conectar no Wi-Fi e entender a barra de notificações. Nada quebra por explorar.",
+      },
+      {
+        title: "WhatsApp sem mistério",
+        description:
+          "Conversar, mandar foto e ver quem você ama. Mensagem escrita, áudio segurando o microfone, envio de foto da galeria ou tirada na hora, e a chamada de vídeo passo a passo.",
+      },
+      {
+        title: "Aplicativos, fotos e internet",
+        description:
+          "Instalar aplicativos com segurança, guardar e encontrar suas fotos na galeria, e pesquisar qualquer coisa no Google e no YouTube sem se perder.",
+      },
+      {
+        title: "O dia a dia mais fácil",
+        description:
+          "Mapas para achar endereços e compartilhar sua localização com a família, transporte por aplicativo e lembretes de remédio que avisam na hora certa.",
+      },
+      {
+        title: "Segurança: sem cair em golpes",
+        description:
+          "O módulo mais importante. Golpe quase sempre vem com pressa e pressão: falso parente pedindo Pix, falso banco pedindo senha, o código do WhatsApp por SMS, prêmio e boleto falsos. E a lista do que nunca fazer.",
+      },
+    ],
+    actionPlan:
+      'O guia termina com três bônus imprimíveis (o cartão anti-golpe para deixar perto do celular, a ficha "Meu celular" com os números importantes e o capítulo para a família ensinar com paciência) e dois planos de ação: sete dias para começar e um desafio de 30 dias para ganhar confiança.',
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/t5woe75_1031028",
+  },
 ];
 
 export const getEbook = (slug: string) => ebooks.find((e) => e.slug === slug);
+
+/** Menor preço do catálogo — é o que o "a partir de" da home deve mostrar. */
+export const cheapestPrice = ebooks.reduce(
+  (cheapest, e) => (parsePriceBRL(e.price) < parsePriceBRL(cheapest) ? e.price : cheapest),
+  ebooks[0]?.price ?? "",
+);

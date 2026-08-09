@@ -47,12 +47,6 @@ export function trackPageView(): void {
   window.fbq?.("track", "PageView");
 }
 
-/** Converte o preço exibido ("R$ 47,90") no número que a Meta espera (47.9). */
-export function parsePriceBRL(price: string): number {
-  const value = Number.parseFloat(price.replace(/[^\d,]/g, "").replace(",", "."));
-  return Number.isFinite(value) ? value : 0;
-}
-
 /**
  * Dispara InitiateCheckout ao mandar o visitante para o checkout da Cakto.
  * O evento Purchase NÃO pode ser disparado aqui: a compra se completa no

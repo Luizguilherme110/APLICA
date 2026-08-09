@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   ArrowRight,
+  CreditCard,
   Download,
   MessageCircleMore,
-  QrCode,
   ShieldCheck,
   Smartphone,
   Wallet,
@@ -21,7 +21,7 @@ import { Footer } from "@/components/site/Footer";
 import { EbookCard } from "@/components/site/EbookCard";
 import { BookCover } from "@/components/site/BookCover";
 import { Testimonials } from "@/components/site/Testimonials";
-import { ebooks, STORE } from "@/data/ebooks";
+import { cheapestPrice, ebooks, STORE } from "@/data/ebooks";
 
 const title = `${STORE.name} | ${STORE.tagline}`;
 const description =
@@ -54,9 +54,9 @@ const steps = [
     text: "Pra fase que o seu negócio está vivendo agora.",
   },
   {
-    icon: QrCode,
-    title: "Pague com Pix",
-    text: "Aprovação na hora, direto pela Cakto.",
+    icon: CreditCard,
+    title: "Pague como preferir",
+    text: "Pix, cartão ou carteira digital, direto pela Cakto.",
   },
   {
     icon: MessageCircleMore,
@@ -76,7 +76,7 @@ const faqs = [
   },
   {
     q: "Quais são as formas de pagamento?",
-    a: "Somente Pix, com aprovação rápida, processado pela Cakto.",
+    a: "Pix, cartão de crédito, PicPay, Apple Pay e Google Pay, todos processados pela Cakto. No Pix a aprovação sai na hora.",
   },
 ];
 
@@ -114,15 +114,9 @@ function Index() {
                     Ver guias disponíveis <ArrowRight />
                   </a>
                 </Button>
-                {featured ? (
+                {cheapestPrice ? (
                   <p className="text-sm text-muted-foreground">
-                    A partir de{" "}
-                    <span
-                      key={featured.slug}
-                      className="animate-fade-up inline-block font-bold text-foreground"
-                    >
-                      {featured.price}
-                    </span>
+                    A partir de <span className="font-bold text-foreground">{cheapestPrice}</span>
                   </p>
                 ) : null}
               </div>
