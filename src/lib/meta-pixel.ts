@@ -30,6 +30,17 @@ fbq('track', 'PageView');`;
 
 export const metaPixelNoscriptSrc = `https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`;
 
+/**
+ * Conteúdo do <noscript> como HTML cru, de propósito.
+ *
+ * Com o JS ligado o navegador NÃO parseia o interior de um <noscript>: ele
+ * guarda tudo como um único nó de texto. Se passarmos <img> como filho JSX, o
+ * React espera encontrar um elemento na hidratação, acha texto, e derruba a
+ * árvore com o erro #418. Entregando a mesma string dos dois lados, servidor e
+ * cliente batem.
+ */
+export const metaPixelNoscriptHtml = `<img height="1" width="1" style="display:none" alt="" src="${metaPixelNoscriptSrc}" />`;
+
 /** Dispara um PageView. Seguro chamar antes de o script carregar (a fila do fbq segura). */
 export function trackPageView(): void {
   if (typeof window === "undefined") return;

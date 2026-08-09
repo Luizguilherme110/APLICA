@@ -13,7 +13,7 @@ import { Analytics } from "@vercel/analytics/react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { metaPixelNoscriptSrc, metaPixelSnippet, trackPageView } from "../lib/meta-pixel";
+import { metaPixelNoscriptHtml, metaPixelSnippet, trackPageView } from "../lib/meta-pixel";
 
 function NotFoundComponent() {
   return (
@@ -121,9 +121,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
         {/* Meta Pixel */}
         <script dangerouslySetInnerHTML={{ __html: metaPixelSnippet }} />
-        <noscript>
-          <img height="1" width="1" style={{ display: "none" }} alt="" src={metaPixelNoscriptSrc} />
-        </noscript>
+        <noscript dangerouslySetInnerHTML={{ __html: metaPixelNoscriptHtml }} />
         {/* End Meta Pixel */}
       </head>
       <body>
