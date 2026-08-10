@@ -16,6 +16,8 @@ export type Ebook = {
   category: string;
   format: string;
   price: string;
+  /** Preço "de", exibido riscado ao lado do preço atual. */
+  originalPrice?: string;
   /** Sem capa, o BookCover desenha uma capa tipográfica com o título e a categoria. */
   coverImage?: string | undefined;
   headline: string;
@@ -49,6 +51,7 @@ export const ebooks: Ebook[] = [
     category: "Marketing Local",
     format: "PDF · 29 páginas · 5 módulos + bônus",
     price: "R$ 47,90",
+    originalPrice: "R$ 97,90",
     coverImage: coverClienteNaPorta,
     headline: "A vitrine do seu cliente hoje é a tela do celular",
     subheadline:
@@ -110,6 +113,7 @@ export const ebooks: Ebook[] = [
     category: "Adestramento Positivo",
     format: "PDF · 29 páginas · 5 módulos + bônus",
     price: "R$ 35,90",
+    originalPrice: "R$ 79,90",
     coverImage: coverCaoEducado,
     headline: "Um cão bem-educado começa com o método certo",
     subheadline:
@@ -171,6 +175,7 @@ export const ebooks: Ebook[] = [
     category: "Inteligência Artificial",
     format: "PDF · 30 páginas · 7 módulos + bônus",
     price: "R$ 57,90",
+    originalPrice: "R$ 129,90",
     coverImage: coverIaParaIniciantes,
     headline: "Uma hora por dia é muito tempo de volta no seu bolso",
     subheadline:
@@ -242,6 +247,7 @@ export const ebooks: Ebook[] = [
     category: "Terceira Idade",
     format: "PDF · 32 páginas · 5 módulos + bônus",
     price: "R$ 27,90",
+    originalPrice: "R$ 67,90",
     coverImage: coverCelularSemMedo,
     headline: "O celular pode ser seu amigo, não um problema",
     subheadline:
@@ -298,6 +304,15 @@ export const ebooks: Ebook[] = [
 ];
 
 export const getEbook = (slug: string) => ebooks.find((e) => e.slug === slug);
+
+/** Percentual de desconto arredondado, ou null se não houver originalPrice. */
+export const discountPercent = (ebook: Ebook): number | null => {
+  if (!ebook.originalPrice) return null;
+  const original = parsePriceBRL(ebook.originalPrice);
+  const current = parsePriceBRL(ebook.price);
+  if (!original || original <= current) return null;
+  return Math.round((1 - current / original) * 100);
+};
 
 /** Menor preço do catálogo — é o que o "a partir de" da home deve mostrar. */
 export const cheapestPrice = ebooks.reduce(

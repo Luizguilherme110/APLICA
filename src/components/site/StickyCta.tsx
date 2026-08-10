@@ -1,12 +1,14 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PriceTag } from "@/components/site/PriceTag";
+import type { Ebook } from "@/data/ebooks";
 
 export function StickyCta({
-  price,
+  ebook,
   href,
   onCheckout,
 }: {
-  price: string;
+  ebook: Pick<Ebook, "price" | "originalPrice">;
   href: string;
   onCheckout?: () => void;
 }) {
@@ -18,7 +20,7 @@ export function StickyCta({
       style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
     >
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-        <p className="min-w-0 truncate text-lg font-extrabold text-foreground">{price}</p>
+        <PriceTag ebook={ebook} size="md" className="min-w-0" />
         {pending ? (
           <Button variant="cta" className="h-11 shrink-0 px-5" disabled>
             Em breve

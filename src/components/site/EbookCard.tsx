@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import type { Ebook } from "@/data/ebooks";
 import { BookCover } from "@/components/site/BookCover";
+import { PriceTag } from "@/components/site/PriceTag";
 import { cn } from "@/lib/utils";
 
 export function EbookCard({ ebook, className }: { ebook: Ebook; className?: string | undefined }) {
@@ -30,7 +31,7 @@ export function EbookCard({ ebook, className }: { ebook: Ebook; className?: stri
           {ebook.tagline}
         </p>
         <div className="mt-5 flex items-center justify-between gap-3">
-          <span className="block text-lg font-extrabold text-foreground">{ebook.price}</span>
+          <PriceTag ebook={ebook} size="md" />
           <span className="flex shrink-0 items-center gap-1 text-sm font-semibold text-brand-strong">
             Ver detalhes
             <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5" />

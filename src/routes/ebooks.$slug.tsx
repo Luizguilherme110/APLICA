@@ -16,6 +16,7 @@ import { StickyCta } from "@/components/site/StickyCta";
 import { BookCover } from "@/components/site/BookCover";
 import { Testimonials } from "@/components/site/Testimonials";
 import { ScreenshotTestimonials } from "@/components/site/ScreenshotTestimonials";
+import { PriceTag } from "@/components/site/PriceTag";
 import { ebooks, getEbook, type Ebook } from "@/data/ebooks";
 import { trackInitiateCheckout } from "@/lib/meta-pixel";
 import { cn, parsePriceBRL } from "@/lib/utils";
@@ -114,9 +115,7 @@ function EbookPage() {
                 </ul>
 
                 <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-                  <p className="text-3xl font-extrabold tracking-tight text-foreground">
-                    {ebook.price}
-                  </p>
+                  <PriceTag ebook={ebook} size="lg" />
                   <BuyButton ebook={ebook} />
                 </div>
                 <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -258,7 +257,7 @@ function EbookPage() {
                     <span className="mt-1 block truncate text-sm font-bold text-foreground">
                       {e.title}
                     </span>
-                    <span className="mt-1 block text-sm text-muted-foreground">{e.price}</span>
+                    <PriceTag ebook={e} size="sm" className="mt-1" />
                   </span>
                   <ArrowLeft className="size-4 shrink-0 rotate-180 text-muted-foreground" />
                 </Link>
@@ -270,7 +269,7 @@ function EbookPage() {
 
       <Footer />
       <StickyCta
-        price={ebook.price}
+        ebook={ebook}
         href={ebook.checkoutUrl}
         onCheckout={() => reportCheckoutIntent(ebook)}
       />
