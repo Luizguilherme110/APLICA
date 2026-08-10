@@ -1,172 +1,240 @@
-# Venda Local VIP
+# Aplica — Guias Práticos
 
-Build a high-converting, modern, mobile-first sales landing page (LP) for a digital product (an eBook / Playbook called "Guia Prático: Do Comercio Físico ao Digital").
+Loja digital de eBooks curtos e práticos, vendidos em PDF, com pagamento e
+entrega automatizados pela Cakto. Este README é o manual de referência do
+negócio: serve tanto pra quem mexe no código quanto de **base de
+conhecimento para o agente de atendimento no WhatsApp** (n8n).
 
-### DESIGN SYSTEM & AESTHETICS:
-
-- **Style:** Clean, professional, premium, high-contrast, optimized for sales conversion.
-
-- **Color Palette:**
-
-  - Background: Soft neutral light/slate background (`bg-slate-50` / `bg-white`) with dark slate text (`text-slate-900`) for maximum legibility.
-
-  - Primary Brand Color: Deep Navy/Slate (`#0f172a` / `slate-900`).
-
-  - High-Conversion Accent Color (CTAs/Badges): Electric Emerald Green (`#10b981` / `emerald-500` / `emerald-600`) with hover glow effects for primary action buttons.
-
-  - Highlight/Urgency Accent: Amber/Yellow (`#f59e0b`) for star ratings and highlight badges.
-
-- **UI Components:** Use Shadcn/UI style cards, buttons, badges, accordions, and dialogs.
-
-- **Typography:** Inter or Sans-serif, bold clear headings, high contrast, optimal line height for mobile reading.
-
-- **Icons:** Use Lucide React icons (`Check`, `Star`, `ShieldCheck`, `Zap`, `Lock`, `BookOpen`, `Smartphone`, `TrendingUp`, `Clock`, `ChevronDown`, `Gift`, `ArrowRight`).
+- **Loja:** Aplica
+- **Tagline:** Guias práticos para você aplicar ainda hoje
+- **E-mail de suporte:** contato@aplica.com.br
+- **WhatsApp de atendimento:** +55 42 9995-0491
+- **Plataforma de pagamento/entrega:** Cakto
 
 ---
 
-### PAGE STRUCTURE & SECTIONS (In order of appearance):
+## 1. Como a loja funciona
 
-#### 1. TOP ANNOUNCEMENT BAR (Urgency Header)
+1. O cliente escolhe um ebook no site e clica em "Comprar agora".
+2. É redirecionado para o checkout da Cakto (um link único por ebook).
+3. Paga via **Pix, cartão de crédito, PicPay, Apple Pay ou Google Pay**. No
+   Pix a aprovação é imediata; no cartão pode levar alguns minutos.
+4. Assim que o pagamento é aprovado, a **Cakto envia automaticamente um
+   e-mail** com o link de download do PDF para o endereço informado no
+   checkout. Não existe app extra, nem senha, nem área de membros — é
+   direto pelo e-mail.
+5. O cliente tem **7 dias corridos de garantia incondicional**: pode pedir
+   reembolso integral sem justificar (direito garantido por lei em compra
+   digital no Brasil).
 
-- Sticky top banner with emerald text or amber background:
-
-  - Text: "🔥 OFERTA DE LANÇAMENTO: De R$ 97,00 por apenas R$ 27,90 (Restam poucas vagas)"
-
-  - Countdown timer UI placeholder or simple pulse badge.
-
-#### 2. HERO SECTION (Above the fold)
-
-- **Top Badge:** Pill-shaped badge with Lucide `Zap` icon: "PLAYBOOK PRÁTICO PARA NEGÓCIOS LOCAIS".
-
-- **Main Headline (H1):** "Transforme a Sua Loja Física em um Ímã de Clientes Usando Apenas o Celular e a Internet"
-
-- **Subheadline:** "Descubra o passo a passo simplificado para atrair clientes do seu bairro, dominar o Google Meu Negócio e vender todos os dias no WhatsApp — sem gastar fortunas com agências."
-
-- **Visual Element:** A floating 3D Ebook Cover Mockup card with glossy badge ("100% Digital & Acesso Imediato"), star rating (`5.0 ⭐⭐⭐⭐⭐` - "Mais de 450 comerciantes já aplicaram"), and feature checklist bullet points.
-
-- **Primary CTA Button:** Large green glowing button (`bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 text-lg w-full sm:w-auto`).
-
-  - Button Text: "QUERO VENDER MAIS NA MINHA LOJA →"
-
-  - Subtext under CTA: "🔒 Compra 100% Segura • Acesso Imediato no E-mail"
-
-- **Trust Badges Bar:** 3 quick icon features:
-
-  - ⚡ "Leitura Rápida e Direta ao Ponto"
-
-  - 🛡️ "7 Dias de Garantia Incondicional"
-
-  - 📲 "Acesso no Celular, Tablet ou PC"
-
-#### 3. THE PROBLEM / PAIN POINTS SECTION
-
-- **Section Title:** "Você Sente Que Seu Comércio Está Parado Enquanto os Clientes Estão Todos no Celular?"
-
-- **Grid of 3 Problem Cards (Soft red border/accent):**
-
-  1. *Rua Vazia, Custos Altos:* Ter que esperar passivamente os clientes entrarem pela porta.
-
-  2. *Instagram que Não Vende:* Postar fotos sem estratégias locais e não receber nenhuma mensagem.
-
-  3. *Complicado Demais:* Achar que marketing digital é só para grandes empresas ou exige termos difíceis.
-
-#### 4. THE SOLUTION / WHAT'S INSIDE (Modules Grid)
-
-- **Section Title:** "O Que Você Vai Aprender Dentro do Guia Prático"
-
-- **Subtitle:** "Sem enrolação ou teorias chatas. Apenas o que funciona na prática para o seu bairro."
-
-- **4 Feature Cards Grid (Shadcn Card style with icon headers):**
-
-  - **Módulo 1: O Ímã de Clientes no Google** (Como colocar sua loja no topo das buscas locais e receber ligações de graça).
-
-  - **Módulo 2: Instagram Local Descomplicado** (O que postar em 15 minutos por dia para gerar desejo imediato no seu bairro).
-
-  - **Módulo 3: WhatsApp Máquina de Vendas** (Scripts prontos para copiar e colar que fecham vendas e evitam o vácuo).
-
-  - **Módulo 4: Anúncios Rápidos para Seu Bairro** (Como investir R$ 5 a R$ 10 por dia cobrindo um raio de 3km a 5km da sua loja).
-
-#### 5. EXCLUSIVE BONUSES SECTION (High-Value Additions)
-
-- **Section Title:** "Leve Hoje E Ganhe +3 Bônus Gratuitos Exclusivos 🎁"
-
-- **Grid of 3 Bonus Cards with "GRÁTIS HOJE" Badge:**
-
-  - *Bônus 1:* 20 Scripts Prontos de Atendimento e Vendas para WhatsApp *(Valor Normal: R$ 47)*
-
-  - *Bônus 2:* Calendário de Conteúdo de 30 Dias para Redes Sociais Locais *(Valor Normal: R$ 37)*
-
-  - *Bônus 3:* Checklist Mestre de Ação Rápida de 7 Dias *(Valor Normal: R$ 29)*
-
-#### 6. SOCIAL PROOF / TESTIMONIALS SECTION
-
-- **Section Title:** "Quem Já Aplicou, Aprovou!"
-
-- **Grid of 3 Testimonial Cards:**
-
-  - *Depoimento 1:* Mariana S. (Loja de Roupas) - "Minhas vendas no WhatsApp dobraram na primeira semana aplicando o Módulo 3."
-
-  - *Depoimento 2:* Carlos E. (Hamburgueria) - "O passo a passo do Google Meu Negócio me fez aparecer em 1º lugar na minha cidade."
-
-  - *Depoimento 3:* Fernanda M. (Salão de Beleza) - "Finalmente um guia que fala a língua de quem tem loja física. Muito prático!"
-
-#### 7. SPECIAL OFFER / PRICING & CHECKOUT SECTION (The Main conversion area)
-
-- A highlighted container/card with a glowing border.
-
-- **Card Content:**
-
-  - Badge: "OFERTA ESPECIAL COM TEMPO LIMITADO"
-
-  - Title: "Guia Prático: Do Comércio Físico ao Digital + Todos os Bônus"
-
-  - Price Anchor: De ~R$ 97,00~ por apenas:
-
-  - **Big Price Tag:** "R$ 27,90" ou "3x de R$ 9,80"
-
-  - **Bullet List of Everything Included:** Checkmark list detailing eBook + 3 Bonuses + Lifetime Access.
-
-  - **Big CTA Button:** "QUERO COMPRAR AGORA COM DESCONTO →" (Triggers redirect or popup modal)
-
-  - **Garantia Card (Seal UI):** "Garantia Cega de 7 Dias" (Se não gostar do conteúdo, devolvemos 100% do seu dinheiro sem perguntas).
-
-#### 8. FAQ SECTION (Accordion Component)
-
-- **Section Title:** "Dúvidas Frequentes"
-
-- Use Shadcn `Accordion` for collapsible Q&A:
-
-  - *Como vou receber o guia?* (R: O acesso é enviado instantaneamente para o seu e-mail logo após a confirmação do pagamento).
-
-  - *Preciso entender de computador ou marketing?* (R: Não! O guia foi feito em linguagem 100% simples e didática para quem usa só o celular).
-
-  - *Serve para o meu tipo de negócio?* (R: Sim! Funciona para lojas de roupas, restaurantes, pet shops, salões, oficinas e qualquer negócio com endereço ou atendimento local).
-
-  - *Quais são as formas de pagamento?* (R: PIX com liberação imediata, ou Cartão de Crédito).
-
-#### 9. FOOTER & STICKY MOBILE CTA
-
-- **Footer:** Links para Políticas de Privacidade, Termos de Uso, Suporte via WhatsApp/E-mail. CNPJ/Copyright placeholder.
-
-- **Sticky Bottom Mobile Bar:** Floating green bar visible only on mobile screens with price and quick "Comprar Agora" CTA button for fast checkout.
+Não existe entrega manual, atendimento humano que manda o arquivo, nem
+acesso antecipado ao conteúdo antes do pagamento confirmar.
 
 ---
 
-Ensure all components are interactive, smooth, clean, responsive on screens from mobile to desktop, and ready to connect checkout links (e.g. Kiwify / Hotmart / PerfectPay URLs).
+## 2. Catálogo completo
 
-This project was built with [Lovable](https://lovable.dev).
+### 2.1 Cliente na Porta — R$ 47,90
+**Categoria:** Marketing Local · **Formato:** PDF, 29 páginas, 5 módulos + bônus
+**Checkout:** https://pay.cakto.com.br/ugxj9tc_1027094
 
-## Build with Lovable
+> A vitrine do seu cliente hoje é a tela do celular. Guia completo para
+> atrair clientes da própria região e vender mais pela internet, sem
+> depender de agência nem de grande investimento.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/8b21eaa5-8c32-4073-8a28-737997818255).
+**Pra quem é:**
+- Donos de loja física, restaurante, salão ou pet shop
+- Prestadores de serviço que dependem de clientes da própria região
+- Quem tem 15 a 20 minutos por dia e um celular, nada além disso
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+**Não é pra:**
+- Quem já tem equipe de marketing dedicada
+- Negócios 100% online sem base de clientes local
 
-## Development
+**O que tem dentro:**
+- Perfil no Google Meu Negócio otimizado, com sistema de avaliações 5 estrelas
+- Banco de ideias e roteiro de conteúdo para o Instagram do bairro
+- Seis modelos de mensagem prontos para o WhatsApp Business
+- Como impulsionar um post num raio de 3 a 5 km a partir de R$ 5/dia
+- Programa de fidelização simples para vender de novo pra quem já comprou
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+**Módulos:**
+1. **Google Meu Negócio** — cadastro completo, categorias, atributos, fotos que convertem e como conseguir avaliações 5 estrelas (inclui responder avaliação negativa).
+2. **Instagram Local** — perfil otimizado, banco de ideias por tipo de negócio, rotina de 15 min/dia, vídeos curtos e parcerias locais.
+3. **WhatsApp Business** — catálogo, funil de atendimento com etiquetas, listas de transmissão e 6 modelos de mensagem prontos.
+4. **Anúncios Locais** — como impulsionar num raio de 3 a 5 km, estrutura do anúncio e quanto investir no primeiro teste.
+5. **Fidelização** — pós-venda, programa de fidelidade simples e como usar datas/contatos pra vender de novo.
+
+Fecha com bônus (métricas simples, erros que afundam o marketing local, 20 ideias de post) e dois planos de ação: começo rápido de 7 dias e desafio de 30 dias.
+
+---
+
+### 2.2 Cão Educado — R$ 35,90
+**Categoria:** Adestramento Positivo · **Formato:** PDF, 29 páginas, 5 módulos + bônus
+**Checkout:** https://pay.cakto.com.br/36z2u29_1028969
+
+> Um cão bem-educado começa com o método certo. Guia completo de
+> adestramento com reforço positivo — o método mais eficaz e recomendado
+> por especialistas — pra treinar em casa, com comandos essenciais, passeio
+> sem puxar e solução para os comportamentos que mais incomodam.
+
+**Pra quem é:**
+- Tutores de filhote ou cão adulto que querem ensinar do zero
+- Quem já tentou adestrar sozinho e não teve resultado
+- Donos cansados de latido, puxão na guia ou bagunça em casa
+
+**Não é pra:**
+- Casos de agressividade, ansiedade intensa ou mudança brusca de comportamento — isso pede acompanhamento de veterinário ou adestrador profissional
+- Quem busca resultado sem repetir o treino todo dia
+
+**O que tem dentro:**
+- Os seis comandos essenciais com passo a passo: senta, deita, fica, vem, junto e solta
+- Caixa "Treino na prática" em cada comando, com o roteiro exato da sessão
+- Passeios sem puxar e socialização, com sinais de quando procurar um profissional
+- Solução para latido, pular em visita, mordida de filhote, higiene e ansiedade de ficar sozinho
+- Plano de 7 dias e desafio de 30 dias
+
+**Módulos:**
+1. **Como o Cão Aprende** — reforço positivo, marcador, timing, tipo de recompensa, linguagem corporal e por que punição atrapalha.
+2. **Preparação** — kit de adestramento, como carregar o marcador, os três Ds do treino (distância, duração, distração) e rotina de sessões curtas.
+3. **Os Seis Comandos Essenciais** — senta, deita, fica, vem, junto e solta, cada um com passo a passo completo.
+4. **Passeios e Socialização** — como passear sem ser puxado, apresentar o cão a outros animais/pessoas com segurança.
+5. **Comportamentos Difíceis** — latido excessivo, pular em visita, mordida de filhote, higiene e ansiedade de ficar sozinho.
+
+Fecha com três bônus (mitos do adestramento, erros mais comuns, enriquecimento mental) e dois planos de ação: começo rápido de 7 dias e desafio de 30 dias.
+
+---
+
+### 2.3 IA para Iniciantes — R$ 57,90
+**Categoria:** Inteligência Artificial · **Formato:** PDF, 30 páginas, 7 módulos + bônus
+**Checkout:** https://pay.cakto.com.br/irmwj6t_1031016
+
+> Uma hora por dia é muito tempo de volta no seu bolso. Guia direto, do
+> zero e sem termo técnico, com exemplos e prompts prontos pra copiar, que
+> transforma ChatGPT, Gemini e outras ferramentas em assistente pro
+> trabalho, os estudos e a vida.
+
+**Pra quem é:**
+- Quem nunca usou IA e não quer perder tempo com termo técnico
+- Quem já abriu o ChatGPT, achou o resultado genérico e desistiu
+- Quem passa o dia em tarefa repetitiva de escrever, resumir, organizar ou pesquisar
+
+**Não é pra:**
+- Quem já escreve prompt com contexto, formato e tom no automático
+- Quem procura programação, integração por API ou criação de agentes
+
+**O que tem dentro:**
+- 101 maneiras numeradas, separadas por área: e-mails, escrita, trabalho, estudos, casa e negócio
+- Prompts prontos pra copiar, trocar o que está entre colchetes e colar
+- A fórmula que faz a IA acertar: contexto, tarefa, formato e tom
+- Funciona com ChatGPT, Gemini, Copilot ou Claude, todos com versão gratuita
+- Os 10 erros que fazem a IA devolver resposta ruim, e como sair de cada um
+
+**Módulos:**
+1. **Fundamentos** — como conversar com a IA, quais ferramentas usar, fórmula de contexto/tarefa/formato/tom.
+2. **E-mails e comunicação** (maneiras 1–16) — rascunhar do zero, responder o que está parado, resumir conversa longa, ajustar tom.
+3. **Escrita, textos e redes** (17–34) — sair da página em branco, gerar ideias, calendário de conteúdo, adaptar texto por canal.
+4. **Produtividade no trabalho** (35–52) — organizar tarefas, modelos reutilizáveis, preparar reuniões, virar processo o que é repetitivo.
+5. **Estudos e aprendizado** (53–68) — aprender no modo ativo, resumir material longo, treinar pra prova.
+6. **Casa, finanças e vida pessoal** (69–85) — cardápio da semana, lista de compras, orçamento simples, planejamento de viagem.
+7. **Pequenos negócios** (86–101) — anúncios, respostas de atendimento, descrição de produto, ideias de conteúdo.
+
+Fecha com três bônus (fórmula do prompt perfeito, os 10 erros que estragam a resposta, capítulo de uso responsável) e dois planos de ação: 7 dias e desafio de 30 dias.
+
+---
+
+### 2.4 Celular Sem Medo — R$ 27,90
+**Categoria:** Terceira Idade · **Formato:** PDF, 32 páginas, 5 módulos + bônus
+**Checkout:** https://pay.cakto.com.br/t5woe75_1031028
+
+> O celular pode ser seu amigo, não um problema. Guia simples, em letras
+> grandes e passo a passo, pra pessoa idosa usar o celular com autonomia,
+> tranquilidade e segurança, no seu tempo e sem depender de ninguém.
+
+**Pra quem é:**
+- Quem tem 60 anos ou mais e quer resolver as próprias coisas no celular
+- Quem já tem o aparelho mas usa só o básico, com receio de mexer e estragar
+- Filhos e netos que querem ensinar os pais e avós sem perder a paciência
+
+**Não é pra:**
+- Quem já usa app de banco, mapas e redes sociais com desenvoltura
+- Quem procura comparação técnica entre marcas e modelos de aparelho
+
+**O que tem dentro:**
+- Letras grandes e passos curtos, feito pra pessoa ler sozinha, sem ajuda
+- WhatsApp inteiro: mensagem, áudio, foto e chamada de vídeo com os netos
+- O módulo de golpes — o mais importante do guia: falso parente, falso banco, código do WhatsApp
+- Cartão "Não caia em golpes" e ficha "Meu celular" pra imprimir e deixar à mão
+- Um capítulo pra família ensinar com paciência, sem atropelar
+
+**Módulos:**
+1. **Conhecendo o celular** — botões, tela, aumentar letras, brilho, Wi-Fi, barra de notificações.
+2. **WhatsApp sem mistério** — mensagem escrita, áudio, foto, chamada de vídeo passo a passo.
+3. **Aplicativos, fotos e internet** — instalar app com segurança, guardar/achar fotos, pesquisar no Google e YouTube.
+4. **O dia a dia mais fácil** — mapas, compartilhar localização, transporte por app, lembrete de remédio.
+5. **Segurança: sem cair em golpes** — módulo mais importante: falso parente pedindo Pix, falso banco pedindo senha, código do WhatsApp por SMS, prêmio e boleto falsos.
+
+Fecha com três bônus impressos (cartão anti-golpe, ficha "Meu celular", capítulo pra família ensinar) e dois planos de ação: 7 dias e desafio de 30 dias.
+
+---
+
+## 3. Perguntas frequentes (as mesmas do site)
+
+**Como eu recebo o guia?**
+Assim que o pagamento é aprovado, a Cakto envia um e-mail com o link do PDF pro endereço informado no checkout. Nenhum app extra é necessário.
+
+**Preciso entender de tecnologia?**
+Não. Os guias usam linguagem simples e passo a passo, pensados pra quem usa o celular no dia a dia.
+
+**Quais são as formas de pagamento?**
+Pix, cartão de crédito, PicPay, Apple Pay e Google Pay, todos processados pela Cakto. No Pix a aprovação sai na hora.
+
+**Tem garantia?**
+Sim, 7 dias corridos de garantia incondicional em qualquer um dos 4 guias.
+
+---
+
+## 4. Instruções para o agente de atendimento no WhatsApp (n8n)
+
+Este bloco é a base de conhecimento e as regras de comportamento do agente
+que atende no número +55 42 9995-0491. Use as seções 1 a 3 acima como
+fonte de verdade sobre preço, conteúdo e funcionamento da loja.
+
+**Pode fazer:**
+- Tirar dúvida sobre qual ebook serve pra qual situação, usando "Pra quem
+  é" / "Não é pra" de cada um.
+- Explicar o que tem dentro de cada guia (módulos, destaques), sempre com
+  base no que está descrito aqui — nunca inventar módulo, página ou
+  conteúdo que não está listado.
+- Explicar preço, forma de pagamento, prazo de entrega e garantia.
+- Enviar o link de checkout correto quando o cliente decidir comprar.
+- Encaminhar pra contato@aplica.com.br quando a dúvida fugir do escopo
+  (ex.: problema no pagamento já feito, nota fiscal, etc.).
+
+**Nunca pode fazer:**
+- **Nunca enviar o PDF, um trecho do PDF, print de página ou qualquer
+  arquivo do ebook pelo WhatsApp**, em hipótese nenhuma. O agente não tem
+  e não deve fingir ter acesso ao conteúdo integral — só ao resumo deste
+  documento.
+- **Nunca liberar acesso ao conteúdo antes da confirmação de pagamento.**
+  A entrega é 100% automática pela Cakto, por e-mail, só depois que o
+  pagamento é aprovado. O agente não entrega nada manualmente, mesmo se o
+  cliente disser que já pagou — quem confirma pagamento é a Cakto.
+- Se o cliente pedir "me manda uma amostra" ou "quero ver antes de
+  comprar": explicar que o agente não tem o arquivo, e oferecer a
+  garantia de 7 dias como forma de comprar sem risco.
+- Não inventar informação que não está neste documento (preço, prazo,
+  bônus, etc.). Se não souber, dizer que não tem certeza e indicar o
+  e-mail de suporte.
+- Não prometer prazo de entrega diferente do automático da Cakto.
+
+**Tom de voz:** direto, simpático, sem enrolação, português informal-profissional — o mesmo tom dos textos do site (nada de linguagem robótica ou comercial em excesso).
+
+---
+
+## 5. Desenvolvimento
+
+Stack: TanStack Start (React 19 + Vite) + Tailwind v4 + shadcn/ui.
 
 ```sh
 git clone <this-repository-url>
@@ -174,3 +242,18 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+- `npm run dev` — servidor de desenvolvimento
+- `npm run build` — build de produção
+- `npm run lint` — lint
+
+Depoimentos reais de clientes: veja [DEPOIMENTOS.md](DEPOIMENTOS.md) pra
+como coletar e cadastrar novos.
+
+---
+
+## Build with Lovable
+
+Este projeto está conectado ao [Lovable](https://lovable.dev/projects/8b21eaa5-8c32-4073-8a28-737997818255).
+Commits enviados pra branch conectada sincronizam de volta pro editor
+Lovable automaticamente.
