@@ -14,6 +14,7 @@ import { Analytics } from "@vercel/analytics/react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { metaPixelNoscriptHtml, metaPixelSnippet, trackPageView } from "../lib/meta-pixel";
+import { WhatsAppButton } from "../components/site/WhatsAppButton";
 
 function NotFoundComponent() {
   return (
@@ -153,6 +154,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <WhatsAppButton />
     </QueryClientProvider>
   );
 }

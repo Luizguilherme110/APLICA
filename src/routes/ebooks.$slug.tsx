@@ -15,6 +15,7 @@ import { Footer } from "@/components/site/Footer";
 import { StickyCta } from "@/components/site/StickyCta";
 import { BookCover } from "@/components/site/BookCover";
 import { Testimonials } from "@/components/site/Testimonials";
+import { ScreenshotTestimonials } from "@/components/site/ScreenshotTestimonials";
 import { ebooks, getEbook, type Ebook } from "@/data/ebooks";
 import { trackInitiateCheckout } from "@/lib/meta-pixel";
 import { cn, parsePriceBRL } from "@/lib/utils";
@@ -217,6 +218,11 @@ function EbookPage() {
           </div>
         </section>
 
+        <ScreenshotTestimonials
+          ebookSlug={ebook.slug}
+          title="Quem comprou, aprovou"
+          className="border-t-0 bg-background"
+        />
         <Testimonials
           ebookSlug={ebook.slug}
           title="Depoimentos de quem comprou"

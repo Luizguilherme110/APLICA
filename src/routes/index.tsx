@@ -21,6 +21,7 @@ import { Footer } from "@/components/site/Footer";
 import { EbookCard } from "@/components/site/EbookCard";
 import { BookCover } from "@/components/site/BookCover";
 import { Testimonials } from "@/components/site/Testimonials";
+import { ScreenshotTestimonials } from "@/components/site/ScreenshotTestimonials";
 import { cheapestPrice, ebooks, STORE } from "@/data/ebooks";
 
 const title = `${STORE.name} | ${STORE.tagline}`;
@@ -195,7 +196,8 @@ function Index() {
           </div>
         </section>
 
-        <Testimonials />
+        <ScreenshotTestimonials />
+        <Testimonials className="border-t-0" />
 
         <section className="border-t border-border/70 bg-secondary/40">
           <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
