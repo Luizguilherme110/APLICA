@@ -3,6 +3,7 @@ import coverCelularSemMedo from "@/assets/cover-celular-sem-medo.jpg";
 import coverClienteNaPorta from "@/assets/cover-cliente-na-porta.jpg";
 import coverIaParaIniciantes from "@/assets/cover-ia-para-iniciantes.jpg";
 import { parsePriceBRL } from "@/lib/utils";
+import { isLaunchOfferActive } from "@/data/promo";
 
 export type Module = {
   title: string;
@@ -305,9 +306,21 @@ export const ebooks: Ebook[] = [
 
 export const getEbook = (slug: string) => ebooks.find((e) => e.slug === slug);
 
-/** Percentual de desconto arredondado, ou null se não houver originalPrice. */
+/**
+ * Preço que deve aparecer como "atual" agora. Enquanto a campanha de
+ * lançamento estiver ativa (src/data/promo.ts), é o price promocional;
+ * depois do prazo, vira o originalPrice — sem precisar mexer em nada.
+ */
+export const effectivePrice = (ebook: Pick<Ebook, "price" | "originalPrice">): string =>
+  isLaunchOfferActive() ? ebook.price : (ebook.originalPrice ?? ebook.price);
+
+/** Preço riscado a exibir, ou undefined se não houver campanha ativa. */
+export const strikePrice = (ebook: Pick<Ebook, "price" | "originalPrice">): string | undefined =>
+  isLaunchOfferActive() ? ebook.originalPrice : undefined;
+
+/** Percentual de desconto arredondado, ou null se não houver campanha ativa. */
 export const discountPercent = (ebook: Ebook): number | null => {
-  if (!ebook.originalPrice) return null;
+  if (!isLaunchOfferActive() || !ebook.originalPrice) return null;
   const original = parsePriceBRL(ebook.originalPrice);
   const current = parsePriceBRL(ebook.price);
   if (!original || original <= current) return null;
@@ -316,6 +329,7 @@ export const discountPercent = (ebook: Ebook): number | null => {
 
 /** Menor preço do catálogo — é o que o "a partir de" da home deve mostrar. */
 export const cheapestPrice = ebooks.reduce(
-  (cheapest, e) => (parsePriceBRL(e.price) < parsePriceBRL(cheapest) ? e.price : cheapest),
-  ebooks[0]?.price ?? "",
+  (cheapest, e) =>
+    parsePriceBRL(effectivePrice(e)) < parsePriceBRL(cheapest) ? effectivePrice(e) : cheapest,
+  ebooks[0] ? effectivePrice(ebooks[0]) : "",
 );

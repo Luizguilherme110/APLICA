@@ -13,6 +13,23 @@ conhecimento para o agente de atendimento no WhatsApp** (n8n).
 
 ---
 
+## 0. Oferta de lançamento (vigente até 17/08/2026, 23h59 — horário de Brasília)
+
+Até essa data, cada ebook está com **preço de lançamento** (o preço listado
+na seção 2 abaixo). O preço riscado ("de") é maior e volta a valer
+automaticamente depois do prazo — o site já reverte sozinho
+(`src/data/promo.ts`), sem precisar mexer em nada no código.
+
+**Regra pro agente:** o prazo é real, não é "psicológico". Nunca diga que
+"acaba hoje" fora da data certa, nunca estenda o prazo numa conversa pra
+convencer o cliente, e nunca prometa que o desconto volta depois — se
+perguntarem o que acontece depois do dia 17, a resposta correta é "o preço
+sobe pro valor cheio". Depois dessa data, os preços "de" descritos abaixo
+passam a ser o preço normal — se a conversa estiver acontecendo depois de
+17/08/2026, use o preço cheio, não o promocional.
+
+---
+
 ## 1. Como a loja funciona
 
 1. O cliente escolhe um ebook no site e clica em "Comprar agora".
@@ -34,7 +51,7 @@ acesso antecipado ao conteúdo antes do pagamento confirmar.
 
 ## 2. Catálogo completo
 
-### 2.1 Cliente na Porta — R$ 47,90
+### 2.1 Cliente na Porta — R$ 47,90 (de R$ 97,90, até 17/08/2026)
 **Categoria:** Marketing Local · **Formato:** PDF, 29 páginas, 5 módulos + bônus
 **Checkout:** https://pay.cakto.com.br/ugxj9tc_1027094
 
@@ -69,7 +86,7 @@ Fecha com bônus (métricas simples, erros que afundam o marketing local, 20 ide
 
 ---
 
-### 2.2 Cão Educado — R$ 35,90
+### 2.2 Cão Educado — R$ 35,90 (de R$ 79,90, até 17/08/2026)
 **Categoria:** Adestramento Positivo · **Formato:** PDF, 29 páginas, 5 módulos + bônus
 **Checkout:** https://pay.cakto.com.br/36z2u29_1028969
 
@@ -105,7 +122,7 @@ Fecha com três bônus (mitos do adestramento, erros mais comuns, enriquecimento
 
 ---
 
-### 2.3 IA para Iniciantes — R$ 57,90
+### 2.3 IA para Iniciantes — R$ 57,90 (de R$ 129,90, até 17/08/2026)
 **Categoria:** Inteligência Artificial · **Formato:** PDF, 30 páginas, 7 módulos + bônus
 **Checkout:** https://pay.cakto.com.br/irmwj6t_1031016
 
@@ -143,7 +160,7 @@ Fecha com três bônus (fórmula do prompt perfeito, os 10 erros que estragam a 
 
 ---
 
-### 2.4 Celular Sem Medo — R$ 27,90
+### 2.4 Celular Sem Medo — R$ 27,90 (de R$ 67,90, até 17/08/2026)
 **Categoria:** Terceira Idade · **Formato:** PDF, 32 páginas, 5 módulos + bônus
 **Checkout:** https://pay.cakto.com.br/t5woe75_1031028
 
@@ -227,6 +244,9 @@ fonte de verdade sobre preço, conteúdo e funcionamento da loja.
   bônus, etc.). Se não souber, dizer que não tem certeza e indicar o
   e-mail de suporte.
 - Não prometer prazo de entrega diferente do automático da Cakto.
+- Não inventar, estender ou antecipar o prazo da oferta de lançamento
+  (seção 0). É uma data real — antes de 17/08/2026 vale o preço
+  promocional, depois vale o preço cheio, sem exceção.
 
 **Tom de voz:** direto, simpático, sem enrolação, português informal-profissional — o mesmo tom dos textos do site (nada de linguagem robótica ou comercial em excesso).
 

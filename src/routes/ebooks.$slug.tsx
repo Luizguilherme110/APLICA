@@ -17,7 +17,8 @@ import { BookCover } from "@/components/site/BookCover";
 import { Testimonials } from "@/components/site/Testimonials";
 import { ScreenshotTestimonials } from "@/components/site/ScreenshotTestimonials";
 import { PriceTag } from "@/components/site/PriceTag";
-import { ebooks, getEbook, type Ebook } from "@/data/ebooks";
+import { LaunchOfferBanner } from "@/components/site/LaunchOfferBanner";
+import { ebooks, effectivePrice, getEbook, type Ebook } from "@/data/ebooks";
 import { trackInitiateCheckout } from "@/lib/meta-pixel";
 import { cn, parsePriceBRL } from "@/lib/utils";
 
@@ -26,7 +27,7 @@ function reportCheckoutIntent(ebook: Ebook) {
   trackInitiateCheckout({
     contentName: ebook.title,
     contentId: ebook.slug,
-    value: parsePriceBRL(ebook.price),
+    value: parsePriceBRL(effectivePrice(ebook)),
   });
 }
 
@@ -81,6 +82,7 @@ function EbookPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <LaunchOfferBanner />
       <Header />
 
       <main>

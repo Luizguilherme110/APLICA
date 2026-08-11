@@ -22,6 +22,7 @@ import { EbookCard } from "@/components/site/EbookCard";
 import { BookCover } from "@/components/site/BookCover";
 import { Testimonials } from "@/components/site/Testimonials";
 import { ScreenshotTestimonials } from "@/components/site/ScreenshotTestimonials";
+import { LaunchOfferBanner } from "@/components/site/LaunchOfferBanner";
 import { cheapestPrice, ebooks, STORE } from "@/data/ebooks";
 
 const title = `${STORE.name} | ${STORE.tagline}`;
@@ -95,6 +96,7 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-background">
+      <LaunchOfferBanner />
       <Header />
 
       <main>

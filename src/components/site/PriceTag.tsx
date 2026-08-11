@@ -1,4 +1,4 @@
-import { discountPercent, type Ebook } from "@/data/ebooks";
+import { discountPercent, effectivePrice, strikePrice, type Ebook } from "@/data/ebooks";
 import { cn } from "@/lib/utils";
 
 export function PriceTag({
@@ -10,18 +10,20 @@ export function PriceTag({
   size?: "sm" | "md" | "lg";
   className?: string;
 }) {
+  const price = effectivePrice(ebook);
+  const strike = strikePrice(ebook);
   const pct = discountPercent(ebook as Ebook);
 
   return (
     <span className={cn("inline-flex flex-wrap items-baseline gap-x-2 gap-y-0.5", className)}>
-      {ebook.originalPrice ? (
+      {strike ? (
         <span
           className={cn(
             "text-muted-foreground/70 line-through decoration-1",
             size === "lg" ? "text-lg" : size === "md" ? "text-sm" : "text-xs",
           )}
         >
-          {ebook.originalPrice}
+          {strike}
         </span>
       ) : null}
       <span
@@ -30,7 +32,7 @@ export function PriceTag({
           size === "lg" ? "text-3xl" : size === "md" ? "text-lg" : "text-base",
         )}
       >
-        {ebook.price}
+        {price}
       </span>
       {pct ? (
         <span className="rounded-full bg-danger-soft px-1.5 py-0.5 text-[11px] font-bold leading-none text-danger-ink">
