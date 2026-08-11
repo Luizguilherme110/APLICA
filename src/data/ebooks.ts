@@ -1,7 +1,8 @@
-import coverCaoEducado from "@/assets/cover-cao-educado.jpg";
+﻿import coverCaoEducado from "@/assets/cover-cao-educado.jpg";
 import coverCelularSemMedo from "@/assets/cover-celular-sem-medo.jpg";
 import coverClienteNaPorta from "@/assets/cover-cliente-na-porta.jpg";
 import coverIaParaIniciantes from "@/assets/cover-ia-para-iniciantes.jpg";
+import coverRoboticaColecao from "@/assets/cover-robotica-colecao.png";
 import { parsePriceBRL } from "@/lib/utils";
 import { isLaunchOfferActive } from "@/data/promo";
 
@@ -302,6 +303,425 @@ export const ebooks: Ebook[] = [
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/t5woe75_1031028",
   },
+  {
+    slug: "robotica-vol-1-primeiros-projetos",
+    title: "Robótica com Sucata — Vol. 1: Primeiros Projetos",
+    tagline:
+      "8 experiências de ciência para fazer com seu filho de 5 a 7 anos usando só papel, barbante e coisa de casa.",
+    category: "Robótica Infantil",
+    format: "PDF · 8 experiências práticas",
+    price: "R$ 24,90",
+    headline: "A curiosidade começa cedo — e cabe na sua mesa",
+    subheadline:
+      "8 experiências de ciência para fazer junto com seu filho de 5 a 7 anos, sem motor, sem tomada e sem complicação. Só papel, barbante e coisa que você já tem em casa.",
+    audience: [
+      "Pais e mães de crianças de 5 a 7 anos que querem uma atividade sem tela",
+      "Quem quer começar a coleção Mãos à Obra pelo volume mais simples",
+      "Família que já tem papel, barbante e cola em casa — nada de compra extra",
+    ],
+    notFor: [
+      "Crianças acima de 8 anos, que já dão conta de projeto com motor (ver Volume 2)",
+      "Quem procura projeto com eletrônica ou peça de loja de robótica",
+    ],
+    highlights: [
+      "8 experiências: foguete de bexiga, carrinho de bexiga, pião de cores, catapulta de palitos, mão de papelão, telefone de copo, barquinho a sabão e vulcão de espuma",
+      "Zero motor, zero eletricidade — só material que já tem em casa",
+      "Cada experiência com o quadro \"Como funciona?\", pra explicar a ciência sem aula chata",
+      "Regras de segurança em cada projeto, escritas pra ler junto com a criança",
+      "Nível de dificuldade em estrelas, do mais rápido ao mais caprichado",
+    ],
+    modules: [
+      {
+        title: "01 · Foguete de Bexiga",
+        description:
+          "Ar sai atrás, foguete vai pra frente — o mesmo princípio de um foguete de verdade, montado com bexiga, canudo e barbante em 15 minutos.",
+      },
+      {
+        title: "02 · Carrinho de Bexiga",
+        description:
+          "O mesmo empurrão de ar do foguete, agora deitado e com rodas de tampinha — a criança vê o ar virar movimento.",
+      },
+      {
+        title: "03 · Pião de Cores (Disco de Newton)",
+        description:
+          "Gira rápido e as cores do arco-íris quase somem, virando branco — primeira lição de como a luz funciona.",
+      },
+      {
+        title: "04 · Catapulta de Palitos",
+        description:
+          "Dobra o palito, guarda força, solta o pulo — energia elástica explicada lançando bolinha de papel.",
+      },
+      {
+        title: "05 · Mão de Papelão",
+        description:
+          "Barbantes fazem o papel de tendão: puxou um, o dedo dobra — anatomia da mão em miniatura.",
+      },
+      {
+        title: "06 · Telefone de Copo",
+        description:
+          "A voz vibra e viaja pelo barbante esticado entre dois copos — som visto (e sentido) na prática.",
+      },
+      {
+        title: "07 · Barquinho a Sabão",
+        description:
+          "Uma gota de sabão atrás empurra o barquinho pra frente — tensão superficial em ação numa bacia de água.",
+      },
+      {
+        title: "08 · Vulcão de Espuma",
+        description:
+          "Vinagre mais bicarbonato vira gás e espuma — a clássica reação química, com direito a lava de mentirinha.",
+      },
+    ],
+    actionPlan:
+      "Cada experiência traz a lista do que ter em mãos (a maioria já em casa) e uma seção de segurança em 4 regras, pra fazer com a criança sem susto — cortes e coisas quentes ficam sempre com o adulto.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/35anggs_1034896",
+  },
+  {
+    slug: "robotica-vol-2-motores-e-movimento",
+    title: "Robótica com Sucata — Vol. 2: Motores e Movimento",
+    tagline:
+      "6 projetos de verdade para montar com seu filho de 8 a 10 anos, usando papelão, um motorzinho e muita curiosidade.",
+    category: "Robótica Infantil",
+    format: "PDF · 6 projetos práticos",
+    price: "R$ 24,90",
+    headline: "Aprender fazendo — agora com motor de verdade",
+    subheadline:
+      "6 projetos para montar com seu filho de 8 a 10 anos: carrinho, robô que anda sozinho, robô que desenha, barco, ventilador e carrossel. Material barato, ciência de verdade.",
+    audience: [
+      "Pais e mães de crianças de 8 a 10 anos prontas pro primeiro motor",
+      "Quem já fez o Volume 1 e quer o próximo degrau",
+      "Família disposta a usar cola quente com supervisão do adulto",
+    ],
+    notFor: [
+      "Crianças com menos de 8 anos (comece pelo Volume 1)",
+      "Quem não tem como comprar um motorzinho DC de 3-6V (custa pouco, mas é obrigatório)",
+    ],
+    highlights: [
+      "6 projetos: carrinho a motor, escova-robô, robô rabiscador, barquinho a hélice, ventilador de mão e carrossel giratório",
+      "Kit básico de compra única (motorzinho, suporte de pilha) que serve pros 6 projetos",
+      "Explicação de como o motor transforma eletricidade em movimento, sem termo técnico",
+      "5 regras de segurança específicas para cola quente e fio elétrico",
+      "Nível de dificuldade em estrelas, do mais simples ao mais caprichado",
+    ],
+    modules: [
+      {
+        title: "01 · Carrinho a Motor",
+        description:
+          "Motor, correia de elástico e eixo traseiro — o mesmo princípio da corrente de bicicleta, num carrinho de papelão que anda de verdade.",
+      },
+      {
+        title: "02 · Escova-Robô (Bristlebot)",
+        description:
+          "Cerdas inclinadas mais vibração igual robô que anda sozinho — o clássico bristlebot, feito com escova de dente.",
+      },
+      {
+        title: "03 · Robô Rabiscador",
+        description:
+          "Peso torto no eixo do motor faz o copo tremer e virar arte — desenho feito por vibração, sem controle nenhum.",
+      },
+      {
+        title: "04 · Barquinho a Hélice",
+        description:
+          "Hélice no ar empurra o barco, com pilha sempre seca em cima — ação e reação explicadas numa bacia d'água.",
+      },
+      {
+        title: "05 · Ventilador de Mão",
+        description:
+          "Aperta o botão, a hélice gira e vem o vento — primeiro interruptor caseiro montado do zero.",
+      },
+      {
+        title: "06 · Carrossel Giratório",
+        description:
+          "Disco bem centralizado no eixo gira liso — a mesma ideia de uma roda de carro balanceada, em miniatura.",
+      },
+    ],
+    actionPlan:
+      "Traz um kit básico de compra única (motorzinho, suporte de pilha) que serve pros 6 projetos, mais 5 regras de segurança para cola quente e fio elétrico — o adulto corta e cola, a criança monta e liga.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/34r7rxf_1034900",
+  },
+  {
+    slug: "robotica-vol-3-maquinas-e-mecanismos",
+    title: "Robótica com Sucata — Vol. 3: Máquinas e Mecanismos",
+    tagline:
+      "8 máquinas de verdade em miniatura para montar com seu filho de 9 a 12 anos: hidráulica, roldana, engrenagem e alavanca.",
+    category: "Robótica Infantil",
+    format: "PDF · 8 projetos práticos",
+    price: "R$ 24,90",
+    headline: "Como as máquinas pensam, na mesa da cozinha",
+    subheadline:
+      "8 máquinas reais em miniatura para montar com seu filho de 9 a 12 anos: braço hidráulico, guindaste, engrenagens e ponte levadiça — os mesmos princípios de um guindaste ou escavadeira de verdade.",
+    audience: [
+      "Pais e mães de crianças de 9 a 12 anos que já querem entender \"como funciona por dentro\"",
+      "Quem já passou pelos Volumes 1 e 2 e quer o próximo nível de engenharia",
+      "Família com seringa, papelão grosso e uma tarde livre",
+    ],
+    notFor: [
+      "Crianças menores de 9 anos (a montagem exige mais precisão — comece pelo Volume 1 ou 2)",
+      "Quem procura projeto eletrônico (isso é o Volume 4)",
+    ],
+    highlights: [
+      "8 máquinas: braço hidráulico, elevador hidráulico, guindaste de roldana, garra pantográfica, engrenagens, autômato de manivela, ponte levadiça e balança de braço",
+      "Os mesmos princípios de hidráulica, roldana, engrenagem e alavanca de uma máquina de verdade",
+      "Seringas sem agulha no lugar de pistão hidráulico — segurança em primeiro lugar",
+      "4 regras de segurança específicas para furo, cola quente e teste de peso",
+      "Nível de dificuldade em estrelas nas 8 máquinas",
+    ],
+    modules: [
+      {
+        title: "01 · Braço Hidráulico",
+        description:
+          "Empurra uma seringa, a outra se move pela água — hidráulica de verdade, o mesmo princípio de uma escavadeira.",
+      },
+      {
+        title: "02 · Elevador Hidráulico",
+        description:
+          "Água empurra o pistão e a cabine sobe — mesma ideia do braço, agora levantando peso na vertical.",
+      },
+      {
+        title: "03 · Guindaste de Roldana",
+        description: "Roldana divide o peso: puxa fácil — a física por trás de todo guindaste de obra.",
+      },
+      {
+        title: "04 · Garra Pantográfica",
+        description:
+          "Tesouras cruzadas viram uma garra que estica e pega objetos à distância — mecanismo de tesoura em ação.",
+      },
+      {
+        title: "05 · Engrenagens de Papelão",
+        description:
+          "Dentes se encaixam: uma gira, a outra também — a base de toda transmissão mecânica, cortada em papelão.",
+      },
+      {
+        title: "06 · Autômato de Manivela",
+        description:
+          "O came gira e faz o boneco subir e descer — o mecanismo por trás de brinquedos mecânicos antigos.",
+      },
+      {
+        title: "07 · Ponte Levadiça",
+        description:
+          "Gira a manivela, o barbante levanta a ponte — sistema de polia aplicado numa ponte de brinquedo que funciona.",
+      },
+      {
+        title: "08 · Balança de Braço",
+        description: "Peso vezes distância: o lado mais pesado desce — a lei da alavanca, sentida na mão.",
+      },
+    ],
+    actionPlan:
+      "Cada máquina vem com a lista de material (papelão grosso, seringa sem agulha, palito) e 4 regras de segurança — furo e cola quente ficam com o adulto, a criança conduz a montagem.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/398g8bs_1034903",
+  },
+  {
+    slug: "robotica-vol-4-eletronica-basica",
+    title: "Robótica com Sucata — Vol. 4: Eletrônica Básica",
+    tagline:
+      "8 circuitos de verdade para montar com seu filho de 10 anos ou mais: luz que acende, campainha que apita, jogo que reage ao toque.",
+    category: "Robótica Infantil",
+    format: "PDF · 8 projetos práticos",
+    price: "R$ 24,90",
+    headline: "A eletricidade acende — sempre em segurança",
+    subheadline:
+      "8 circuitos reais para montar com seu filho de 10 anos ou mais, movidos só a pilha (até 9V, sem risco de choque): LED, campainha, alarme, lanterna e um quiz que acende quando acerta.",
+    audience: [
+      "Pais e mães de crianças de 10 anos ou mais interessadas em eletrônica",
+      "Quem já passou pelos volumes anteriores e quer entender fio, LED e circuito de verdade",
+      "Família disposta a comprar um kit simples de LED, resistor e buzzer (barato, dura pra todos os projetos)",
+    ],
+    notFor: [
+      "Crianças menores de 10 anos (eletrônica pede mais atenção — comece pelos volumes anteriores)",
+      "Quem espera trabalhar com tomada ou voltagem alta — este volume é só pilha, de propósito",
+    ],
+    highlights: [
+      "8 circuitos: primeiro circuito, interruptor caseiro, semáforo de LEDs, campainha, jogo do fio, alarme de porta, lanterna e placa-quiz luminosa",
+      "Tudo movido a pilha (até 9V) — nenhum projeto chega perto de tomada",
+      "Explicação de circuito fechado, resistor e LED sem termo técnico",
+      "5 regras de segurança específicas para fio, resistor e pilha",
+      "Nível de dificuldade em estrelas nos 8 circuitos",
+    ],
+    modules: [
+      {
+        title: "01 · Meu Primeiro Circuito",
+        description:
+          "Pilha, fio e LED formam luz — o circuito fechado mais simples que existe, primeira vez que a criança acende um LED sozinha.",
+      },
+      {
+        title: "02 · Interruptor Caseiro",
+        description:
+          "Encostou os contatos: liga; separou: desliga — o interruptor mais básico, montado com clipe e fio.",
+      },
+      {
+        title: "03 · Semáforo de LEDs",
+        description:
+          "3 LEDs, 3 caminhos, uma pilha — vermelho, amarelo e verde ligados em paralelo, igual sinal de trânsito de verdade.",
+      },
+      {
+        title: "04 · Campainha com Buzzer",
+        description:
+          "Corrente no buzzer vira som — o botão decide quando o circuito fecha e a campainha apita.",
+      },
+      {
+        title: "05 · Jogo do Fio (Mão Firme)",
+        description:
+          "Encostou a argola no arame, acende — e perdeu. O clássico jogo de precisão, agora com circuito de verdade.",
+      },
+      {
+        title: "06 · Alarme de Porta",
+        description:
+          "Abriu a porta, os contatos se separam e o alarme apita — sensor de contato simples, o mesmo princípio de um alarme residencial.",
+      },
+      {
+        title: "07 · Lanterna de Papelão",
+        description: "Pilha, LED e refletor de papel alumínio viram lanterna — luz concentrada, feita do zero.",
+      },
+      {
+        title: "08 · Placa-Quiz Luminosa",
+        description:
+          "Acertou o par certo, o circuito fecha e acende — jogo de perguntas e respostas que dá feedback na hora, com fio por trás de cada resposta.",
+      },
+    ],
+    actionPlan:
+      "Cada circuito vem com a lista de material (pilha, LED, resistor, buzzer) e 5 regras de segurança — só pilha até 9V, nunca tomada, e todo LED usa resistor pra não queimar.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/pyr3ff6_1034908",
+  },
+  {
+    slug: "robotica-vol-5-jogos-e-brinquedos",
+    title: "Robótica com Sucata — Vol. 5: Jogos e Brinquedos DIY",
+    tagline:
+      "8 jogos inteiros para montar com seu filho de 6 a 12 anos e jogar de verdade: basquete de mesa, pinball, pebolim, boliche e pesca.",
+    category: "Robótica Infantil",
+    format: "PDF · 8 projetos práticos",
+    price: "R$ 24,90",
+    headline: "Feito para jogar — a família toda",
+    subheadline:
+      "8 jogos completos para montar com seu filho de 6 a 12 anos, feitos de papelão, e depois jogar de verdade: basquete de mesa, pinball, pebolim, boliche, pesca magnética e mais.",
+    audience: [
+      "Pais e mães de crianças de 6 a 12 anos (faixa mais ampla da coleção)",
+      "Quem quer terminar um projeto e já usar na hora, sem esperar dias",
+      "Família que curte jogo de mesa e quer um feito à mão, junto",
+    ],
+    notFor: [
+      "Quem procura o lado mais \"ciência explicada\" da coleção — este é o volume mais brincadeira (ver Volumes 1 a 4 para mecanismo e eletrônica)",
+    ],
+    highlights: [
+      "8 jogos: basquete de mesa, pinball de papelão, jogo de argolas, labirinto equilibrista, pebolim, boliche, pesca magnética e air hockey de balão",
+      "Cada projeto termina em brinquedo funcional, pronto pra disputar uma partida em família",
+      "Material 100% caixa de papelão e coisa de casa — nada de peça cara",
+      "4 regras de segurança para ímã, bolinha pequena e lançador",
+      "Nível de dificuldade em estrelas nos 8 jogos",
+    ],
+    modules: [
+      {
+        title: "01 · Basquete de Mesa",
+        description: "Aperta a alavanca e encesta a bolinha — mecanismo de lançamento simples, pontuação de verdade.",
+      },
+      {
+        title: "02 · Pinball de Papelão",
+        description:
+          "Elástico lança a bolinha, pinos dão pontos — o clássico fliperama, em versão caseira e sem pilha.",
+      },
+      {
+        title: "03 · Jogo de Argolas",
+        description:
+          "Acerte as argolas no pino: quanto mais longe, mais pontos — precisão e mira, testadas em família.",
+      },
+      {
+        title: "04 · Labirinto Equilibrista",
+        description:
+          "Incline a caixa e leve a bolinha até o fim sem cair nos furos — equilíbrio e pulso firme.",
+      },
+      {
+        title: "05 · Pebolim de Caixa",
+        description: "Gire os palitos e chute a bolinha pro gol — pebolim de mesa, montado numa caixa de sapato.",
+      },
+      {
+        title: "06 · Boliche de Garrafas",
+        description: "Role a bola e derrube as garrafinhas — boliche completo, com pinos feitos de garrafa PET.",
+      },
+      {
+        title: "07 · Pesca Magnética",
+        description:
+          "O ímã da vara pega o clipe dos peixinhos — pesca clássica, com física de ímã explicada no processo.",
+      },
+      {
+        title: "08 · Air Hockey de Balão",
+        description:
+          "O balão faz o disco deslizar quase sem atrito — colchão de ar caseiro, o mesmo truque de uma mesa de air hockey de verdade.",
+      },
+    ],
+    actionPlan:
+      "Cada jogo vem com a lista de material (caixa de papelão, palito, ímã pequeno) e 4 regras de segurança — ímã e bolinha pequena longe de criança menor, lançador sempre mirando o alvo.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/mnuyb9d_1034910",
+  },
+  {
+    slug: "robotica-colecao-completa",
+    title: "Mãos à Obra — Coleção Completa de Robótica Infantil",
+    tagline:
+      "5 volumes, 38 projetos de robótica com sucata para fazer com seu filho, do primeiro projeto sem motor até o jogo eletrônico. Sai mais barato que comprar solto.",
+    category: "Robótica Infantil",
+    format: "PDF · 5 volumes · 38 projetos práticos",
+    price: "R$ 47,90",
+    originalPrice: "R$ 124,50",
+    coverImage: coverRoboticaColecao,
+    headline: "38 projetos de robótica para fazer com seu filho, do 1º ao último",
+    subheadline:
+      "Os 5 volumes da coleção Mãos à Obra, numa compra só: de experiências sem motor pros 5-7 anos até circuito eletrônico pros 10+. Sai por menos que os 5 separados.",
+    audience: [
+      "Pais e mães com mais de um filho, em idades diferentes (a coleção cobre de 5 a 12+ anos)",
+      "Quem já sabe que vai usar mais de um volume e quer economizar comprando junto",
+      "Família que quer um plano de atividades sem tela para meses, não só um fim de semana",
+    ],
+    notFor: [
+      "Quem só quer testar um volume antes de decidir (comece pelo Volume 1, avulso)",
+    ],
+    highlights: [
+      "Os 5 volumes completos: Primeiros Projetos, Motores e Movimento, Máquinas e Mecanismos, Eletrônica Básica e Jogos e Brinquedos DIY",
+      "38 projetos ao todo, cobrindo de 5 a 12+ anos — a coleção cresce junto com a criança",
+      "Sai por R$ 47,90 em vez de R$ 124,50 comprando os 5 avulsos",
+      "Cada volume com lista de material, passo a passo ilustrado, segurança e nível de dificuldade",
+      "PDF de cada volume liberado no mesmo e-mail, todos de uma vez",
+    ],
+    modules: [
+      {
+        title: "Volume 1 — Primeiros Projetos (5-7 anos)",
+        description:
+          "8 experiências sem motor nem eletricidade — foguete de bexiga, catapulta, vulcão de espuma e mais, com material que já tem em casa.",
+      },
+      {
+        title: "Volume 2 — Motores e Movimento (8-10 anos)",
+        description:
+          "6 projetos com motorzinho de verdade — carrinho, robô que anda sozinho, robô que desenha, barco, ventilador e carrossel.",
+      },
+      {
+        title: "Volume 3 — Máquinas e Mecanismos (9-12 anos)",
+        description:
+          "8 máquinas em miniatura — braço hidráulico, guindaste de roldana, engrenagens e ponte levadiça, os mesmos princípios de máquina de verdade.",
+      },
+      {
+        title: "Volume 4 — Eletrônica Básica (10+ anos)",
+        description:
+          "8 circuitos reais movidos a pilha — LED, campainha, alarme de porta, lanterna e um quiz que acende ao acertar.",
+      },
+      {
+        title: "Volume 5 — Jogos e Brinquedos DIY (6-12 anos)",
+        description:
+          "8 jogos completos para montar e jogar em família — basquete de mesa, pinball, pebolim, boliche e pesca magnética.",
+      },
+    ],
+    actionPlan:
+      "Comece pelo Volume 1 ou pelo volume da idade do seu filho, e avance conforme ele ganha confiança. Cada volume é independente — pode pular direto pro que combina com a idade da criança, sem seguir a ordem.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/nytaca3_1034888",
+  },
 ];
 
 export const getEbook = (slug: string) => ebooks.find((e) => e.slug === slug);
@@ -327,9 +747,16 @@ export const discountPercent = (ebook: Ebook): number | null => {
   return Math.round((1 - current / original) * 100);
 };
 
+/** Menor preço efetivo de uma lista de ebooks (respeita a campanha ativa). */
+export const cheapestPriceOf = (list: Ebook[]): string =>
+  list.reduce(
+    (cheapest, e) =>
+      parsePriceBRL(effectivePrice(e)) < parsePriceBRL(cheapest) ? effectivePrice(e) : cheapest,
+    list[0] ? effectivePrice(list[0]) : "",
+  );
+
 /** Menor preço do catálogo — é o que o "a partir de" da home deve mostrar. */
-export const cheapestPrice = ebooks.reduce(
-  (cheapest, e) =>
-    parsePriceBRL(effectivePrice(e)) < parsePriceBRL(cheapest) ? effectivePrice(e) : cheapest,
-  ebooks[0] ? effectivePrice(ebooks[0]) : "",
-);
+export const cheapestPrice = cheapestPriceOf(ebooks);
+
+/** Categoria dos produtos de robótica infantil — tratados numa seção própria, fora do catálogo geral. */
+export const ROBOTICS_CATEGORY = "Robótica Infantil";

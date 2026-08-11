@@ -48,6 +48,28 @@ export function trackPageView(): void {
 }
 
 /**
+ * Dispara ViewContent quando o visitante abre a página de um produto.
+ * É o segundo degrau do funil (PageView → ViewContent → InitiateCheckout →
+ * Purchase, este último configurado no painel da Cakto). Sem esse evento
+ * não dá pra saber se o problema é "ninguém abre a página do produto" ou
+ * "abre e não clica comprar".
+ */
+export function trackViewContent(params: {
+  contentName: string;
+  contentId: string;
+  value: number;
+}): void {
+  if (typeof window === "undefined") return;
+  window.fbq?.("track", "ViewContent", {
+    content_name: params.contentName,
+    content_ids: [params.contentId],
+    content_type: "product",
+    value: params.value,
+    currency: "BRL",
+  });
+}
+
+/**
  * Dispara InitiateCheckout ao mandar o visitante para o checkout da Cakto.
  * O evento Purchase NÃO pode ser disparado aqui: a compra se completa no
  * domínio da Cakto, então ele precisa ser configurado no painel deles.

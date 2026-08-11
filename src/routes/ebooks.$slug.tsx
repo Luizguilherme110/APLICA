@@ -1,4 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { track as trackVercelAnalytics } from "@vercel/analytics/react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -18,17 +20,27 @@ import { Testimonials } from "@/components/site/Testimonials";
 import { ScreenshotTestimonials } from "@/components/site/ScreenshotTestimonials";
 import { PriceTag } from "@/components/site/PriceTag";
 import { LaunchOfferBanner } from "@/components/site/LaunchOfferBanner";
-import { ebooks, effectivePrice, getEbook, type Ebook } from "@/data/ebooks";
-import { trackInitiateCheckout } from "@/lib/meta-pixel";
+import { ebooks, effectivePrice, getEbook, ROBOTICS_CATEGORY, type Ebook } from "@/data/ebooks";
+import { trackInitiateCheckout, trackViewContent } from "@/lib/meta-pixel";
 import { cn, parsePriceBRL } from "@/lib/utils";
 
-/** Sinaliza à Meta que o visitante saiu para o checkout da Cakto. */
+/**
+ * Sinaliza que o visitante abriu a página do produto — segundo degrau do
+ * funil, antes de clicar em comprar. Dispara nos dois sistemas: Meta Pixel
+ * (funil no Ads Manager) e Vercel Analytics (painel em vercel.com, só o
+ * admin acessa).
+ */
+function reportProductView(ebook: Ebook) {
+  const value = parsePriceBRL(effectivePrice(ebook));
+  trackViewContent({ contentName: ebook.title, contentId: ebook.slug, value });
+  trackVercelAnalytics("view_ebook", { slug: ebook.slug, category: ebook.category, value });
+}
+
+/** Sinaliza que o visitante saiu para o checkout da Cakto — último degrau antes da compra. */
 function reportCheckoutIntent(ebook: Ebook) {
-  trackInitiateCheckout({
-    contentName: ebook.title,
-    contentId: ebook.slug,
-    value: parsePriceBRL(effectivePrice(ebook)),
-  });
+  const value = parsePriceBRL(effectivePrice(ebook));
+  trackInitiateCheckout({ contentName: ebook.title, contentId: ebook.slug, value });
+  trackVercelAnalytics("initiate_checkout", { slug: ebook.slug, category: ebook.category, value });
 }
 
 export const Route = createFileRoute("/ebooks/$slug")({
@@ -78,7 +90,17 @@ function BuyButton({ ebook, className }: { ebook: Ebook; className?: string }) {
 
 function EbookPage() {
   const { ebook } = Route.useLoaderData() as { ebook: Ebook };
-  const others = ebooks.filter((e) => e.slug !== ebook.slug);
+  // Robótica infantil é um público à parte — não mistura com o resto do
+  // catálogo na lista de "outros guias".
+  const isRobotics = ebook.category === ROBOTICS_CATEGORY;
+  const others = ebooks.filter(
+    (e) => e.slug !== ebook.slug && (e.category === ROBOTICS_CATEGORY) === isRobotics,
+  );
+
+  useEffect(() => {
+    reportProductView(ebook);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ebook.slug]);
 
   return (
     <div className="min-h-screen bg-background">

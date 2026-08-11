@@ -23,7 +23,8 @@ import { BookCover } from "@/components/site/BookCover";
 import { Testimonials } from "@/components/site/Testimonials";
 import { ScreenshotTestimonials } from "@/components/site/ScreenshotTestimonials";
 import { LaunchOfferBanner } from "@/components/site/LaunchOfferBanner";
-import { cheapestPrice, ebooks, STORE } from "@/data/ebooks";
+import { RoboticsCollectionSection } from "@/components/site/RoboticsCollectionSection";
+import { cheapestPriceOf, ebooks, ROBOTICS_CATEGORY, STORE } from "@/data/ebooks";
 
 const title = `${STORE.name} | ${STORE.tagline}`;
 const description =
@@ -84,16 +85,22 @@ const faqs = [
 ];
 
 function Index() {
+  // A robótica infantil tem seção própria (RoboticsCollectionSection) por ser
+  // um público diferente do resto do catálogo — fica fora do grid geral e do
+  // rotativo do hero.
+  const catalogEbooks = ebooks.filter((e) => e.category !== ROBOTICS_CATEGORY);
+  const catalogCheapestPrice = cheapestPriceOf(catalogEbooks);
+
   const [featuredIndex, setFeaturedIndex] = useState(0);
-  const featured = ebooks[featuredIndex];
+  const featured = catalogEbooks[featuredIndex];
 
   useEffect(() => {
-    if (ebooks.length < 2) return;
+    if (catalogEbooks.length < 2) return;
     const id = setInterval(() => {
-      setFeaturedIndex((i) => (i + 1) % ebooks.length);
+      setFeaturedIndex((i) => (i + 1) % catalogEbooks.length);
     }, 5000);
     return () => clearInterval(id);
-  }, []);
+  }, [catalogEbooks.length]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -118,10 +125,11 @@ function Index() {
                     Ver guias disponíveis <ArrowRight />
                   </a>
                 </Button>
-                {cheapestPrice ? (
+                {catalogCheapestPrice ? (
                   <div className="flex flex-col gap-1 text-sm text-muted-foreground">
                     <p>
-                      A partir de <span className="font-bold text-foreground">{cheapestPrice}</span>
+                      A partir de{" "}
+                      <span className="font-bold text-foreground">{catalogCheapestPrice}</span>
                     </p>
                     <span className="inline-flex items-center gap-1 text-xs font-semibold text-brand-strong">
                       <CreditCard className="size-3.5" /> Parcele em até 8x no cartão
@@ -145,9 +153,9 @@ function Index() {
                     />
                   </div>
                 </div>
-                {ebooks.length > 1 ? (
+                {catalogEbooks.length > 1 ? (
                   <div className="mt-4 flex items-center justify-center gap-1.5">
-                    {ebooks.map((e, i) => (
+                    {catalogEbooks.map((e, i) => (
                       <span
                         key={e.slug}
                         className={`h-1.5 rounded-full transition-all ${
@@ -184,25 +192,28 @@ function Index() {
               Catálogo
             </h2>
             <p className="hidden text-sm text-muted-foreground sm:block">
-              {ebooks.length} {ebooks.length === 1 ? "guia disponível" : "guias disponíveis"}
+              {catalogEbooks.length}{" "}
+              {catalogEbooks.length === 1 ? "guia disponível" : "guias disponíveis"}
             </p>
           </div>
           <div
             className={
-              ebooks.length === 1
+              catalogEbooks.length === 1
                 ? "mt-8 flex justify-center"
                 : "mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
             }
           >
-            {ebooks.map((ebook) => (
+            {catalogEbooks.map((ebook) => (
               <EbookCard
                 key={ebook.slug}
                 ebook={ebook}
-                className={ebooks.length === 1 ? "w-full max-w-sm" : undefined}
+                className={catalogEbooks.length === 1 ? "w-full max-w-sm" : undefined}
               />
             ))}
           </div>
         </section>
+
+        <RoboticsCollectionSection />
 
         <ScreenshotTestimonials />
         <Testimonials className="border-t-0" />

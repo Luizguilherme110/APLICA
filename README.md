@@ -195,7 +195,59 @@ Fecha com três bônus impressos (cartão anti-golpe, ficha "Meu celular", capí
 
 ---
 
-## 3. Perguntas frequentes (as mesmas do site)
+## 3. Coleção Robótica com Sucata (público infantil — pais/mães, não é pro mesmo público da seção 2)
+
+Linha à parte: 5 volumes de robótica com sucata pra fazer em casa, pai/mãe
+com filho, do jeito Mãos à Obra. Tem seção própria no site (fora do
+catálogo geral), com todos os 6 produtos abaixo tratados como uma família:
+5 volumes avulsos (isca) + 1 coleção completa (oferta principal).
+
+**Como funciona a entrega:** igual ao resto da loja — Cakto, e-mail
+automático após pagamento, garantia de 7 dias. Cada volume comprado avulso
+entrega só o PDF daquele volume; a coleção completa entrega os 5 PDFs.
+
+### 3.1 Vol. 1 — Primeiros Projetos — R$ 24,90
+**Idade:** 5-7 anos · **Formato:** PDF, 8 experiências (sem motor, sem eletricidade)
+**Checkout:** https://pay.cakto.com.br/35anggs_1034896
+8 experiências de ciência com papel, barbante e coisa de casa: foguete de bexiga, carrinho de bexiga, pião de cores, catapulta de palitos, mão de papelão, telefone de copo, barquinho a sabão e vulcão de espuma.
+
+### 3.2 Vol. 2 — Motores e Movimento — R$ 24,90
+**Idade:** 8-10 anos · **Formato:** PDF, 6 projetos (primeiro volume com motorzinho)
+**Checkout:** https://pay.cakto.com.br/34r7rxf_1034900
+6 projetos com motorzinho DC de verdade: carrinho a motor, escova-robô (bristlebot), robô rabiscador, barquinho a hélice, ventilador de mão e carrossel giratório.
+
+### 3.3 Vol. 3 — Máquinas e Mecanismos — R$ 24,90
+**Idade:** 9-12 anos · **Formato:** PDF, 8 projetos (hidráulica, roldana, engrenagem, alavanca)
+**Checkout:** https://pay.cakto.com.br/398g8bs_1034903
+8 máquinas em miniatura: braço hidráulico, elevador hidráulico, guindaste de roldana, garra pantográfica, engrenagens de papelão, autômato de manivela, ponte levadiça e balança de braço.
+
+### 3.4 Vol. 4 — Eletrônica Básica — R$ 24,90
+**Idade:** 10+ anos · **Formato:** PDF, 8 projetos (só pilha, até 9V — nunca tomada)
+**Checkout:** https://pay.cakto.com.br/pyr3ff6_1034908
+8 circuitos reais movidos a pilha: primeiro circuito, interruptor caseiro, semáforo de LEDs, campainha com buzzer, jogo do fio (mão firme), alarme de porta, lanterna de papelão e placa-quiz luminosa.
+
+### 3.5 Vol. 5 — Jogos e Brinquedos DIY — R$ 24,90
+**Idade:** 6-12 anos · **Formato:** PDF, 8 projetos (cada um vira um jogo pra usar depois)
+**Checkout:** https://pay.cakto.com.br/mnuyb9d_1034910
+8 jogos completos de papelão: basquete de mesa, pinball, jogo de argolas, labirinto equilibrista, pebolim de caixa, boliche de garrafas, pesca magnética e air hockey de balão.
+
+### 3.6 Coleção Completa (os 5 volumes) — R$ 47,90 (de R$ 124,50)
+**Formato:** PDF, 5 volumes, 38 projetos · **Checkout:** https://pay.cakto.com.br/nytaca3_1034888
+Os 5 volumes acima numa compra só. R$ 124,50 é a soma real dos 5 avulsos — não é
+valor inventado, é o preço de comprar cada um separado. É a oferta
+principal da linha de robótica: sempre que o cliente perguntar por mais de
+um volume, ou não souber qual idade/volume escolher, ofereça a coleção
+completa antes de empurrar um volume avulso.
+
+**Preço é teste, não campanha com prazo fixo.** Diferente da seção 0 (que
+tem data real de término), o R$ 47,90 da coleção é um preço de lançamento
+em teste — pode subir pra R$ 67,90 dependendo de como vender, sem data
+marcada. Por isso: não prometa "esse preço acaba dia X" pra este produto
+específico, só para os da seção 0.
+
+---
+
+## 4. Perguntas frequentes (as mesmas do site)
 
 **Como eu recebo o guia?**
 Assim que o pagamento é aprovado, a Cakto envia um e-mail com o link do PDF pro endereço informado no checkout. Nenhum app extra é necessário.
@@ -207,14 +259,14 @@ Não. Os guias usam linguagem simples e passo a passo, pensados pra quem usa o c
 Pix, cartão de crédito, PicPay, Apple Pay e Google Pay, todos processados pela Cakto. No Pix a aprovação sai na hora.
 
 **Tem garantia?**
-Sim, 7 dias corridos de garantia incondicional em qualquer um dos 4 guias.
+Sim, 7 dias corridos de garantia incondicional em qualquer produto da loja, incluindo os volumes avulsos e a coleção de robótica.
 
 ---
 
-## 4. Instruções para o agente de atendimento no WhatsApp (n8n)
+## 5. Instruções para o agente de atendimento no WhatsApp (n8n)
 
 Este bloco é a base de conhecimento e as regras de comportamento do agente
-que atende no número +55 42 9995-0491. Use as seções 1 a 3 acima como
+que atende no número +55 42 9995-0491. Use as seções 1 a 4 acima como
 fonte de verdade sobre preço, conteúdo e funcionamento da loja.
 
 **Pode fazer:**
@@ -252,7 +304,7 @@ fonte de verdade sobre preço, conteúdo e funcionamento da loja.
 
 ---
 
-## 5. Desenvolvimento
+## 6. Desenvolvimento
 
 Stack: TanStack Start (React 19 + Vite) + Tailwind v4 + shadcn/ui.
 
