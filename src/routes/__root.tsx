@@ -15,6 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { metaPixelNoscriptHtml, metaPixelSnippet, trackPageView } from "../lib/meta-pixel";
 import { WhatsAppButton } from "../components/site/WhatsAppButton";
+import { logFunnelEvent } from "../lib/funnel-analytics";
 
 function NotFoundComponent() {
   return (
@@ -148,6 +149,12 @@ function RootComponent() {
       return;
     }
     trackPageView();
+  }, [pathname]);
+
+  // Funil interno (src/routes/admin.tsx) — não conta visitas ao próprio painel.
+  useEffect(() => {
+    if (pathname.startsWith("/admin")) return;
+    logFunnelEvent("page_view");
   }, [pathname]);
 
   return (

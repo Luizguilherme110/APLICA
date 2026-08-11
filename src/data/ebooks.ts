@@ -3,6 +3,11 @@ import coverCelularSemMedo from "@/assets/cover-celular-sem-medo.jpg";
 import coverClienteNaPorta from "@/assets/cover-cliente-na-porta.jpg";
 import coverIaParaIniciantes from "@/assets/cover-ia-para-iniciantes.jpg";
 import coverRoboticaColecao from "@/assets/cover-robotica-colecao.png";
+import coverRoboticaVol1 from "@/assets/cover-robotica-vol1.png";
+import coverRoboticaVol2 from "@/assets/cover-robotica-vol2.png";
+import coverRoboticaVol3 from "@/assets/cover-robotica-vol3.png";
+import coverRoboticaVol4 from "@/assets/cover-robotica-vol4.png";
+import coverRoboticaVol5 from "@/assets/cover-robotica-vol5.png";
 import { parsePriceBRL } from "@/lib/utils";
 import { isLaunchOfferActive } from "@/data/promo";
 
@@ -311,6 +316,7 @@ export const ebooks: Ebook[] = [
     category: "Robótica Infantil",
     format: "PDF · 8 experiências práticas",
     price: "R$ 24,90",
+    coverImage: coverRoboticaVol1,
     headline: "A curiosidade começa cedo — e cabe na sua mesa",
     subheadline:
       "8 experiências de ciência para fazer junto com seu filho de 5 a 7 anos, sem motor, sem tomada e sem complicação. Só papel, barbante e coisa que você já tem em casa.",
@@ -386,6 +392,7 @@ export const ebooks: Ebook[] = [
     category: "Robótica Infantil",
     format: "PDF · 6 projetos práticos",
     price: "R$ 24,90",
+    coverImage: coverRoboticaVol2,
     headline: "Aprender fazendo — agora com motor de verdade",
     subheadline:
       "6 projetos para montar com seu filho de 8 a 10 anos: carrinho, robô que anda sozinho, robô que desenha, barco, ventilador e carrossel. Material barato, ciência de verdade.",
@@ -451,6 +458,7 @@ export const ebooks: Ebook[] = [
     category: "Robótica Infantil",
     format: "PDF · 8 projetos práticos",
     price: "R$ 24,90",
+    coverImage: coverRoboticaVol3,
     headline: "Como as máquinas pensam, na mesa da cozinha",
     subheadline:
       "8 máquinas reais em miniatura para montar com seu filho de 9 a 12 anos: braço hidráulico, guindaste, engrenagens e ponte levadiça — os mesmos princípios de um guindaste ou escavadeira de verdade.",
@@ -524,6 +532,7 @@ export const ebooks: Ebook[] = [
     category: "Robótica Infantil",
     format: "PDF · 8 projetos práticos",
     price: "R$ 24,90",
+    coverImage: coverRoboticaVol4,
     headline: "A eletricidade acende — sempre em segurança",
     subheadline:
       "8 circuitos reais para montar com seu filho de 10 anos ou mais, movidos só a pilha (até 9V, sem risco de choque): LED, campainha, alarme, lanterna e um quiz que acende quando acerta.",
@@ -598,6 +607,7 @@ export const ebooks: Ebook[] = [
     category: "Robótica Infantil",
     format: "PDF · 8 projetos práticos",
     price: "R$ 24,90",
+    coverImage: coverRoboticaVol5,
     headline: "Feito para jogar — a família toda",
     subheadline:
       "8 jogos completos para montar com seu filho de 6 a 12 anos, feitos de papelão, e depois jogar de verdade: basquete de mesa, pinball, pebolim, boliche, pesca magnética e mais.",
