@@ -2,7 +2,8 @@ import { logEvent, type FunnelEventName } from "@/functions/analytics";
 
 const SESSION_KEY = "aplica_session_id";
 
-function getSessionId(): string {
+/** ID de sessão anônimo, persistido no localStorage. Reusado pelo SampleModal. */
+export function getSessionId(): string {
   if (typeof window === "undefined") return "server";
   let id = localStorage.getItem(SESSION_KEY);
   if (!id) {

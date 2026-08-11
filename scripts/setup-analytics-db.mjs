@@ -20,4 +20,18 @@ await sql`CREATE INDEX IF NOT EXISTS funnel_events_event_name_idx ON funnel_even
 await sql`CREATE INDEX IF NOT EXISTS funnel_events_created_at_idx ON funnel_events (created_at)`;
 await sql`CREATE INDEX IF NOT EXISTS funnel_events_session_id_idx ON funnel_events (session_id)`;
 
-console.log("OK: tabela funnel_events pronta.");
+// E-mails de quem pediu a amostra grátis pelo popup (src/components/site/SampleModal.tsx).
+await sql`
+  CREATE TABLE IF NOT EXISTS sample_leads (
+    id BIGSERIAL PRIMARY KEY,
+    email TEXT NOT NULL,
+    slug TEXT NOT NULL,
+    category TEXT,
+    session_id TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )
+`;
+await sql`CREATE INDEX IF NOT EXISTS sample_leads_slug_idx ON sample_leads (slug)`;
+await sql`CREATE INDEX IF NOT EXISTS sample_leads_created_at_idx ON sample_leads (created_at)`;
+
+console.log("OK: tabelas funnel_events e sample_leads prontas.");

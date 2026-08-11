@@ -1,8 +1,9 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
-import { LogOut, RefreshCw, TrendingDown } from "lucide-react";
+import { Copy, LogOut, RefreshCw, TrendingDown } from "lucide-react";
 import { checkAdminSession, adminLogin, adminLogout } from "@/functions/admin-auth";
 import { getFunnelStats, type FunnelStats, type StatsRange } from "@/functions/admin-stats";
+import { getSampleLeads, type SampleLeadRow } from "@/functions/sample-leads";
 import { getEbook } from "@/data/ebooks";
 import { cn } from "@/lib/utils";
 
@@ -13,8 +14,11 @@ export const Route = createFileRoute("/admin")({
   loader: async () => {
     const { authenticated } = await checkAdminSession();
     if (!authenticated) return { authenticated: false as const };
-    const stats = await getFunnelStats({ data: { range: "30d" } });
-    return { authenticated: true as const, stats };
+    const [stats, leads] = await Promise.all([
+      getFunnelStats({ data: { range: "30d" } }),
+      getSampleLeads(),
+    ]);
+    return { authenticated: true as const, stats, leads };
   },
   component: AdminPage,
 });
@@ -40,7 +44,7 @@ function AdminPage() {
     return <LoginScreen onSuccess={() => router.invalidate()} />;
   }
 
-  return <Dashboard initialStats={data.stats} />;
+  return <Dashboard initialStats={data.stats} leads={data.leads} />;
 }
 
 function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
@@ -90,10 +94,17 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
   );
 }
 
-function Dashboard({ initialStats }: { initialStats: FunnelStats }) {
+function Dashboard({ initialStats, leads }: { initialStats: FunnelStats; leads: SampleLeadRow[] }) {
   const [range, setRange] = useState<StatsRange>("30d");
   const [stats, setStats] = useState(initialStats);
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  async function copyEmails() {
+    await navigator.clipboard.writeText(leads.map((l) => l.email).join("\n"));
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
 
   async function reload(nextRange: StatsRange) {
     setLoading(true);
@@ -261,6 +272,59 @@ function Dashboard({ initialStats }: { initialStats: FunnelStats }) {
                       </tr>
                     );
                   })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6 rounded-2xl border border-white/10 bg-[#111827] p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-sm font-bold text-white/80">Leads da amostra grátis</h2>
+              <p className="mt-1 text-xs text-white/40">
+                Quem deixou o e-mail no popup pra ler a amostra. {leads.length} no total.
+              </p>
+            </div>
+            {leads.length > 0 ? (
+              <button
+                onClick={copyEmails}
+                className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/60 hover:text-white"
+              >
+                <Copy className="size-3.5" /> {copied ? "Copiado!" : "Copiar e-mails"}
+              </button>
+            ) : null}
+          </div>
+
+          {leads.length === 0 ? (
+            <p className="py-8 text-center text-sm text-white/40">Nenhum lead ainda.</p>
+          ) : (
+            <div className="mt-4 max-h-80 overflow-y-auto overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="sticky top-0 bg-[#111827]">
+                  <tr className="border-b border-white/10 text-[11px] uppercase tracking-wide text-white/40">
+                    <th className="pb-2 pr-4 font-semibold">E-mail</th>
+                    <th className="pb-2 pr-4 font-semibold">Produto</th>
+                    <th className="pb-2 font-semibold">Quando</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leads.map((l, i) => (
+                    <tr key={`${l.email}-${l.created_at}-${i}`} className="border-b border-white/5">
+                      <td className="py-2.5 pr-4 text-white/90">{l.email}</td>
+                      <td className="py-2.5 pr-4 text-white/60">
+                        {getEbook(l.slug)?.title ?? l.slug}
+                      </td>
+                      <td className="py-2.5 text-white/40">
+                        {new Date(l.created_at).toLocaleDateString("pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
