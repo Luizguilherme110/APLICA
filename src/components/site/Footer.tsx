@@ -1,3 +1,4 @@
+import { CreditCard } from "lucide-react";
 import logo from "@/assets/logo-mark-light-blue.png";
 import { STORE } from "@/data/ebooks";
 
@@ -24,9 +25,15 @@ export function Footer() {
           </nav>
         </div>
 
-        <p className="mt-10 border-t border-border/70 pt-6 text-xs text-muted-foreground/80">
-          © {new Date().getFullYear()} {STORE.name}. Todos os direitos reservados.
-        </p>
+        <div className="mt-10 flex flex-col items-start justify-between gap-4 border-t border-border/70 pt-6 sm:flex-row sm:items-center">
+          <p className="text-xs text-muted-foreground/80">
+            © {new Date().getFullYear()} {STORE.name}. Todos os direitos reservados.
+          </p>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <CreditCard className="size-4 shrink-0 text-brand-strong" />
+            <span>Pagamento seguro via Cakto • Pix ou <strong>até 8x no cartão</strong></span>
+          </div>
+        </div>
       </div>
     </footer>
   );

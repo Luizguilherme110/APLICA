@@ -44,6 +44,7 @@ export const Route = createFileRoute("/")({
 });
 
 const perks = [
+  { icon: CreditCard, text: "Pix ou até 8x no cartão de crédito" },
   { icon: Download, text: "PDF por e-mail assim que o pagamento é confirmado" },
   { icon: Smartphone, text: "Leia no celular, no tablet ou no computador" },
   { icon: ShieldCheck, text: "7 dias de garantia, sem perguntas" },
@@ -58,7 +59,7 @@ const steps = [
   {
     icon: CreditCard,
     title: "Pague como preferir",
-    text: "Pix, cartão ou carteira digital, direto pela Cakto.",
+    text: "Pix com aprovação imediata ou até 8x no cartão, direto pela Cakto.",
   },
   {
     icon: MessageCircleMore,
@@ -78,7 +79,7 @@ const faqs = [
   },
   {
     q: "Quais são as formas de pagamento?",
-    a: "Pix, cartão de crédito, PicPay, Apple Pay e Google Pay, todos processados pela Cakto. No Pix a aprovação sai na hora.",
+    a: "Pix (com aprovação imediata), cartão de crédito em até 8x, PicPay, Apple Pay e Google Pay, todos processados de forma 100% segura pela Cakto.",
   },
 ];
 
@@ -118,9 +119,14 @@ function Index() {
                   </a>
                 </Button>
                 {cheapestPrice ? (
-                  <p className="text-sm text-muted-foreground">
-                    A partir de <span className="font-bold text-foreground">{cheapestPrice}</span>
-                  </p>
+                  <div className="flex flex-col gap-1 text-sm text-muted-foreground">
+                    <p>
+                      A partir de <span className="font-bold text-foreground">{cheapestPrice}</span>
+                    </p>
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-brand-strong">
+                      <CreditCard className="size-3.5" /> Parcele em até 8x no cartão
+                    </span>
+                  </div>
                 ) : null}
               </div>
             </div>
@@ -157,7 +163,7 @@ function Index() {
         </section>
 
         <section className="border-y border-border/70 bg-secondary/40">
-          <div className="mx-auto grid max-w-6xl gap-3 px-4 py-6 sm:grid-cols-3 sm:px-6">
+          <div className="mx-auto grid max-w-6xl gap-4 px-4 py-6 sm:grid-cols-2 lg:grid-cols-4 sm:px-6">
             {perks.map(({ icon: Icon, text }) => (
               <div key={text} className="flex items-center gap-3 text-left">
                 <span className="grid size-9 shrink-0 place-items-center rounded-full bg-brand/12 text-brand-strong">

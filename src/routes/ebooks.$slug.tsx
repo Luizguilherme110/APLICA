@@ -117,12 +117,11 @@ function EbookPage() {
                 </ul>
 
                 <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-                  <PriceTag ebook={ebook} size="lg" />
+                  <PriceTag ebook={ebook} size="lg" showInstallment />
                   <BuyButton ebook={ebook} />
                 </div>
                 <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Lock className="size-3.5" /> Pagamento seguro via Cakto • Pix, cartão ou carteira
-                  digital
+                  <Lock className="size-3.5" /> Pagamento seguro via Cakto • Pix ou até 8x no cartão
                 </p>
                 <p className="mt-1.5 flex items-center gap-1.5 text-xs text-muted-foreground">
                   <Download className="size-3.5" /> PDF por e-mail assim que o pagamento é

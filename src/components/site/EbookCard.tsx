@@ -31,7 +31,7 @@ export function EbookCard({ ebook, className }: { ebook: Ebook; className?: stri
           {ebook.tagline}
         </p>
         <div className="mt-5 flex items-center justify-between gap-3">
-          <PriceTag ebook={ebook} size="md" />
+          <PriceTag ebook={ebook} size="md" showInstallment />
           <span className="flex shrink-0 items-center gap-1 text-sm font-semibold text-brand-strong">
             Ver detalhes
             <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5" />

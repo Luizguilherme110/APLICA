@@ -20,7 +20,7 @@ export function StickyCta({
       style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
     >
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-        <PriceTag ebook={ebook} size="md" className="min-w-0" />
+        <PriceTag ebook={ebook} size="md" showInstallment className="min-w-0" />
         {pending ? (
           <Button variant="cta" className="h-11 shrink-0 px-5" disabled>
             Em breve
