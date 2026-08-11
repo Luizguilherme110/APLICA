@@ -41,6 +41,12 @@ export type Ebook = {
    * "#checkout-pendente", os botões de compra ficam desabilitados no site.
    */
   checkoutUrl: string;
+  /**
+   * Amostra grátis: as primeiras páginas do PDF real, geradas a partir do
+   * arquivo fonte em public/amostras/<slug>.pdf. Sem campo = sem botão de
+   * amostra na página do produto.
+   */
+  sampleUrl?: string;
 };
 
 export const STORE = {
@@ -111,6 +117,7 @@ export const ebooks: Ebook[] = [
     guarantee:
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/ugxj9tc_1027094",
+    sampleUrl: "/amostras/cliente-na-porta.pdf",
   },
   {
     slug: "cao-educado",
@@ -173,6 +180,7 @@ export const ebooks: Ebook[] = [
     guarantee:
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/36z2u29_1028969",
+    sampleUrl: "/amostras/cao-educado.pdf",
   },
   {
     slug: "ia-para-iniciantes",
@@ -245,6 +253,7 @@ export const ebooks: Ebook[] = [
     guarantee:
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/irmwj6t_1031016",
+    sampleUrl: "/amostras/ia-para-iniciantes.pdf",
   },
   {
     slug: "celular-sem-medo",
@@ -307,6 +316,7 @@ export const ebooks: Ebook[] = [
     guarantee:
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/t5woe75_1031028",
+    sampleUrl: "/amostras/celular-sem-medo.pdf",
   },
   {
     slug: "robotica-vol-1-primeiros-projetos",
@@ -332,7 +342,7 @@ export const ebooks: Ebook[] = [
     highlights: [
       "8 experiências: foguete de bexiga, carrinho de bexiga, pião de cores, catapulta de palitos, mão de papelão, telefone de copo, barquinho a sabão e vulcão de espuma",
       "Zero motor, zero eletricidade — só material que já tem em casa",
-      "Cada experiência com o quadro \"Como funciona?\", pra explicar a ciência sem aula chata",
+      'Cada experiência com o quadro "Como funciona?", pra explicar a ciência sem aula chata',
       "Regras de segurança em cada projeto, escritas pra ler junto com a criança",
       "Nível de dificuldade em estrelas, do mais rápido ao mais caprichado",
     ],
@@ -383,6 +393,7 @@ export const ebooks: Ebook[] = [
     guarantee:
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/35anggs_1034896",
+    sampleUrl: "/amostras/robotica-vol-1-primeiros-projetos.pdf",
   },
   {
     slug: "robotica-vol-2-motores-e-movimento",
@@ -449,6 +460,7 @@ export const ebooks: Ebook[] = [
     guarantee:
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/34r7rxf_1034900",
+    sampleUrl: "/amostras/robotica-vol-2-motores-e-movimento.pdf",
   },
   {
     slug: "robotica-vol-3-maquinas-e-mecanismos",
@@ -463,7 +475,7 @@ export const ebooks: Ebook[] = [
     subheadline:
       "8 máquinas reais em miniatura para montar com seu filho de 9 a 12 anos: braço hidráulico, guindaste, engrenagens e ponte levadiça — os mesmos princípios de um guindaste ou escavadeira de verdade.",
     audience: [
-      "Pais e mães de crianças de 9 a 12 anos que já querem entender \"como funciona por dentro\"",
+      'Pais e mães de crianças de 9 a 12 anos que já querem entender "como funciona por dentro"',
       "Quem já passou pelos Volumes 1 e 2 e quer o próximo nível de engenharia",
       "Família com seringa, papelão grosso e uma tarde livre",
     ],
@@ -491,7 +503,8 @@ export const ebooks: Ebook[] = [
       },
       {
         title: "03 · Guindaste de Roldana",
-        description: "Roldana divide o peso: puxa fácil — a física por trás de todo guindaste de obra.",
+        description:
+          "Roldana divide o peso: puxa fácil — a física por trás de todo guindaste de obra.",
       },
       {
         title: "04 · Garra Pantográfica",
@@ -515,7 +528,8 @@ export const ebooks: Ebook[] = [
       },
       {
         title: "08 · Balança de Braço",
-        description: "Peso vezes distância: o lado mais pesado desce — a lei da alavanca, sentida na mão.",
+        description:
+          "Peso vezes distância: o lado mais pesado desce — a lei da alavanca, sentida na mão.",
       },
     ],
     actionPlan:
@@ -523,6 +537,7 @@ export const ebooks: Ebook[] = [
     guarantee:
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/398g8bs_1034903",
+    sampleUrl: "/amostras/robotica-vol-3-maquinas-e-mecanismos.pdf",
   },
   {
     slug: "robotica-vol-4-eletronica-basica",
@@ -585,7 +600,8 @@ export const ebooks: Ebook[] = [
       },
       {
         title: "07 · Lanterna de Papelão",
-        description: "Pilha, LED e refletor de papel alumínio viram lanterna — luz concentrada, feita do zero.",
+        description:
+          "Pilha, LED e refletor de papel alumínio viram lanterna — luz concentrada, feita do zero.",
       },
       {
         title: "08 · Placa-Quiz Luminosa",
@@ -598,6 +614,7 @@ export const ebooks: Ebook[] = [
     guarantee:
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/pyr3ff6_1034908",
+    sampleUrl: "/amostras/robotica-vol-4-eletronica-basica.pdf",
   },
   {
     slug: "robotica-vol-5-jogos-e-brinquedos",
@@ -617,7 +634,7 @@ export const ebooks: Ebook[] = [
       "Família que curte jogo de mesa e quer um feito à mão, junto",
     ],
     notFor: [
-      "Quem procura o lado mais \"ciência explicada\" da coleção — este é o volume mais brincadeira (ver Volumes 1 a 4 para mecanismo e eletrônica)",
+      'Quem procura o lado mais "ciência explicada" da coleção — este é o volume mais brincadeira (ver Volumes 1 a 4 para mecanismo e eletrônica)',
     ],
     highlights: [
       "8 jogos: basquete de mesa, pinball de papelão, jogo de argolas, labirinto equilibrista, pebolim, boliche, pesca magnética e air hockey de balão",
@@ -629,7 +646,8 @@ export const ebooks: Ebook[] = [
     modules: [
       {
         title: "01 · Basquete de Mesa",
-        description: "Aperta a alavanca e encesta a bolinha — mecanismo de lançamento simples, pontuação de verdade.",
+        description:
+          "Aperta a alavanca e encesta a bolinha — mecanismo de lançamento simples, pontuação de verdade.",
       },
       {
         title: "02 · Pinball de Papelão",
@@ -648,11 +666,13 @@ export const ebooks: Ebook[] = [
       },
       {
         title: "05 · Pebolim de Caixa",
-        description: "Gire os palitos e chute a bolinha pro gol — pebolim de mesa, montado numa caixa de sapato.",
+        description:
+          "Gire os palitos e chute a bolinha pro gol — pebolim de mesa, montado numa caixa de sapato.",
       },
       {
         title: "06 · Boliche de Garrafas",
-        description: "Role a bola e derrube as garrafinhas — boliche completo, com pinos feitos de garrafa PET.",
+        description:
+          "Role a bola e derrube as garrafinhas — boliche completo, com pinos feitos de garrafa PET.",
       },
       {
         title: "07 · Pesca Magnética",
@@ -670,6 +690,7 @@ export const ebooks: Ebook[] = [
     guarantee:
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/mnuyb9d_1034910",
+    sampleUrl: "/amostras/robotica-vol-5-jogos-e-brinquedos.pdf",
   },
   {
     slug: "robotica-colecao-completa",
@@ -689,9 +710,7 @@ export const ebooks: Ebook[] = [
       "Quem já sabe que vai usar mais de um volume e quer economizar comprando junto",
       "Família que quer um plano de atividades sem tela para meses, não só um fim de semana",
     ],
-    notFor: [
-      "Quem só quer testar um volume antes de decidir (comece pelo Volume 1, avulso)",
-    ],
+    notFor: ["Quem só quer testar um volume antes de decidir (comece pelo Volume 1, avulso)"],
     highlights: [
       "Os 5 volumes completos: Primeiros Projetos, Motores e Movimento, Máquinas e Mecanismos, Eletrônica Básica e Jogos e Brinquedos DIY",
       "38 projetos ao todo, cobrindo de 5 a 12+ anos — a coleção cresce junto com a criança",

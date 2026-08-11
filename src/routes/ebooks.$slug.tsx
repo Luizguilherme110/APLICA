@@ -7,6 +7,7 @@ import {
   Calendar,
   Check,
   Download,
+  FileText,
   Lock,
   ShieldCheck,
   X,
@@ -21,7 +22,7 @@ import { ScreenshotTestimonials } from "@/components/site/ScreenshotTestimonials
 import { PriceTag } from "@/components/site/PriceTag";
 import { LaunchOfferBanner } from "@/components/site/LaunchOfferBanner";
 import { ebooks, effectivePrice, getEbook, ROBOTICS_CATEGORY, type Ebook } from "@/data/ebooks";
-import { trackInitiateCheckout, trackViewContent } from "@/lib/meta-pixel";
+import { trackDownloadSample, trackInitiateCheckout, trackViewContent } from "@/lib/meta-pixel";
 import { logFunnelEvent } from "@/lib/funnel-analytics";
 import { cn, parsePriceBRL } from "@/lib/utils";
 
@@ -43,6 +44,13 @@ function reportCheckoutIntent(ebook: Ebook) {
   trackInitiateCheckout({ contentName: ebook.title, contentId: ebook.slug, value });
   trackVercelAnalytics("initiate_checkout", { slug: ebook.slug, category: ebook.category, value });
   logFunnelEvent("initiate_checkout", { slug: ebook.slug, category: ebook.category, value });
+}
+
+/** Sinaliza que o visitante abriu a amostra grátis — interesse morno, entre ver e comprar. */
+function reportSampleDownload(ebook: Ebook) {
+  trackDownloadSample({ contentName: ebook.title, contentId: ebook.slug });
+  trackVercelAnalytics("download_sample", { slug: ebook.slug, category: ebook.category });
+  logFunnelEvent("download_sample", { slug: ebook.slug, category: ebook.category });
 }
 
 export const Route = createFileRoute("/ebooks/$slug")({
@@ -151,6 +159,17 @@ function EbookPage() {
                   <Download className="size-3.5" /> PDF por e-mail assim que o pagamento é
                   confirmado
                 </p>
+                {ebook.sampleUrl ? (
+                  <a
+                    href={ebook.sampleUrl}
+                    target="_blank"
+                    rel="noopener"
+                    onClick={() => reportSampleDownload(ebook)}
+                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-strong underline decoration-brand-strong/30 underline-offset-4 hover:decoration-brand-strong"
+                  >
+                    <FileText className="size-4" /> Ler uma amostra grátis antes de comprar
+                  </a>
+                ) : null}
               </div>
 
               <div className="mx-auto w-full max-w-[15rem] sm:max-w-xs">

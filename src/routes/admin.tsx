@@ -129,7 +129,9 @@ function Dashboard({ initialStats }: { initialStats: FunnelStats }) {
                   onClick={() => reload(r.value)}
                   className={cn(
                     "rounded-md px-3 py-1.5 text-xs font-semibold transition-colors",
-                    range === r.value ? "bg-indigo-500 text-white" : "text-white/60 hover:text-white",
+                    range === r.value
+                      ? "bg-indigo-500 text-white"
+                      : "text-white/60 hover:text-white",
                   )}
                 >
                   {r.label}
@@ -171,7 +173,8 @@ function Dashboard({ initialStats }: { initialStats: FunnelStats }) {
                 const prevStage =
                   i > 0
                     ? stats.stages.find(
-                        (s) => s.event_name === ["page_view", "view_ebook", "initiate_checkout"][i - 1],
+                        (s) =>
+                          s.event_name === ["page_view", "view_ebook", "initiate_checkout"][i - 1],
                       )
                     : null;
                 const dropFromPrev =
@@ -210,7 +213,8 @@ function Dashboard({ initialStats }: { initialStats: FunnelStats }) {
         <div className="mt-6 rounded-2xl border border-white/10 bg-[#111827] p-6">
           <h2 className="text-sm font-bold text-white/80">Por produto</h2>
           <p className="mt-1 text-xs text-white/40">
-            Quem viu a página e não iniciou checkout é o primeiro lugar pra olhar.
+            Quem viu a página e não iniciou checkout é o primeiro lugar pra olhar. "Amostra" conta
+            visitantes únicos que baixaram o PDF de amostra grátis.
           </p>
 
           {stats.products.length === 0 ? (
@@ -222,6 +226,7 @@ function Dashboard({ initialStats }: { initialStats: FunnelStats }) {
                   <tr className="border-b border-white/10 text-[11px] uppercase tracking-wide text-white/40">
                     <th className="pb-2 pr-4 font-semibold">Produto</th>
                     <th className="pb-2 pr-4 font-semibold">Visitantes</th>
+                    <th className="pb-2 pr-4 font-semibold">Amostra</th>
                     <th className="pb-2 pr-4 font-semibold">Iniciaram checkout</th>
                     <th className="pb-2 font-semibold">Conversão</th>
                   </tr>
@@ -237,12 +242,17 @@ function Dashboard({ initialStats }: { initialStats: FunnelStats }) {
                           <span className="block text-xs text-white/40">{p.category}</span>
                         </td>
                         <td className="py-2.5 pr-4 text-white/80">{p.views}</td>
+                        <td className="py-2.5 pr-4 text-white/80">{p.samples}</td>
                         <td className="py-2.5 pr-4 text-white/80">{p.checkouts}</td>
                         <td className="py-2.5">
                           <span
                             className={cn(
                               "font-semibold",
-                              conv === 0 ? "text-red-400" : conv < 15 ? "text-amber-400" : "text-emerald-400",
+                              conv === 0
+                                ? "text-red-400"
+                                : conv < 15
+                                  ? "text-amber-400"
+                                  : "text-emerald-400",
                             )}
                           >
                             {conv}%

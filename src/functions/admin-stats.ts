@@ -19,6 +19,7 @@ export type ProductRow = {
   slug: string;
   category: string | null;
   views: number;
+  samples: number;
   checkouts: number;
 };
 
@@ -32,7 +33,8 @@ export type FunnelStats = {
 const STAGE_ORDER: Record<string, number> = {
   page_view: 0,
   view_ebook: 1,
-  initiate_checkout: 2,
+  download_sample: 2,
+  initiate_checkout: 3,
 };
 
 export const getFunnelStats = createServerFn({ method: "GET" })
@@ -62,6 +64,7 @@ export const getFunnelStats = createServerFn({ method: "GET" })
             slug,
             max(category) AS category,
             COUNT(DISTINCT CASE WHEN event_name = 'view_ebook' THEN session_id END)::int AS views,
+            COUNT(DISTINCT CASE WHEN event_name = 'download_sample' THEN session_id END)::int AS samples,
             COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
           FROM funnel_events
           WHERE slug IS NOT NULL AND created_at >= ${since.toISOString()}
@@ -73,6 +76,7 @@ export const getFunnelStats = createServerFn({ method: "GET" })
             slug,
             max(category) AS category,
             COUNT(DISTINCT CASE WHEN event_name = 'view_ebook' THEN session_id END)::int AS views,
+            COUNT(DISTINCT CASE WHEN event_name = 'download_sample' THEN session_id END)::int AS samples,
             COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
           FROM funnel_events
           WHERE slug IS NOT NULL

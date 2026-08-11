@@ -88,3 +88,18 @@ export function trackInitiateCheckout(params: {
     currency: "BRL",
   });
 }
+
+/**
+ * Dispara ao baixar a amostra grátis. Evento customizado (não é um dos
+ * eventos padrão da Meta) — sinaliza interesse morno, entre "viu a página" e
+ * "foi pro checkout", sem contaminar a otimização de campanha baseada nos
+ * eventos padrão.
+ */
+export function trackDownloadSample(params: { contentName: string; contentId: string }): void {
+  if (typeof window === "undefined") return;
+  window.fbq?.("trackCustom", "DownloadSample", {
+    content_name: params.contentName,
+    content_ids: [params.contentId],
+    content_type: "product",
+  });
+}
