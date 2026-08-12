@@ -1,14 +1,13 @@
 /**
  * Meta Pixel (Facebook).
- *
- * O snippet base é injetado no <head> pelo RootShell em src/routes/__root.tsx.
- * Como este site é uma SPA, o "PageView" automático do snippet só dispara no
- * primeiro carregamento — a navegação entre rotas é feita no cliente, sem
- * recarregar a página. Por isso o RootComponent também dispara trackPageView()
- * a cada troca de rota.
+ * Suporte a múltiplos Pixels ativos ao mesmo tempo.
  */
 
-export const META_PIXEL_ID = "1373667820810432";
+// Adicione quantos Pixels precisar no array:
+export const META_PIXEL_IDS = [
+  "1373667820810432", // Pixel antigo
+  "1068594725689462", // Pixel novo
+];
 
 declare global {
   interface Window {
@@ -16,7 +15,7 @@ declare global {
   }
 }
 
-/** Snippet oficial da Meta, com o ID já preenchido. */
+/** Snippet oficial da Meta inicializando AMBOS os Pixels */
 export const metaPixelSnippet = `!function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -25,35 +24,25 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '${META_PIXEL_ID}');
+${META_PIXEL_IDS.map((id) => `fbq('init', '${id}');`).join("\n")}
 fbq('track', 'PageView');`;
 
-export const metaPixelNoscriptSrc = `https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`;
+/** Gera as tags <img> de noscript para todos os Pixels configurados */
+export const metaPixelNoscriptHtml = META_PIXEL_IDS.map(
+  (id) =>
+    `<img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=${id}&ev=PageView&noscript=1" />`
+).join("");
 
-/**
- * Conteúdo do <noscript> como HTML cru, de propósito.
- *
- * Com o JS ligado o navegador NÃO parseia o interior de um <noscript>: ele
- * guarda tudo como um único nó de texto. Se passarmos <img> como filho JSX, o
- * React espera encontrar um elemento na hidratação, acha texto, e derruba a
- * árvore com o erro #418. Entregando a mesma string dos dois lados, servidor e
- * cliente batem.
- */
-export const metaPixelNoscriptHtml = `<img height="1" width="1" style="display:none" alt="" src="${metaPixelNoscriptSrc}" />`;
+/* ==========================================================================
+   Funções de evento (NÃO MUDAM NADA)
+   O fbq('track') envia automaticamente para TODOS os Pixels inicializados.
+   ========================================================================== */
 
-/** Dispara um PageView. Seguro chamar antes de o script carregar (a fila do fbq segura). */
 export function trackPageView(): void {
   if (typeof window === "undefined") return;
   window.fbq?.("track", "PageView");
 }
 
-/**
- * Dispara ViewContent quando o visitante abre a página de um produto.
- * É o segundo degrau do funil (PageView → ViewContent → InitiateCheckout →
- * Purchase, este último configurado no painel da Cakto). Sem esse evento
- * não dá pra saber se o problema é "ninguém abre a página do produto" ou
- * "abre e não clica comprar".
- */
 export function trackViewContent(params: {
   contentName: string;
   contentId: string;
@@ -69,11 +58,6 @@ export function trackViewContent(params: {
   });
 }
 
-/**
- * Dispara InitiateCheckout ao mandar o visitante para o checkout da Cakto.
- * O evento Purchase NÃO pode ser disparado aqui: a compra se completa no
- * domínio da Cakto, então ele precisa ser configurado no painel deles.
- */
 export function trackInitiateCheckout(params: {
   contentName: string;
   contentId: string;
@@ -89,12 +73,6 @@ export function trackInitiateCheckout(params: {
   });
 }
 
-/**
- * Dispara ao baixar a amostra grátis. Evento customizado (não é um dos
- * eventos padrão da Meta) — sinaliza interesse morno, entre "viu a página" e
- * "foi pro checkout", sem contaminar a otimização de campanha baseada nos
- * eventos padrão.
- */
 export function trackDownloadSample(params: { contentName: string; contentId: string }): void {
   if (typeof window === "undefined") return;
   window.fbq?.("trackCustom", "DownloadSample", {
@@ -104,17 +82,11 @@ export function trackDownloadSample(params: { contentName: string; contentId: st
   });
 }
 
-/** Dispara ao passar de cada marco de rolagem (25/50/75/100%) numa página. */
 export function trackScrollDepth(milestone: number): void {
   if (typeof window === "undefined") return;
   window.fbq?.("trackCustom", "ScrollDepth", { milestone });
 }
 
-/**
- * Dispara ao clicar no botão de WhatsApp. "Contact" é evento padrão da Meta
- * (não customizado) — sinaliza gente que quer tirar dúvida antes de comprar,
- * intenção que não passa pelo funil de checkout.
- */
 export function trackContact(): void {
   if (typeof window === "undefined") return;
   window.fbq?.("track", "Contact");
