@@ -2,6 +2,7 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { handleCaktoWebhook } from "./functions/cakto-webhook";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -46,6 +47,13 @@ function isH3SwallowedErrorBody(body: string): boolean {
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    // Endpoint externo (webhook de terceiro) — atendido antes de entrar no
+    // roteador do TanStack, que só conhece as rotas de página/RPC do app.
+    const url = new URL(request.url);
+    if (url.pathname === "/api/webhooks/cakto") {
+      return handleCaktoWebhook(request);
+    }
+
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);

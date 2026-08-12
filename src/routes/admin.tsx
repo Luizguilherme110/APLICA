@@ -4,8 +4,11 @@ import { Copy, LogOut, RefreshCw, TrendingDown } from "lucide-react";
 import { checkAdminSession, adminLogin, adminLogout } from "@/functions/admin-auth";
 import { getFunnelStats, type FunnelStats, type StatsRange } from "@/functions/admin-stats";
 import { getSampleLeads, type SampleLeadRow } from "@/functions/sample-leads";
+import { getPurchaseStats, type PurchaseStats } from "@/functions/purchases";
 import { getEbook } from "@/data/ebooks";
 import { cn } from "@/lib/utils";
+
+const EMPTY_PURCHASES: PurchaseStats = { count: 0, revenue: 0, byProduct: [] };
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -15,14 +18,20 @@ export const Route = createFileRoute("/admin")({
     const { authenticated } = await checkAdminSession();
     if (!authenticated) return { authenticated: false as const };
     const stats = await getFunnelStats({ data: { range: "30d" } });
-    // Leads é feature nova (tabela sample_leads). Se a migração ainda não
-    // rodou no banco, essa query falha — e não pode derrubar o resto do
-    // painel, que já funcionava antes dela existir.
-    const leads = await getSampleLeads().catch((err) => {
-      console.error("[admin] falha ao buscar sample_leads:", err);
-      return [];
-    });
-    return { authenticated: true as const, stats, leads };
+    // Leads e vendas são features novas (tabelas sample_leads e purchases).
+    // Se a migração ainda não rodou no banco, essas queries falham — e não
+    // podem derrubar o resto do painel, que já funcionava sem elas.
+    const [leads, purchases] = await Promise.all([
+      getSampleLeads().catch((err) => {
+        console.error("[admin] falha ao buscar sample_leads:", err);
+        return [] as SampleLeadRow[];
+      }),
+      getPurchaseStats({ data: { range: "30d" } }).catch((err) => {
+        console.error("[admin] falha ao buscar purchases:", err);
+        return EMPTY_PURCHASES;
+      }),
+    ]);
+    return { authenticated: true as const, stats, leads, purchases };
   },
   component: AdminPage,
 });
@@ -48,7 +57,9 @@ function AdminPage() {
     return <LoginScreen onSuccess={() => router.invalidate()} />;
   }
 
-  return <Dashboard initialStats={data.stats} leads={data.leads} />;
+  return (
+    <Dashboard initialStats={data.stats} leads={data.leads} initialPurchases={data.purchases} />
+  );
 }
 
 function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
@@ -98,9 +109,18 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
   );
 }
 
-function Dashboard({ initialStats, leads }: { initialStats: FunnelStats; leads: SampleLeadRow[] }) {
+function Dashboard({
+  initialStats,
+  leads,
+  initialPurchases,
+}: {
+  initialStats: FunnelStats;
+  leads: SampleLeadRow[];
+  initialPurchases: PurchaseStats;
+}) {
   const [range, setRange] = useState<StatsRange>("30d");
   const [stats, setStats] = useState(initialStats);
+  const [purchases, setPurchases] = useState(initialPurchases);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -113,8 +133,12 @@ function Dashboard({ initialStats, leads }: { initialStats: FunnelStats; leads: 
   async function reload(nextRange: StatsRange) {
     setLoading(true);
     setRange(nextRange);
-    const fresh = await getFunnelStats({ data: { range: nextRange } });
+    const [fresh, freshPurchases] = await Promise.all([
+      getFunnelStats({ data: { range: nextRange } }),
+      getPurchaseStats({ data: { range: nextRange } }).catch(() => EMPTY_PURCHASES),
+    ]);
     setStats(fresh);
+    setPurchases(freshPurchases);
     setLoading(false);
   }
 
@@ -168,6 +192,44 @@ function Dashboard({ initialStats, leads }: { initialStats: FunnelStats; leads: 
             </button>
           </div>
         </div>
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-6">
+            <span className="text-[10px] font-bold uppercase tracking-wide text-emerald-300/70">
+              Vendas confirmadas
+            </span>
+            <p className="mt-1 text-3xl font-extrabold text-white">{purchases.count}</p>
+            <p className="mt-1 text-xs text-white/50">{stats.rangeLabel}, via webhook da Cakto</p>
+          </div>
+          <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-6">
+            <span className="text-[10px] font-bold uppercase tracking-wide text-emerald-300/70">
+              Faturamento
+            </span>
+            <p className="mt-1 text-3xl font-extrabold text-white">
+              {purchases.revenue.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })}
+            </p>
+            <p className="mt-1 text-xs text-white/50">Soma do valor pago em cada venda</p>
+          </div>
+        </div>
+
+        {purchases.byProduct.length > 0 ? (
+          <div className="mt-4 rounded-2xl border border-white/10 bg-[#111827] p-4">
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              {purchases.byProduct.map((p) => (
+                <div key={p.product_name ?? "?"} className="text-xs">
+                  <span className="text-white/80">{p.product_name ?? "Produto sem nome"}</span>
+                  <span className="ml-1.5 font-semibold text-emerald-400">
+                    {p.count}× ·{" "}
+                    {p.revenue.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
 
         <div className="mt-8 rounded-2xl border border-white/10 bg-[#111827] p-6">
           <h2 className="text-sm font-bold text-white/80">Funil principal</h2>
@@ -373,8 +435,8 @@ function Dashboard({ initialStats, leads }: { initialStats: FunnelStats; leads: 
         </div>
 
         <p className="mt-6 text-center text-xs text-white/30">
-          Total de {stats.totalEvents} eventos no período · Não inclui compra concluída (isso só a
-          Cakto sabe — precisa de webhook pra entrar aqui).
+          Total de {stats.totalEvents} eventos no período · Vendas confirmadas via webhook da Cakto
+          em tempo real.
         </p>
       </div>
     </div>

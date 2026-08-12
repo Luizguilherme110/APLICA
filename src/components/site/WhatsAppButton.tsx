@@ -1,5 +1,15 @@
+import { track as trackVercelAnalytics } from "@vercel/analytics/react";
+import { trackContact } from "@/lib/meta-pixel";
+import { logFunnelEvent } from "@/lib/funnel-analytics";
+
 const PHONE = "554299950491";
 const MESSAGE = "Olá, gostaria de saber mais sobre os Ebook's";
+
+function reportWhatsAppClick() {
+  trackContact();
+  trackVercelAnalytics("click_whatsapp");
+  logFunnelEvent("click_whatsapp");
+}
 
 /** Botão flutuante que abre o WhatsApp com número e mensagem pré-preenchidos. */
 export function WhatsAppButton() {
@@ -11,6 +21,7 @@ export function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Falar no WhatsApp"
+      onClick={reportWhatsAppClick}
       className="fixed bottom-20 right-4 z-40 flex size-14 items-center justify-center rounded-full bg-[#25D366] shadow-float transition-transform hover:scale-105 sm:bottom-6 sm:right-6"
     >
       <svg viewBox="0 0 24 24" fill="white" className="size-7" aria-hidden>

@@ -2,7 +2,12 @@ import { createServerFn } from "@tanstack/react-start";
 import { getSql } from "@/functions/db";
 
 export type FunnelEventName =
-  "page_view" | "view_ebook" | "download_sample" | "initiate_checkout" | "scroll_depth";
+  | "page_view"
+  | "view_ebook"
+  | "download_sample"
+  | "initiate_checkout"
+  | "scroll_depth"
+  | "click_whatsapp";
 
 type LogEventInput = {
   event: FunnelEventName;
@@ -11,6 +16,10 @@ type LogEventInput = {
   category?: string;
   value?: number;
   path?: string;
+  device?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
 };
 
 /**
@@ -23,8 +32,13 @@ export const logEvent = createServerFn({ method: "POST" })
     try {
       const sql = getSql();
       await sql`
-        INSERT INTO funnel_events (event_name, slug, category, value, session_id, path)
-        VALUES (${data.event}, ${data.slug ?? null}, ${data.category ?? null}, ${data.value ?? null}, ${data.sessionId}, ${data.path ?? null})
+        INSERT INTO funnel_events
+          (event_name, slug, category, value, session_id, path, device, utm_source, utm_medium, utm_campaign)
+        VALUES (
+          ${data.event}, ${data.slug ?? null}, ${data.category ?? null}, ${data.value ?? null},
+          ${data.sessionId}, ${data.path ?? null}, ${data.device ?? null},
+          ${data.utmSource ?? null}, ${data.utmMedium ?? null}, ${data.utmCampaign ?? null}
+        )
       `;
     } catch (err) {
       console.error("[analytics] falha ao gravar evento:", err);

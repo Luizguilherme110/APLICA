@@ -20,6 +20,14 @@ await sql`CREATE INDEX IF NOT EXISTS funnel_events_event_name_idx ON funnel_even
 await sql`CREATE INDEX IF NOT EXISTS funnel_events_created_at_idx ON funnel_events (created_at)`;
 await sql`CREATE INDEX IF NOT EXISTS funnel_events_session_id_idx ON funnel_events (session_id)`;
 
+// De onde o visitante veio (UTM, capturado uma vez por sessão em
+// src/lib/attribution.ts) e em que tipo de aparelho.
+await sql`ALTER TABLE funnel_events ADD COLUMN IF NOT EXISTS device TEXT`;
+await sql`ALTER TABLE funnel_events ADD COLUMN IF NOT EXISTS utm_source TEXT`;
+await sql`ALTER TABLE funnel_events ADD COLUMN IF NOT EXISTS utm_medium TEXT`;
+await sql`ALTER TABLE funnel_events ADD COLUMN IF NOT EXISTS utm_campaign TEXT`;
+await sql`CREATE INDEX IF NOT EXISTS funnel_events_utm_source_idx ON funnel_events (utm_source)`;
+
 // E-mails de quem pediu a amostra grátis pelo popup (src/components/site/SampleModal.tsx).
 await sql`
   CREATE TABLE IF NOT EXISTS sample_leads (
@@ -34,4 +42,32 @@ await sql`
 await sql`CREATE INDEX IF NOT EXISTS sample_leads_slug_idx ON sample_leads (slug)`;
 await sql`CREATE INDEX IF NOT EXISTS sample_leads_created_at_idx ON sample_leads (created_at)`;
 
-console.log("OK: tabelas funnel_events e sample_leads prontas.");
+// Vendas reais, recebidas via webhook da Cakto (src/functions/cakto-webhook.ts).
+// cakto_id é o "data.id" do payload — chave de idempotência: a Cakto pode
+// reenviar o mesmo evento, e ON CONFLICT DO NOTHING evita contar duas vezes.
+await sql`
+  CREATE TABLE IF NOT EXISTS purchases (
+    id BIGSERIAL PRIMARY KEY,
+    cakto_id TEXT NOT NULL UNIQUE,
+    event TEXT NOT NULL,
+    status TEXT,
+    product_id TEXT,
+    product_name TEXT,
+    amount NUMERIC,
+    customer_email TEXT,
+    payment_method TEXT,
+    raw JSONB,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )
+`;
+await sql`CREATE INDEX IF NOT EXISTS purchases_event_idx ON purchases (event)`;
+await sql`CREATE INDEX IF NOT EXISTS purchases_created_at_idx ON purchases (created_at)`;
+await sql`CREATE INDEX IF NOT EXISTS purchases_product_id_idx ON purchases (product_id)`;
+
+// Melhor esforço: extraído do campo "checkoutUrl" do payload da Cakto, se ela
+// ecoar os parâmetros que a gente anexou no link (ver src/lib/attribution.ts).
+// Não documentado pela Cakto — pode simplesmente não vir preenchido.
+await sql`ALTER TABLE purchases ADD COLUMN IF NOT EXISTS utm_source TEXT`;
+await sql`ALTER TABLE purchases ADD COLUMN IF NOT EXISTS utm_campaign TEXT`;
+
+console.log("OK: tabelas funnel_events, sample_leads e purchases prontas.");

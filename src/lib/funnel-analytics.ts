@@ -1,4 +1,5 @@
 import { logEvent, type FunnelEventName } from "@/functions/analytics";
+import { getAttribution, getDevice } from "@/lib/attribution";
 
 const SESSION_KEY = "aplica_session_id";
 
@@ -22,11 +23,16 @@ export function logFunnelEvent(
   extra?: { slug?: string; category?: string; value?: number },
 ): void {
   if (typeof window === "undefined") return;
+  const attribution = getAttribution();
   logEvent({
     data: {
       event,
       sessionId: getSessionId(),
       path: window.location.pathname,
+      device: getDevice(),
+      utmSource: attribution.utmSource ?? undefined,
+      utmMedium: attribution.utmMedium ?? undefined,
+      utmCampaign: attribution.utmCampaign ?? undefined,
       ...extra,
     },
   }).catch(() => {});

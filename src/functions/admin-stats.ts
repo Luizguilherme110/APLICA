@@ -4,7 +4,8 @@ import { adminSessionOrThrow } from "@/functions/admin-guard";
 
 export type StatsRange = "today" | "7d" | "30d" | "all";
 
-function rangeToSince(range: StatsRange): Date | null {
+/** Reusado por src/functions/purchases.ts pra manter o mesmo recorte de período. */
+export function rangeToSince(range: StatsRange): Date | null {
   const now = new Date();
   if (range === "today") {
     return new Date(now.getFullYear(), now.getMonth(), now.getDate());

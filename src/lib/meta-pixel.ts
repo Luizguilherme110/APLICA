@@ -109,3 +109,13 @@ export function trackScrollDepth(milestone: number): void {
   if (typeof window === "undefined") return;
   window.fbq?.("trackCustom", "ScrollDepth", { milestone });
 }
+
+/**
+ * Dispara ao clicar no botão de WhatsApp. "Contact" é evento padrão da Meta
+ * (não customizado) — sinaliza gente que quer tirar dúvida antes de comprar,
+ * intenção que não passa pelo funil de checkout.
+ */
+export function trackContact(): void {
+  if (typeof window === "undefined") return;
+  window.fbq?.("track", "Contact");
+}

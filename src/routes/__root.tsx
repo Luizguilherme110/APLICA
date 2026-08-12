@@ -22,6 +22,7 @@ import {
 import { WhatsAppButton } from "../components/site/WhatsAppButton";
 import { logFunnelEvent } from "../lib/funnel-analytics";
 import { watchScrollDepth } from "../lib/scroll-depth";
+import { captureAttribution } from "../lib/attribution";
 
 function NotFoundComponent() {
   return (
@@ -148,6 +149,14 @@ function RootComponent() {
   // navegação entre rotas é client-side, as trocas seguintes precisam disparar
   // manualmente — senão só a página de entrada seria contabilizada.
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  // Lê os UTM da URL de entrada antes de qualquer evento disparar — assim o
+  // primeiro page_view, que é o que carrega os parâmetros do anúncio, já sai
+  // com a atribuição certa.
+  useEffect(() => {
+    captureAttribution();
+  }, []);
+
   const isFirstPageView = useRef(true);
   useEffect(() => {
     if (isFirstPageView.current) {
