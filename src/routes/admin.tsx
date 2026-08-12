@@ -14,10 +14,14 @@ export const Route = createFileRoute("/admin")({
   loader: async () => {
     const { authenticated } = await checkAdminSession();
     if (!authenticated) return { authenticated: false as const };
-    const [stats, leads] = await Promise.all([
-      getFunnelStats({ data: { range: "30d" } }),
-      getSampleLeads(),
-    ]);
+    const stats = await getFunnelStats({ data: { range: "30d" } });
+    // Leads é feature nova (tabela sample_leads). Se a migração ainda não
+    // rodou no banco, essa query falha — e não pode derrubar o resto do
+    // painel, que já funcionava antes dela existir.
+    const leads = await getSampleLeads().catch((err) => {
+      console.error("[admin] falha ao buscar sample_leads:", err);
+      return [];
+    });
     return { authenticated: true as const, stats, leads };
   },
   component: AdminPage,
