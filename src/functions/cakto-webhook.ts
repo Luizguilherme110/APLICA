@@ -20,10 +20,31 @@ type CaktoPayload = {
     status?: string;
     amount?: number;
     paymentMethod?: string;
+    checkoutUrl?: string;
     customer?: { email?: string };
     product?: { id?: string; name?: string };
   };
 };
+
+/**
+ * Melhor esforço, não documentado pela Cakto: o link de checkout que a
+ * pessoa usou (src/lib/attribution.ts anexa utm_source/campaign nele) pode
+ * vir de volta no campo "checkoutUrl" do payload. Se vier com a query
+ * string, dá pra saber qual campanha gerou a VENDA, não só o clique. Se não
+ * vier, os campos ficam null — não é motivo pra falhar o webhook.
+ */
+function extractUtmFromCheckoutUrl(checkoutUrl: string | undefined) {
+  if (!checkoutUrl) return { utmSource: null, utmCampaign: null };
+  try {
+    const params = new URL(checkoutUrl).searchParams;
+    return {
+      utmSource: params.get("utm_source"),
+      utmCampaign: params.get("utm_campaign"),
+    };
+  } catch {
+    return { utmSource: null, utmCampaign: null };
+  }
+}
 
 const CAKTO_EVENTS = new Set([
   "purchase_approved",
@@ -72,11 +93,13 @@ export async function handleCaktoWebhook(request: Request): Promise<Response> {
     return new Response("ok", { status: 200 });
   }
 
+  const { utmSource, utmCampaign } = extractUtmFromCheckoutUrl(data.checkoutUrl);
+
   try {
     const sql = getSql();
     await sql`
       INSERT INTO purchases
-        (cakto_id, event, status, product_id, product_name, amount, customer_email, payment_method, raw)
+        (cakto_id, event, status, product_id, product_name, amount, customer_email, payment_method, raw, utm_source, utm_campaign)
       VALUES (
         ${data.id},
         ${event},
@@ -86,7 +109,9 @@ export async function handleCaktoWebhook(request: Request): Promise<Response> {
         ${data.amount ?? null},
         ${data.customer?.email ?? null},
         ${data.paymentMethod ?? null},
-        ${JSON.stringify(payload)}
+        ${JSON.stringify(payload)},
+        ${utmSource},
+        ${utmCampaign}
       )
       ON CONFLICT (cakto_id) DO NOTHING
     `;

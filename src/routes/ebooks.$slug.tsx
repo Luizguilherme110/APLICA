@@ -25,6 +25,7 @@ import { SampleModal } from "@/components/site/SampleModal";
 import { ebooks, effectivePrice, getEbook, ROBOTICS_CATEGORY, type Ebook } from "@/data/ebooks";
 import { trackInitiateCheckout, trackViewContent } from "@/lib/meta-pixel";
 import { logFunnelEvent } from "@/lib/funnel-analytics";
+import { withAttribution } from "@/lib/attribution";
 import { cn, parsePriceBRL } from "@/lib/utils";
 
 /**
@@ -85,7 +86,7 @@ function BuyButton({ ebook, className }: { ebook: Ebook; className?: string }) {
 
   return (
     <Button asChild variant="cta" size="xl" className={className}>
-      <a href={ebook.checkoutUrl} onClick={() => reportCheckoutIntent(ebook)}>
+      <a href={withAttribution(ebook.checkoutUrl)} onClick={() => reportCheckoutIntent(ebook)}>
         Comprar agora <ArrowRight />
       </a>
     </Button>
@@ -310,7 +311,7 @@ function EbookPage() {
       <Footer />
       <StickyCta
         ebook={ebook}
-        href={ebook.checkoutUrl}
+        href={withAttribution(ebook.checkoutUrl)}
         onCheckout={() => reportCheckoutIntent(ebook)}
       />
     </div>

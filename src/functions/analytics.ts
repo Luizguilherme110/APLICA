@@ -12,14 +12,14 @@ export type FunnelEventName =
 type LogEventInput = {
   event: FunnelEventName;
   sessionId: string;
-  slug?: string;
-  category?: string;
-  value?: number;
-  path?: string;
-  device?: string;
-  utmSource?: string;
-  utmMedium?: string;
-  utmCampaign?: string;
+  slug?: string | undefined;
+  category?: string | undefined;
+  value?: number | undefined;
+  path?: string | undefined;
+  device?: string | undefined;
+  utmSource?: string | undefined;
+  utmMedium?: string | undefined;
+  utmCampaign?: string | undefined;
 };
 
 /**

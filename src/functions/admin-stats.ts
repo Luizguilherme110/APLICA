@@ -25,11 +25,15 @@ export type ProductRow = {
 };
 
 export type ScrollDepthRow = { milestone: number; uniq: number };
+export type OriginRow = { origin: string; visitors: number; checkouts: number };
+export type DeviceRow = { device: string; visitors: number; checkouts: number };
 
 export type FunnelStats = {
   stages: FunnelStageRow[];
   products: ProductRow[];
   scrollDepth: ScrollDepthRow[];
+  origins: OriginRow[];
+  devices: DeviceRow[];
   totalEvents: number;
   rangeLabel: string;
 };
@@ -104,6 +108,48 @@ export const getFunnelStats = createServerFn({ method: "GET" })
           ORDER BY value
         `;
 
+    const originsRaw = since
+      ? await sql`
+          SELECT
+            COALESCE(utm_source, 'Direto / orgânico') AS origin,
+            COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END)::int AS visitors,
+            COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
+          FROM funnel_events
+          WHERE created_at >= ${since.toISOString()}
+          GROUP BY COALESCE(utm_source, 'Direto / orgânico')
+          ORDER BY visitors DESC
+        `
+      : await sql`
+          SELECT
+            COALESCE(utm_source, 'Direto / orgânico') AS origin,
+            COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END)::int AS visitors,
+            COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
+          FROM funnel_events
+          GROUP BY COALESCE(utm_source, 'Direto / orgânico')
+          ORDER BY visitors DESC
+        `;
+
+    const devicesRaw = since
+      ? await sql`
+          SELECT
+            COALESCE(device, 'desconhecido') AS device,
+            COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END)::int AS visitors,
+            COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
+          FROM funnel_events
+          WHERE created_at >= ${since.toISOString()}
+          GROUP BY COALESCE(device, 'desconhecido')
+          ORDER BY visitors DESC
+        `
+      : await sql`
+          SELECT
+            COALESCE(device, 'desconhecido') AS device,
+            COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END)::int AS visitors,
+            COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
+          FROM funnel_events
+          GROUP BY COALESCE(device, 'desconhecido')
+          ORDER BY visitors DESC
+        `;
+
     const stages = (stagesRaw as FunnelStageRow[]).sort(
       (a, b) => (STAGE_ORDER[a.event_name] ?? 99) - (STAGE_ORDER[b.event_name] ?? 99),
     );
@@ -121,6 +167,8 @@ export const getFunnelStats = createServerFn({ method: "GET" })
       stages,
       products: productsRaw as ProductRow[],
       scrollDepth: scrollRaw as ScrollDepthRow[],
+      origins: originsRaw as OriginRow[],
+      devices: devicesRaw as DeviceRow[],
       totalEvents: stages.reduce((sum, s) => sum + s.total, 0),
       rangeLabel,
     };

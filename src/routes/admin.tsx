@@ -150,6 +150,14 @@ function Dashboard({
   const stage1 = stats.stages.find((s) => s.event_name === "page_view");
   const baseUniq = stage1?.uniq ?? 0;
 
+  const whatsappClicks = stats.stages.find((s) => s.event_name === "click_whatsapp")?.uniq ?? 0;
+
+  // Derivado do que já existe (scroll_depth), sem captação nova: quem abriu
+  // a página mas nunca chegou nem em 25% dela.
+  const scroll25 = stats.scrollDepth.find((s) => s.milestone === 25)?.uniq ?? 0;
+  const deadSessions = Math.max(0, baseUniq - scroll25);
+  const deadPct = baseUniq > 0 ? Math.round((deadSessions / baseUniq) * 100) : 0;
+
   return (
     <div className="min-h-screen bg-[#0b0f19] px-4 py-8 text-white sm:px-8">
       <div className="mx-auto max-w-6xl">
@@ -230,6 +238,28 @@ function Dashboard({
             </div>
           </div>
         ) : null}
+
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-[#111827] p-6">
+            <span className="text-[10px] font-bold uppercase tracking-wide text-white/40">
+              Cliques no WhatsApp
+            </span>
+            <p className="mt-1 text-3xl font-extrabold text-white">{whatsappClicks}</p>
+            <p className="mt-1 text-xs text-white/50">
+              Gente que quis tirar dúvida antes de comprar, {stats.rangeLabel.toLowerCase()}.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-[#111827] p-6">
+            <span className="text-[10px] font-bold uppercase tracking-wide text-white/40">
+              Sessões que não engajaram
+            </span>
+            <p className="mt-1 text-3xl font-extrabold text-white">
+              {deadSessions}{" "}
+              <span className="text-base font-semibold text-white/40">({deadPct}%)</span>
+            </p>
+            <p className="mt-1 text-xs text-white/50">Abriram e nunca passaram de 25% da página.</p>
+          </div>
+        </div>
 
         <div className="mt-8 rounded-2xl border border-white/10 bg-[#111827] p-6">
           <h2 className="text-sm font-bold text-white/80">Funil principal</h2>
@@ -322,6 +352,57 @@ function Dashboard({
               })}
             </div>
           )}
+        </div>
+
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-[#111827] p-6">
+            <h2 className="text-sm font-bold text-white/80">Origem do tráfego</h2>
+            <p className="mt-1 text-xs text-white/40">
+              Por utm_source do link que a pessoa clicou.{" "}
+              {stats.origins.every((o) => o.origin === "Direto / orgânico") ? (
+                <span className="text-amber-400">Nenhum link visitado tinha utm_source ainda.</span>
+              ) : null}
+            </p>
+            {stats.origins.length === 0 ? (
+              <p className="py-6 text-center text-sm text-white/40">Sem dado ainda.</p>
+            ) : (
+              <div className="mt-4 space-y-2.5">
+                {stats.origins.map((o) => {
+                  const conv = o.visitors > 0 ? Math.round((o.checkouts / o.visitors) * 100) : 0;
+                  return (
+                    <div key={o.origin} className="flex items-center justify-between text-sm">
+                      <span className="min-w-0 truncate text-white/80">{o.origin}</span>
+                      <span className="shrink-0 text-white/50">
+                        {o.visitors} visitantes · {o.checkouts} checkout · {conv}%
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-[#111827] p-6">
+            <h2 className="text-sm font-bold text-white/80">Por dispositivo</h2>
+            <p className="mt-1 text-xs text-white/40">Mobile vs desktop, pela largura da tela.</p>
+            {stats.devices.length === 0 ? (
+              <p className="py-6 text-center text-sm text-white/40">Sem dado ainda.</p>
+            ) : (
+              <div className="mt-4 space-y-2.5">
+                {stats.devices.map((d) => {
+                  const conv = d.visitors > 0 ? Math.round((d.checkouts / d.visitors) * 100) : 0;
+                  return (
+                    <div key={d.device} className="flex items-center justify-between text-sm">
+                      <span className="min-w-0 truncate capitalize text-white/80">{d.device}</span>
+                      <span className="shrink-0 text-white/50">
+                        {d.visitors} visitantes · {d.checkouts} checkout · {conv}%
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="mt-6 rounded-2xl border border-white/10 bg-[#111827] p-6">
