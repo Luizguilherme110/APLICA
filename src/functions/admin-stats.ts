@@ -53,6 +53,18 @@ export const getFunnelStats = createServerFn({ method: "GET" })
     const sql = getSql();
     const since = rangeToSince(data.range);
 
+    // origin/device dependem de colunas novas (utm_source, device). Se a
+    // migração ainda não rodou no banco, essas duas falham — e não podem
+    // derrubar o resto do painel, que não depende delas.
+    async function safeQuery(fn: () => Promise<unknown>): Promise<unknown[]> {
+      try {
+        return (await fn()) as unknown[];
+      } catch (err) {
+        console.error("[admin-stats] query falhou:", err);
+        return [];
+      }
+    }
+
     const stagesRaw = since
       ? await sql`
           SELECT event_name, COUNT(*)::int AS total, COUNT(DISTINCT session_id)::int AS uniq
@@ -108,47 +120,51 @@ export const getFunnelStats = createServerFn({ method: "GET" })
           ORDER BY value
         `;
 
-    const originsRaw = since
-      ? await sql`
-          SELECT
-            COALESCE(utm_source, 'Direto / orgânico') AS origin,
-            COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END)::int AS visitors,
-            COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
-          FROM funnel_events
-          WHERE created_at >= ${since.toISOString()}
-          GROUP BY COALESCE(utm_source, 'Direto / orgânico')
-          ORDER BY visitors DESC
-        `
-      : await sql`
-          SELECT
-            COALESCE(utm_source, 'Direto / orgânico') AS origin,
-            COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END)::int AS visitors,
-            COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
-          FROM funnel_events
-          GROUP BY COALESCE(utm_source, 'Direto / orgânico')
-          ORDER BY visitors DESC
-        `;
+    const originsRaw = await safeQuery(() =>
+      since
+        ? sql`
+            SELECT
+              COALESCE(utm_source, 'Direto / orgânico') AS origin,
+              COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END)::int AS visitors,
+              COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
+            FROM funnel_events
+            WHERE created_at >= ${since.toISOString()}
+            GROUP BY COALESCE(utm_source, 'Direto / orgânico')
+            ORDER BY visitors DESC
+          `
+        : sql`
+            SELECT
+              COALESCE(utm_source, 'Direto / orgânico') AS origin,
+              COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END)::int AS visitors,
+              COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
+            FROM funnel_events
+            GROUP BY COALESCE(utm_source, 'Direto / orgânico')
+            ORDER BY visitors DESC
+          `,
+    );
 
-    const devicesRaw = since
-      ? await sql`
-          SELECT
-            COALESCE(device, 'desconhecido') AS device,
-            COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END)::int AS visitors,
-            COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
-          FROM funnel_events
-          WHERE created_at >= ${since.toISOString()}
-          GROUP BY COALESCE(device, 'desconhecido')
-          ORDER BY visitors DESC
-        `
-      : await sql`
-          SELECT
-            COALESCE(device, 'desconhecido') AS device,
-            COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END)::int AS visitors,
-            COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
-          FROM funnel_events
-          GROUP BY COALESCE(device, 'desconhecido')
-          ORDER BY visitors DESC
-        `;
+    const devicesRaw = await safeQuery(() =>
+      since
+        ? sql`
+            SELECT
+              COALESCE(device, 'desconhecido') AS device,
+              COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END)::int AS visitors,
+              COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
+            FROM funnel_events
+            WHERE created_at >= ${since.toISOString()}
+            GROUP BY COALESCE(device, 'desconhecido')
+            ORDER BY visitors DESC
+          `
+        : sql`
+            SELECT
+              COALESCE(device, 'desconhecido') AS device,
+              COUNT(DISTINCT CASE WHEN event_name = 'page_view' THEN session_id END)::int AS visitors,
+              COUNT(DISTINCT CASE WHEN event_name = 'initiate_checkout' THEN session_id END)::int AS checkouts
+            FROM funnel_events
+            GROUP BY COALESCE(device, 'desconhecido')
+            ORDER BY visitors DESC
+          `,
+    );
 
     const stages = (stagesRaw as FunnelStageRow[]).sort(
       (a, b) => (STAGE_ORDER[a.event_name] ?? 99) - (STAGE_ORDER[b.event_name] ?? 99),
