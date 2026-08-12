@@ -103,3 +103,9 @@ export function trackDownloadSample(params: { contentName: string; contentId: st
     content_type: "product",
   });
 }
+
+/** Dispara ao passar de cada marco de rolagem (25/50/75/100%) numa página. */
+export function trackScrollDepth(milestone: number): void {
+  if (typeof window === "undefined") return;
+  window.fbq?.("trackCustom", "ScrollDepth", { milestone });
+}

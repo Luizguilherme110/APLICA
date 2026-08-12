@@ -1,7 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getSql } from "@/functions/db";
 
-export type FunnelEventName = "page_view" | "view_ebook" | "download_sample" | "initiate_checkout";
+export type FunnelEventName =
+  "page_view" | "view_ebook" | "download_sample" | "initiate_checkout" | "scroll_depth";
 
 type LogEventInput = {
   event: FunnelEventName;

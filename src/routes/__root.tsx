@@ -9,13 +9,19 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, useRef, type ReactNode } from "react";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics, track as trackVercelAnalytics } from "@vercel/analytics/react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { metaPixelNoscriptHtml, metaPixelSnippet, trackPageView } from "../lib/meta-pixel";
+import {
+  metaPixelNoscriptHtml,
+  metaPixelSnippet,
+  trackPageView,
+  trackScrollDepth,
+} from "../lib/meta-pixel";
 import { WhatsAppButton } from "../components/site/WhatsAppButton";
 import { logFunnelEvent } from "../lib/funnel-analytics";
+import { watchScrollDepth } from "../lib/scroll-depth";
 
 function NotFoundComponent() {
   return (
@@ -155,6 +161,18 @@ function RootComponent() {
   useEffect(() => {
     if (pathname.startsWith("/admin")) return;
     logFunnelEvent("page_view");
+  }, [pathname]);
+
+  // Até onde a pessoa rola a página, por marco de 25/50/75/100%. Reobservado a
+  // cada troca de rota — os marcos não "vazam" de uma página pra outra.
+  useEffect(() => {
+    if (pathname.startsWith("/admin")) return;
+    const stop = watchScrollDepth((milestone) => {
+      trackScrollDepth(milestone);
+      trackVercelAnalytics("scroll_depth", { path: pathname, milestone });
+      logFunnelEvent("scroll_depth", { value: milestone });
+    });
+    return stop;
   }, [pathname]);
 
   return (

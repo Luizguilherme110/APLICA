@@ -226,6 +226,43 @@ function Dashboard({ initialStats, leads }: { initialStats: FunnelStats; leads: 
         </div>
 
         <div className="mt-6 rounded-2xl border border-white/10 bg-[#111827] p-6">
+          <h2 className="text-sm font-bold text-white/80">Até onde os visitantes rolam</h2>
+          <p className="mt-1 text-xs text-white/40">
+            % de quem visitou (etapa 1) que chegou a cada marco da página, no período.
+          </p>
+
+          {stats.scrollDepth.length === 0 ? (
+            <p className="py-8 text-center text-sm text-white/40">
+              Sem dado de rolagem ainda nesse período.
+            </p>
+          ) : (
+            <div className="mt-4 space-y-3">
+              {[25, 50, 75, 100].map((milestone) => {
+                const row = stats.scrollDepth.find((s) => s.milestone === milestone);
+                const uniq = row?.uniq ?? 0;
+                const pct = baseUniq > 0 ? Math.round((uniq / baseUniq) * 100) : 0;
+                return (
+                  <div key={milestone} className="flex items-center gap-3">
+                    <span className="w-10 shrink-0 text-xs font-semibold text-white/50">
+                      {milestone}%
+                    </span>
+                    <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/10">
+                      <div
+                        className="h-full rounded-full bg-indigo-500"
+                        style={{ width: `${Math.max(pct, uniq > 0 ? 3 : 0)}%` }}
+                      />
+                    </div>
+                    <span className="w-20 shrink-0 text-right text-xs text-white/50">
+                      {uniq} ({pct}%)
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6 rounded-2xl border border-white/10 bg-[#111827] p-6">
           <h2 className="text-sm font-bold text-white/80">Por produto</h2>
           <p className="mt-1 text-xs text-white/40">
             Quem viu a página e não iniciou checkout é o primeiro lugar pra olhar. "Amostra" conta

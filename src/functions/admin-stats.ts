@@ -23,9 +23,12 @@ export type ProductRow = {
   checkouts: number;
 };
 
+export type ScrollDepthRow = { milestone: number; uniq: number };
+
 export type FunnelStats = {
   stages: FunnelStageRow[];
   products: ProductRow[];
+  scrollDepth: ScrollDepthRow[];
   totalEvents: number;
   rangeLabel: string;
 };
@@ -84,6 +87,22 @@ export const getFunnelStats = createServerFn({ method: "GET" })
           ORDER BY views DESC
         `;
 
+    const scrollRaw = since
+      ? await sql`
+          SELECT value::int AS milestone, COUNT(DISTINCT session_id)::int AS uniq
+          FROM funnel_events
+          WHERE event_name = 'scroll_depth' AND created_at >= ${since.toISOString()}
+          GROUP BY value
+          ORDER BY value
+        `
+      : await sql`
+          SELECT value::int AS milestone, COUNT(DISTINCT session_id)::int AS uniq
+          FROM funnel_events
+          WHERE event_name = 'scroll_depth'
+          GROUP BY value
+          ORDER BY value
+        `;
+
     const stages = (stagesRaw as FunnelStageRow[]).sort(
       (a, b) => (STAGE_ORDER[a.event_name] ?? 99) - (STAGE_ORDER[b.event_name] ?? 99),
     );
@@ -100,6 +119,7 @@ export const getFunnelStats = createServerFn({ method: "GET" })
     return {
       stages,
       products: productsRaw as ProductRow[],
+      scrollDepth: scrollRaw as ScrollDepthRow[],
       totalEvents: stages.reduce((sum, s) => sum + s.total, 0),
       rangeLabel,
     };
