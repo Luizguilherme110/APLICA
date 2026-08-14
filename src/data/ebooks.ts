@@ -1,4 +1,4 @@
-﻿import coverCaoEducado from "@/assets/cover-cao-educado.jpg";
+import coverCaoEducado from "@/assets/cover-cao-educado.jpg";
 import coverCelularSemMedo from "@/assets/cover-celular-sem-medo.jpg";
 import coverClienteNaPorta from "@/assets/cover-cliente-na-porta.jpg";
 import coverIaParaIniciantes from "@/assets/cover-ia-para-iniciantes.jpg";
@@ -699,7 +699,7 @@ export const ebooks: Ebook[] = [
       "5 volumes, 38 projetos de robótica com sucata para fazer com seu filho, do primeiro projeto sem motor até o jogo eletrônico. Sai mais barato que comprar solto.",
     category: "Robótica Infantil",
     format: "PDF · 5 volumes · 38 projetos práticos",
-    price: "R$ 47,90",
+    price: "R$ 39,90",
     originalPrice: "R$ 124,50",
     coverImage: coverRoboticaColecao,
     headline: "38 projetos de robótica para fazer com seu filho, do 1º ao último",
@@ -714,7 +714,7 @@ export const ebooks: Ebook[] = [
     highlights: [
       "Os 5 volumes completos: Primeiros Projetos, Motores e Movimento, Máquinas e Mecanismos, Eletrônica Básica e Jogos e Brinquedos DIY",
       "38 projetos ao todo, cobrindo de 5 a 12+ anos — a coleção cresce junto com a criança",
-      "Sai por R$ 47,90 em vez de R$ 124,50 comprando os 5 avulsos",
+      "Sai por R$ 39,90 em vez de R$ 124,50 comprando os 5 avulsos",
       "Cada volume com lista de material, passo a passo ilustrado, segurança e nível de dificuldade",
       "PDF de cada volume liberado no mesmo e-mail, todos de uma vez",
     ],
