@@ -19,6 +19,13 @@ export function Header() {
           </Link>
           <Link
             to="/"
+            hash="enem"
+            className="hidden transition-colors hover:text-foreground sm:block"
+          >
+            ENEM
+          </Link>
+          <Link
+            to="/"
             hash="faq"
             className="hidden transition-colors hover:text-foreground sm:block"
           >

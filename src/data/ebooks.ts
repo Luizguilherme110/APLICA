@@ -8,6 +8,13 @@ import coverRoboticaVol2 from "@/assets/cover-robotica-vol2.png";
 import coverRoboticaVol3 from "@/assets/cover-robotica-vol3.png";
 import coverRoboticaVol4 from "@/assets/cover-robotica-vol4.png";
 import coverRoboticaVol5 from "@/assets/cover-robotica-vol5.png";
+import coverEnemEssencial from "@/assets/cover-kit-enem-essencial.png";
+import coverEnemQuestoes from "@/assets/cover-enem-pacote-questoes-exercicios.png";
+import coverEnemRedacao from "@/assets/cover-enem-pacote-redacao.png";
+import coverEnemCienciasNatureza from "@/assets/cover-enem-pacote-ciencias-natureza.png";
+import coverEnemMatematica from "@/assets/cover-enem-pacote-matematica.png";
+import coverEnemSimuladosProvas from "@/assets/cover-enem-pacote-simulados-provas.png";
+import coverEnemCompleto from "@/assets/cover-kit-enem-completo.png";
 import { parsePriceBRL } from "@/lib/utils";
 import { isLaunchOfferActive } from "@/data/promo";
 
@@ -38,7 +45,7 @@ export type Ebook = {
   /**
    * TODO: substituir pelo link real de checkout gerado na Cakto assim que o
    * produto estiver cadastrado por lá. Enquanto este valor apontar para
-   * "#checkout-pendente", os botões de compra ficam desabilitados no site.
+   * CHECKOUT_PENDING, os botões de compra ficam desabilitados no site.
    */
   checkoutUrl: string;
   /**
@@ -47,6 +54,16 @@ export type Ebook = {
    * amostra na página do produto.
    */
   sampleUrl?: string;
+  /** Texto do botão de compra. Sem campo = "Comprar agora". */
+  ctaLabel?: string;
+  /** Título da seção de módulos na página do produto. Sem campo = "O que você vai aprender". */
+  modulesHeading?: string;
+  /**
+   * Se dá pra parcelar em até 8x no cartão (mostra "até 8x no cartão" perto
+   * do preço). Sem campo = true. Usar false quando o valor for baixo demais
+   * pra parcelar na Cakto.
+   */
+  installments?: boolean;
 };
 
 export const STORE = {
@@ -54,6 +71,10 @@ export const STORE = {
   tagline: "Guias práticos para você aplicar ainda hoje",
   supportEmail: "contato@aplica.com.br",
 };
+
+/** Sentinela de checkout ainda não cadastrado na Cakto — desabilita os botões de compra. */
+export const CHECKOUT_PENDING = "#checkout-pendente";
+export const isCheckoutPending = (checkoutUrl: string): boolean => checkoutUrl === CHECKOUT_PENDING;
 
 export const ebooks: Ebook[] = [
   {
@@ -751,6 +772,287 @@ export const ebooks: Ebook[] = [
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/nytaca3_1034888",
   },
+  {
+    slug: "kit-enem-essencial",
+    title: "Kit ENEM Essencial",
+    tagline:
+      "Pacote de materiais selecionados para organizar seus estudos e revisar para o ENEM sem procurar conteúdo espalhado.",
+    category: "Apoio ENEM",
+    format: "PDF · Material digital",
+    price: "R$ 19,90",
+    coverImage: coverEnemEssencial,
+    headline: "Organize seus estudos e tenha materiais de revisão em um só lugar",
+    subheadline:
+      "Um pacote de materiais selecionados para quem quer começar ou acelerar os estudos para o ENEM sem precisar procurar conteúdo em dezenas de lugares.",
+    audience: [
+      "Quem vai prestar o ENEM e quer organizar os estudos",
+      "Quem deixou para estudar mais perto da prova",
+      "Quem procura materiais de revisão num só lugar, sem perder tempo pesquisando",
+    ],
+    notFor: ["Quem já tem um cronograma de estudos fechado e não precisa de material extra"],
+    highlights: [
+      "Questões para praticar",
+      "Materiais de revisão",
+      "Conteúdos de apoio",
+      "Materiais organizados por área",
+      "Conteúdos para estudar no seu ritmo",
+    ],
+    // TODO: copy a validar com o cliente assim que os arquivos de cada área
+    // forem selecionados e associados a este produto.
+    modules: [
+      {
+        title: "Questões e exercícios",
+        description: "Pratique com questões selecionadas para reforçar o conteúdo.",
+      },
+      {
+        title: "Materiais de revisão",
+        description: "Resumos e conteúdos organizados para revisar antes da prova.",
+      },
+      {
+        title: "Conteúdos de apoio",
+        description: "Materiais complementares organizados por área para apoiar seus estudos.",
+      },
+    ],
+    actionPlan:
+      "Você recebe o acesso aos materiais assim que o pagamento é confirmado e organiza sua rotina de estudos no seu próprio ritmo, sem prazo para acessar o conteúdo.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/qyxma4z_1047701",
+    ctaLabel: "Quero estudar para o ENEM",
+    modulesHeading: "O que você recebe",
+    installments: false,
+  },
+  {
+    slug: "enem-pacote-questoes-exercicios",
+    title: "Pacote de Questões e Exercícios",
+    tagline: "Questões e exercícios para praticar e reforçar seus estudos para o ENEM.",
+    category: "Apoio ENEM",
+    format: "PDF · Material digital",
+    price: "R$ 5,90",
+    coverImage: coverEnemQuestoes,
+    headline: "Pratique mais, sem procurar em outro lugar",
+    subheadline:
+      "Pratique com diferentes materiais de questões e exercícios para reforçar seus estudos.",
+    audience: [
+      "Quem já tem o Kit ENEM Essencial e quer praticar mais",
+      "Quem quer treinar com mais questões antes da prova",
+    ],
+    notFor: ["Quem procura só teoria, sem exercícios práticos"],
+    highlights: [
+      "Questões para praticar",
+      "Material organizado para revisão ativa",
+      "Conteúdo para estudar no seu ritmo",
+    ],
+    // TODO: copy a validar com o cliente assim que os arquivos forem selecionados.
+    modules: [
+      {
+        title: "Questões e exercícios",
+        description: "Pratique com questões selecionadas para reforçar o conteúdo.",
+      },
+    ],
+    actionPlan:
+      "Você recebe o acesso ao material assim que o pagamento é confirmado, pronto para praticar no seu ritmo.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/353s4p4_1047718",
+    modulesHeading: "O que você recebe",
+    installments: false,
+  },
+  {
+    slug: "enem-pacote-redacao",
+    title: "Pacote de Redação",
+    tagline: "Materiais de apoio para estudar e revisar redação para o ENEM.",
+    category: "Apoio ENEM",
+    format: "PDF · Material digital",
+    price: "R$ 7,90",
+    coverImage: coverEnemRedacao,
+    headline: "Reforce sua redação com material de apoio",
+    subheadline: "Materiais de apoio para estudar e revisar redação para o ENEM.",
+    audience: [
+      "Quem já tem o Kit ENEM Essencial e quer reforçar a redação",
+      "Quem quer revisar estrutura e argumentação antes da prova",
+    ],
+    notFor: ["Quem procura correção individual de redação"],
+    highlights: [
+      "Materiais de apoio para redação",
+      "Conteúdo de revisão organizado",
+      "Material para estudar no seu ritmo",
+    ],
+    // TODO: copy a validar com o cliente assim que os arquivos forem selecionados.
+    modules: [
+      {
+        title: "Redação",
+        description: "Materiais de apoio para estudar e revisar redação para o ENEM.",
+      },
+    ],
+    actionPlan:
+      "Você recebe o acesso ao material assim que o pagamento é confirmado, pronto para revisar no seu ritmo.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/i75psqx_1047722",
+    modulesHeading: "O que você recebe",
+    installments: false,
+  },
+  {
+    slug: "enem-pacote-ciencias-natureza",
+    title: "Pacote de Ciências da Natureza",
+    tagline: "Materiais para revisar os principais conteúdos das Ciências da Natureza.",
+    category: "Apoio ENEM",
+    format: "PDF · Material digital",
+    price: "R$ 7,90",
+    coverImage: coverEnemCienciasNatureza,
+    headline: "Física, Química e Biologia num só material",
+    subheadline: "Materiais para revisar os principais conteúdos das Ciências da Natureza.",
+    audience: [
+      "Quem já tem o Kit ENEM Essencial e quer reforçar Ciências da Natureza",
+      "Quem quer revisar Física, Química e Biologia antes da prova",
+    ],
+    notFor: ["Quem procura só uma dessas matérias isoladamente"],
+    highlights: [
+      "Materiais de Física, Química e Biologia",
+      "Conteúdo organizado para revisão",
+      "Material para estudar no seu ritmo",
+    ],
+    // TODO: copy a validar com o cliente assim que os arquivos forem selecionados.
+    modules: [
+      {
+        title: "Ciências da Natureza",
+        description: "Materiais para revisar os principais conteúdos de Física, Química e Biologia.",
+      },
+    ],
+    actionPlan:
+      "Você recebe o acesso ao material assim que o pagamento é confirmado, pronto para revisar no seu ritmo.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/3duxy4c_1047726",
+    modulesHeading: "O que você recebe",
+    installments: false,
+  },
+  {
+    slug: "enem-pacote-matematica",
+    title: "Pacote de Matemática",
+    tagline: "Materiais para revisar matemática e praticar questões.",
+    category: "Apoio ENEM",
+    format: "PDF · Material digital",
+    price: "R$ 5,90",
+    coverImage: coverEnemMatematica,
+    headline: "Reforce matemática no seu ritmo",
+    subheadline: "Materiais para revisar matemática e praticar questões.",
+    audience: [
+      "Quem já tem o Kit ENEM Essencial e quer reforçar matemática",
+      "Quem quer praticar mais questões de matemática antes da prova",
+    ],
+    notFor: ["Quem procura aula em vídeo, não material em PDF"],
+    highlights: [
+      "Materiais de matemática",
+      "Questões para praticar",
+      "Material para estudar no seu ritmo",
+    ],
+    // TODO: copy a validar com o cliente assim que os arquivos forem selecionados.
+    modules: [
+      {
+        title: "Matemática",
+        description: "Materiais para revisar matemática e praticar questões.",
+      },
+    ],
+    actionPlan:
+      "Você recebe o acesso ao material assim que o pagamento é confirmado, pronto para praticar no seu ritmo.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/3epocmv_1047732",
+    modulesHeading: "O que você recebe",
+    installments: false,
+  },
+  {
+    slug: "enem-pacote-simulados-provas",
+    title: "Pacote de Simulados e Provas",
+    tagline: "Materiais para praticar em formato de prova e testar seus conhecimentos.",
+    category: "Apoio ENEM",
+    format: "PDF · Material digital",
+    price: "R$ 7,90",
+    coverImage: coverEnemSimuladosProvas,
+    headline: "Treine no formato real da prova",
+    subheadline: "Materiais para praticar em formato de prova e testar seus conhecimentos.",
+    audience: [
+      "Quem já tem o Kit ENEM Essencial e quer treinar em formato de prova",
+      "Quem quer testar o próprio ritmo antes do dia do ENEM",
+    ],
+    notFor: ["Quem procura correção automática ou nota comparativa"],
+    highlights: [
+      "Materiais em formato de prova",
+      "Conteúdo para testar seus conhecimentos",
+      "Material para estudar no seu ritmo",
+    ],
+    // TODO: copy a validar com o cliente assim que os arquivos forem selecionados.
+    modules: [
+      {
+        title: "Simulados e provas",
+        description: "Materiais para praticar em formato de prova e testar seus conhecimentos.",
+      },
+    ],
+    actionPlan:
+      "Você recebe o acesso ao material assim que o pagamento é confirmado, pronto para treinar no seu ritmo.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/k8aisst_1047734",
+    modulesHeading: "O que você recebe",
+    installments: false,
+  },
+  {
+    slug: "kit-enem-completo",
+    title: "Kit ENEM Completo",
+    tagline: "Reúna os principais materiais da seção Apoio ENEM em uma única compra.",
+    category: "Apoio ENEM",
+    format: "PDF · Material digital",
+    price: "R$ 49,90",
+    coverImage: coverEnemCompleto,
+    headline: "Reúna toda a preparação para o ENEM em um só lugar",
+    subheadline: "Reúna os principais materiais da seção em uma única compra.",
+    audience: [
+      "Quem já sabe que vai usar mais de um material e prefere economizar comprando junto",
+      "Quem quer montar um plano de estudos completo sem comprar pacote por pacote",
+    ],
+    notFor: ["Quem só quer testar um pacote antes de decidir (comece pelo Kit Essencial, avulso)"],
+    highlights: [
+      "Questões e exercícios",
+      "Redação",
+      "Matemática",
+      "Ciências da Natureza",
+      "Simulados e provas",
+      "Materiais organizados por área",
+    ],
+    // TODO: copy a validar com o cliente assim que os arquivos forem selecionados.
+    modules: [
+      {
+        title: "Questões e exercícios",
+        description: "Pratique com questões selecionadas para reforçar o conteúdo.",
+      },
+      {
+        title: "Redação",
+        description: "Materiais de apoio para estudar e revisar redação para o ENEM.",
+      },
+      {
+        title: "Matemática",
+        description: "Materiais para revisar matemática e praticar questões.",
+      },
+      {
+        title: "Ciências da Natureza",
+        description: "Materiais para revisar os principais conteúdos de Física, Química e Biologia.",
+      },
+      {
+        title: "Simulados e provas",
+        description: "Materiais para praticar em formato de prova e testar seus conhecimentos.",
+      },
+    ],
+    actionPlan:
+      "Você recebe o acesso a todos os materiais assim que o pagamento é confirmado e organiza sua rotina de estudos no seu próprio ritmo.",
+    guarantee:
+      "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
+    checkoutUrl: "https://pay.cakto.com.br/dr8bb72_1047738",
+    ctaLabel: "Quero o Kit Completo",
+    modulesHeading: "O que você recebe",
+    installments: true,
+  },
 ];
 
 export const getEbook = (slug: string) => ebooks.find((e) => e.slug === slug);
@@ -789,3 +1091,19 @@ export const cheapestPrice = cheapestPriceOf(ebooks);
 
 /** Categoria dos produtos de robótica infantil — tratados numa seção própria, fora do catálogo geral. */
 export const ROBOTICS_CATEGORY = "Robótica Infantil";
+
+/** Categoria dos produtos de apoio ao ENEM — tratados numa seção própria, fora do catálogo geral. */
+export const ENEM_CATEGORY = "Apoio ENEM";
+
+/**
+ * Categorias com seção própria, cujos produtos só recomendam produtos da
+ * mesma família na página de produto (ver getProductFamily). Qualquer
+ * categoria que não estiver aqui cai em "guias", a família genérica.
+ */
+const MULTI_PRODUCT_CATEGORIES: Record<string, string> = {
+  [ROBOTICS_CATEGORY]: "robotica",
+  [ENEM_CATEGORY]: "enem",
+};
+
+export const getProductFamily = (ebook: Pick<Ebook, "category">): string =>
+  MULTI_PRODUCT_CATEGORIES[ebook.category] ?? "guias";

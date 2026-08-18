@@ -24,7 +24,10 @@ import { Testimonials } from "@/components/site/Testimonials";
 import { ScreenshotTestimonials } from "@/components/site/ScreenshotTestimonials";
 import { LaunchOfferBanner } from "@/components/site/LaunchOfferBanner";
 import { RoboticsCollectionSection } from "@/components/site/RoboticsCollectionSection";
-import { cheapestPriceOf, ebooks, ROBOTICS_CATEGORY, STORE } from "@/data/ebooks";
+import { EnemSection } from "@/components/site/EnemSection";
+import { cheapestPriceOf, ebooks, ENEM_CATEGORY, ROBOTICS_CATEGORY, STORE } from "@/data/ebooks";
+
+const SPECIAL_CATEGORIES: string[] = [ROBOTICS_CATEGORY, ENEM_CATEGORY];
 
 const title = `${STORE.name} | ${STORE.tagline}`;
 const description =
@@ -85,10 +88,10 @@ const faqs = [
 ];
 
 function Index() {
-  // A robótica infantil tem seção própria (RoboticsCollectionSection) por ser
-  // um público diferente do resto do catálogo — fica fora do grid geral e do
+  // Robótica infantil e Apoio ENEM têm seção própria por serem públicos
+  // diferentes do resto do catálogo — ficam fora do grid geral e do
   // rotativo do hero.
-  const catalogEbooks = ebooks.filter((e) => e.category !== ROBOTICS_CATEGORY);
+  const catalogEbooks = ebooks.filter((e) => !SPECIAL_CATEGORIES.includes(e.category));
   const catalogCheapestPrice = cheapestPriceOf(catalogEbooks);
 
   const [featuredIndex, setFeaturedIndex] = useState(0);
@@ -214,6 +217,7 @@ function Index() {
         </section>
 
         <RoboticsCollectionSection />
+        <EnemSection />
 
         <ScreenshotTestimonials />
         <Testimonials className="border-t-0" />

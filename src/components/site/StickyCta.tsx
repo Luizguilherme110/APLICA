@@ -1,18 +1,18 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PriceTag } from "@/components/site/PriceTag";
-import type { Ebook } from "@/data/ebooks";
+import { isCheckoutPending, type Ebook } from "@/data/ebooks";
 
 export function StickyCta({
   ebook,
   href,
   onCheckout,
 }: {
-  ebook: Pick<Ebook, "price" | "originalPrice">;
+  ebook: Pick<Ebook, "price" | "originalPrice" | "installments">;
   href: string;
   onCheckout?: () => void;
 }) {
-  const pending = href === "#checkout-pendente";
+  const pending = isCheckoutPending(href);
 
   return (
     <div
@@ -20,7 +20,12 @@ export function StickyCta({
       style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
     >
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-        <PriceTag ebook={ebook} size="md" showInstallment className="min-w-0" />
+        <PriceTag
+          ebook={ebook}
+          size="md"
+          showInstallment={ebook.installments ?? true}
+          className="min-w-0"
+        />
         {pending ? (
           <Button variant="cta" className="h-11 shrink-0 px-5" disabled>
             Em breve

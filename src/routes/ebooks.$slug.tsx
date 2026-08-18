@@ -1,6 +1,5 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { track as trackVercelAnalytics } from "@vercel/analytics/react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -22,31 +21,11 @@ import { ScreenshotTestimonials } from "@/components/site/ScreenshotTestimonials
 import { PriceTag } from "@/components/site/PriceTag";
 import { LaunchOfferBanner } from "@/components/site/LaunchOfferBanner";
 import { SampleModal } from "@/components/site/SampleModal";
-import { ebooks, effectivePrice, getEbook, ROBOTICS_CATEGORY, type Ebook } from "@/data/ebooks";
-import { trackInitiateCheckout, trackViewContent } from "@/lib/meta-pixel";
-import { logFunnelEvent } from "@/lib/funnel-analytics";
+import { EnemCrossSell } from "@/components/site/EnemCrossSell";
+import { ebooks, getEbook, getProductFamily, isCheckoutPending, type Ebook } from "@/data/ebooks";
+import { reportCheckoutIntent, reportProductView } from "@/lib/product-analytics";
 import { withAttribution } from "@/lib/attribution";
-import { cn, parsePriceBRL } from "@/lib/utils";
-
-/**
- * Sinaliza que o visitante abriu a página do produto — segundo degrau do
- * funil, antes de clicar em comprar. Dispara em 3 sistemas: Meta Pixel (Ads
- * Manager), Vercel Analytics, e o funil interno (src/routes/admin.tsx).
- */
-function reportProductView(ebook: Ebook) {
-  const value = parsePriceBRL(effectivePrice(ebook));
-  trackViewContent({ contentName: ebook.title, contentId: ebook.slug, value });
-  trackVercelAnalytics("view_ebook", { slug: ebook.slug, category: ebook.category, value });
-  logFunnelEvent("view_ebook", { slug: ebook.slug, category: ebook.category, value });
-}
-
-/** Sinaliza que o visitante saiu para o checkout da Cakto — último degrau antes da compra. */
-function reportCheckoutIntent(ebook: Ebook) {
-  const value = parsePriceBRL(effectivePrice(ebook));
-  trackInitiateCheckout({ contentName: ebook.title, contentId: ebook.slug, value });
-  trackVercelAnalytics("initiate_checkout", { slug: ebook.slug, category: ebook.category, value });
-  logFunnelEvent("initiate_checkout", { slug: ebook.slug, category: ebook.category, value });
-}
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/ebooks/$slug")({
   loader: ({ params }) => {
@@ -74,9 +53,7 @@ export const Route = createFileRoute("/ebooks/$slug")({
 });
 
 function BuyButton({ ebook, className }: { ebook: Ebook; className?: string }) {
-  const pending = ebook.checkoutUrl === "#checkout-pendente";
-
-  if (pending) {
+  if (isCheckoutPending(ebook.checkoutUrl)) {
     return (
       <Button variant="cta" size="xl" className={className} disabled>
         Em breve
@@ -87,7 +64,7 @@ function BuyButton({ ebook, className }: { ebook: Ebook; className?: string }) {
   return (
     <Button asChild variant="cta" size="xl" className={className}>
       <a href={withAttribution(ebook.checkoutUrl)} onClick={() => reportCheckoutIntent(ebook)}>
-        Comprar agora <ArrowRight />
+        {ebook.ctaLabel ?? "Comprar agora"} <ArrowRight />
       </a>
     </Button>
   );
@@ -95,12 +72,10 @@ function BuyButton({ ebook, className }: { ebook: Ebook; className?: string }) {
 
 function EbookPage() {
   const { ebook } = Route.useLoaderData() as { ebook: Ebook };
-  // Robótica infantil é um público à parte — não mistura com o resto do
-  // catálogo na lista de "outros guias".
-  const isRobotics = ebook.category === ROBOTICS_CATEGORY;
-  const others = ebooks.filter(
-    (e) => e.slug !== ebook.slug && (e.category === ROBOTICS_CATEGORY) === isRobotics,
-  );
+  // Cada família de produto (guias, robótica, ENEM) só recomenda produtos da
+  // mesma família na lista de "outros guias" — ver getProductFamily.
+  const family = getProductFamily(ebook);
+  const others = ebooks.filter((e) => e.slug !== ebook.slug && getProductFamily(e) === family);
 
   useEffect(() => {
     reportProductView(ebook);
@@ -144,11 +119,12 @@ function EbookPage() {
                 </ul>
 
                 <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-                  <PriceTag ebook={ebook} size="lg" showInstallment />
+                  <PriceTag ebook={ebook} size="lg" showInstallment={ebook.installments ?? true} />
                   <BuyButton ebook={ebook} />
                 </div>
                 <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Lock className="size-3.5" /> Pagamento seguro via Cakto • Pix ou até 8x no cartão
+                  <Lock className="size-3.5" /> Pagamento seguro via Cakto • Pix ou{" "}
+                  {ebook.installments ?? true ? "até 8x no cartão" : "cartão"}
                 </p>
                 <p className="mt-1.5 flex items-center gap-1.5 text-xs text-muted-foreground">
                   <Download className="size-3.5" /> PDF por e-mail assim que o pagamento é
@@ -184,7 +160,7 @@ function EbookPage() {
 
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
           <h2 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
-            O que você vai aprender
+            {ebook.modulesHeading ?? "O que você vai aprender"}
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">{ebook.format}</p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -280,7 +256,9 @@ function EbookPage() {
           </div>
         </section>
 
-        {others.length > 0 && (
+        <EnemCrossSell ebook={ebook} />
+
+        {family !== "enem" && others.length > 0 && (
           <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
             <h2 className="text-lg font-bold tracking-tight text-foreground">Outros guias</h2>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
