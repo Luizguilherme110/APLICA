@@ -210,7 +210,7 @@ export const ebooks: Ebook[] = [
       "101 maneiras de usar inteligência artificial para economizar 1 hora por dia, com prompts prontos para copiar.",
     category: "Inteligência Artificial",
     format: "PDF · 30 páginas · 7 módulos + bônus",
-    price: "R$ 57,90",
+    price: "R$ 49,90",
     originalPrice: "R$ 129,90",
     coverImage: coverIaParaIniciantes,
     headline: "Uma hora por dia é muito tempo de volta no seu bolso",
