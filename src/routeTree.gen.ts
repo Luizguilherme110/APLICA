@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminPrecosRouteImport } from './routes/admin.precos'
 import { Route as EbooksSlugRouteImport } from './routes/ebooks.$slug'
 
@@ -23,6 +24,11 @@ const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AdminPrecosRoute = AdminPrecosRouteImport.update({
   id: '/precos',
@@ -40,12 +46,13 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/admin/precos': typeof AdminPrecosRoute
   '/ebooks/$slug': typeof EbooksSlugRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
   '/admin/precos': typeof AdminPrecosRoute
   '/ebooks/$slug': typeof EbooksSlugRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +60,15 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/admin/precos': typeof AdminPrecosRoute
   '/ebooks/$slug': typeof EbooksSlugRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/admin/precos' | '/ebooks/$slug'
+  fullPaths: '/' | '/admin' | '/admin/precos' | '/ebooks/$slug' | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/admin/precos' | '/ebooks/$slug'
-  id: '__root__' | '/' | '/admin' | '/admin/precos' | '/ebooks/$slug'
+  to: '/' | '/admin/precos' | '/ebooks/$slug' | '/admin'
+  id:
+    '__root__' | '/' | '/admin' | '/admin/precos' | '/ebooks/$slug' | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -84,6 +93,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/precos': {
       id: '/admin/precos'
       path: '/precos'
@@ -103,10 +119,12 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminPrecosRoute: typeof AdminPrecosRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminPrecosRoute: AdminPrecosRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
