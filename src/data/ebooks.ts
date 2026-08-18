@@ -1057,6 +1057,37 @@ export const ebooks: Ebook[] = [
 
 export const getEbook = (slug: string) => ebooks.find((e) => e.slug === slug);
 
+/** Id da oferta na Cakto, extraído do checkoutUrl (formato pay.cakto.com.br/{offerId}_{n}). */
+export const getOfferId = (ebook: Pick<Ebook, "checkoutUrl">): string => {
+  const match = ebook.checkoutUrl.match(/pay\.cakto\.com\.br\/([^_/]+)/);
+  const offerId = match?.[1];
+  if (!offerId) throw new Error(`checkoutUrl sem offerId reconhecível: ${ebook.checkoutUrl}`);
+  return offerId;
+};
+
+export type PriceOverride = { priceCents: number; originalPriceCents: number | null };
+export type PriceOverrideMap = Record<string, PriceOverride>;
+
+const formatCentsBRL = (cents: number): string => `R$ ${(cents / 100).toFixed(2).replace(".", ",")}`;
+
+/** Aplica um preço editado no admin sobre o preço padrão do catálogo — o resto do produto não muda. */
+export const applyPriceOverride = (ebook: Ebook, override?: PriceOverride): Ebook => {
+  if (!override) return ebook;
+  const next: Ebook = { ...ebook, price: formatCentsBRL(override.priceCents) };
+  if (override.originalPriceCents != null) {
+    next.originalPrice = formatCentsBRL(override.originalPriceCents);
+  } else {
+    // Sem "de" no override, o riscado antigo do catálogo estático não pode
+    // sobreviver — senão effectivePrice() volta a cair nele quando a
+    // campanha de lançamento expirar (ver promo.ts).
+    delete next.originalPrice;
+  }
+  return next;
+};
+
+export const applyPriceOverrides = (list: Ebook[], overrides: PriceOverrideMap): Ebook[] =>
+  list.map((e) => applyPriceOverride(e, overrides[e.slug]));
+
 /**
  * Preço que deve aparecer como "atual" agora. Enquanto a campanha de
  * lançamento estiver ativa (src/data/promo.ts), é o price promocional;

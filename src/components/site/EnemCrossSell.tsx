@@ -3,7 +3,8 @@ import { ArrowRight } from "lucide-react";
 import { BookCover } from "@/components/site/BookCover";
 import { PriceTag } from "@/components/site/PriceTag";
 import { EnemUpsellCard } from "@/components/site/EnemUpsellCard";
-import { ebooks, ENEM_CATEGORY, effectivePrice, getEbook, type Ebook } from "@/data/ebooks";
+import { ENEM_CATEGORY, effectivePrice, type Ebook } from "@/data/ebooks";
+import { useCatalog } from "@/lib/catalog-context";
 import { cn, parsePriceBRL } from "@/lib/utils";
 
 const COMPLETE_SLUG = "kit-enem-completo";
@@ -15,6 +16,7 @@ const ESSENTIAL_SLUG = "kit-enem-essencial";
  * para o Kit Completo. Some sozinho para produtos fora da categoria ENEM.
  */
 export function EnemCrossSell({ ebook }: { ebook: Ebook }) {
+  const { ebooks, getEbook } = useCatalog();
   if (ebook.category !== ENEM_CATEGORY) return null;
 
   const bundle = getEbook(COMPLETE_SLUG);

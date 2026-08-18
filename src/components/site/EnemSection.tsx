@@ -5,7 +5,8 @@ import { BookCover } from "@/components/site/BookCover";
 import { EbookCard } from "@/components/site/EbookCard";
 import { PriceTag } from "@/components/site/PriceTag";
 import { EnemContentCategories } from "@/components/site/EnemContentCategories";
-import { ebooks, ENEM_CATEGORY, getEbook } from "@/data/ebooks";
+import { ENEM_CATEGORY } from "@/data/ebooks";
+import { useCatalog } from "@/lib/catalog-context";
 
 const ESSENTIAL_SLUG = "kit-enem-essencial";
 const COMPLETE_SLUG = "kit-enem-completo";
@@ -17,6 +18,7 @@ const COMPLETE_SLUG = "kit-enem-completo";
  * existir em src/data/ebooks.ts.
  */
 export function EnemSection() {
+  const { ebooks, getEbook } = useCatalog();
   const essential = getEbook(ESSENTIAL_SLUG);
   const complete = getEbook(COMPLETE_SLUG);
   const packs = ebooks.filter(

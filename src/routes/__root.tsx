@@ -23,6 +23,8 @@ import { WhatsAppButton } from "../components/site/WhatsAppButton";
 import { logFunnelEvent } from "../lib/funnel-analytics";
 import { watchScrollDepth } from "../lib/scroll-depth";
 import { captureAttribution } from "../lib/attribution";
+import { CatalogProvider } from "../lib/catalog-context";
+import { getPriceOverrides } from "../functions/product-prices";
 
 function NotFoundComponent() {
   return (
@@ -85,6 +87,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  loader: async () => ({ priceOverrides: await getPriceOverrides() }),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -144,6 +147,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { priceOverrides } = Route.useLoaderData();
 
   // O snippet no <head> já dispara o PageView do primeiro carregamento. Como a
   // navegação entre rotas é client-side, as trocas seguintes precisam disparar
@@ -186,9 +190,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      <WhatsAppButton />
+      <CatalogProvider overrides={priceOverrides}>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+        <WhatsAppButton />
+      </CatalogProvider>
     </QueryClientProvider>
   );
 }

@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Copy, LogOut, RefreshCw, TrendingDown } from "lucide-react";
 import { checkAdminSession, adminLogin, adminLogout } from "@/functions/admin-auth";
@@ -167,6 +167,12 @@ function Dashboard({
             <p className="mt-1 text-sm text-white/50">
               Onde o visitante desiste, do jeito que a loja realmente rastreia hoje.
             </p>
+            <Link
+              to="/admin/precos"
+              className="mt-2 inline-block text-xs font-semibold text-indigo-400 hover:underline"
+            >
+              Editar preços dos produtos →
+            </Link>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex rounded-lg border border-white/10 bg-white/5 p-1">

@@ -25,7 +25,8 @@ import { ScreenshotTestimonials } from "@/components/site/ScreenshotTestimonials
 import { LaunchOfferBanner } from "@/components/site/LaunchOfferBanner";
 import { RoboticsCollectionSection } from "@/components/site/RoboticsCollectionSection";
 import { EnemSection } from "@/components/site/EnemSection";
-import { cheapestPriceOf, ebooks, ENEM_CATEGORY, ROBOTICS_CATEGORY, STORE } from "@/data/ebooks";
+import { cheapestPriceOf, ENEM_CATEGORY, ROBOTICS_CATEGORY, STORE } from "@/data/ebooks";
+import { useCatalog } from "@/lib/catalog-context";
 
 const SPECIAL_CATEGORIES: string[] = [ROBOTICS_CATEGORY, ENEM_CATEGORY];
 
@@ -88,6 +89,7 @@ const faqs = [
 ];
 
 function Index() {
+  const { ebooks } = useCatalog();
   // Robótica infantil e Apoio ENEM têm seção própria por serem públicos
   // diferentes do resto do catálogo — ficam fora do grid geral e do
   // rotativo do hero.

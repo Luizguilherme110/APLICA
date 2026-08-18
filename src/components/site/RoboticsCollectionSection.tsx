@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Check } from "lucide-react";
-import { ebooks, getEbook, ROBOTICS_CATEGORY } from "@/data/ebooks";
+import { ROBOTICS_CATEGORY } from "@/data/ebooks";
+import { useCatalog } from "@/lib/catalog-context";
 import { BookCover } from "@/components/site/BookCover";
 import { EbookCard } from "@/components/site/EbookCard";
 import { PriceTag } from "@/components/site/PriceTag";
@@ -14,6 +15,7 @@ const BUNDLE_SLUG = "robotica-colecao-completa";
  * src/data/ebooks.ts.
  */
 export function RoboticsCollectionSection() {
+  const { ebooks, getEbook } = useCatalog();
   const bundle = getEbook(BUNDLE_SLUG);
   const volumes = ebooks.filter(
     (e) => e.category === ROBOTICS_CATEGORY && e.slug !== BUNDLE_SLUG,

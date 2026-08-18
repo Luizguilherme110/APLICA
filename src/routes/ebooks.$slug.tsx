@@ -22,16 +22,26 @@ import { PriceTag } from "@/components/site/PriceTag";
 import { LaunchOfferBanner } from "@/components/site/LaunchOfferBanner";
 import { SampleModal } from "@/components/site/SampleModal";
 import { EnemCrossSell } from "@/components/site/EnemCrossSell";
-import { ebooks, getEbook, getProductFamily, isCheckoutPending, type Ebook } from "@/data/ebooks";
+import { EnemUpsellModal } from "@/components/site/EnemUpsellModal";
+import {
+  getEbook,
+  getProductFamily,
+  isCheckoutPending,
+  applyPriceOverride,
+  type Ebook,
+} from "@/data/ebooks";
+import { getPriceOverrides } from "@/functions/product-prices";
+import { useCatalog } from "@/lib/catalog-context";
 import { reportCheckoutIntent, reportProductView } from "@/lib/product-analytics";
 import { withAttribution } from "@/lib/attribution";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/ebooks/$slug")({
-  loader: ({ params }) => {
-    const ebook = getEbook(params.slug);
-    if (!ebook) throw notFound();
-    return { ebook };
+  loader: async ({ params }) => {
+    const base = getEbook(params.slug);
+    if (!base) throw notFound();
+    const overrides = await getPriceOverrides();
+    return { ebook: applyPriceOverride(base, overrides[base.slug]) };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
@@ -72,6 +82,7 @@ function BuyButton({ ebook, className }: { ebook: Ebook; className?: string }) {
 
 function EbookPage() {
   const { ebook } = Route.useLoaderData() as { ebook: Ebook };
+  const { ebooks } = useCatalog();
   // Cada família de produto (guias, robótica, ENEM) só recomenda produtos da
   // mesma família na lista de "outros guias" — ver getProductFamily.
   const family = getProductFamily(ebook);
@@ -287,6 +298,7 @@ function EbookPage() {
       </main>
 
       <Footer />
+      <EnemUpsellModal ebook={ebook} />
       <StickyCta
         ebook={ebook}
         href={withAttribution(ebook.checkoutUrl)}
