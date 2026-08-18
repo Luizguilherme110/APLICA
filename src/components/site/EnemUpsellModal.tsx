@@ -40,7 +40,7 @@ export function EnemUpsellModal({ ebook }: { ebook: Ebook }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-xl">
+      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>Leve mais barato comprando junto</DialogTitle>
           <DialogDescription>
