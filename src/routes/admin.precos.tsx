@@ -63,19 +63,28 @@ function PriceRow({ ebook }: { ebook: Ebook }) {
 
     setPending(true);
     setFeedback(null);
-    const result = await updateProductPrice({
-      data: {
-        slug: ebook.slug,
-        priceCents: Math.round(priceNum * 100),
-        originalPriceCents: originalNum != null ? Math.round(originalNum * 100) : null,
-      },
-    });
-    setPending(false);
-    setFeedback(
-      result.ok
-        ? { ok: true, message: "Salvo — Cakto e site atualizados." }
-        : { ok: false, message: result.error },
-    );
+    try {
+      const result = await updateProductPrice({
+        data: {
+          slug: ebook.slug,
+          priceCents: Math.round(priceNum * 100),
+          originalPriceCents: originalNum != null ? Math.round(originalNum * 100) : null,
+        },
+      });
+      setFeedback(
+        result.ok
+          ? { ok: true, message: "Salvo — Cakto e site atualizados." }
+          : { ok: false, message: result.error },
+      );
+    } catch (err) {
+      console.error("[admin/precos] falha ao salvar:", err);
+      setFeedback({
+        ok: false,
+        message: `Erro inesperado: ${err instanceof Error ? err.message : String(err)}`,
+      });
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
