@@ -23,6 +23,7 @@ import { LaunchOfferBanner } from "@/components/site/LaunchOfferBanner";
 import { SampleModal } from "@/components/site/SampleModal";
 import { EnemCrossSell } from "@/components/site/EnemCrossSell";
 import { EnemUpsellModal } from "@/components/site/EnemUpsellModal";
+import { EnemCompareStrip } from "@/components/site/EnemCompareStrip";
 import {
   getEbook,
   getProductFamily,
@@ -168,6 +169,8 @@ function EbookPage() {
             </div>
           </div>
         </section>
+
+        <EnemCompareStrip ebook={ebook} />
 
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
           <h2 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
