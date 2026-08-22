@@ -5,7 +5,7 @@
 
 // Adicione quantos Pixels precisar no array:
 export const META_PIXEL_IDS = [
-  "1853410602304613", // Pixel novo (conta Meta Ads criada em 2026-08)
+  "1584126873441155",
 ];
 
 declare global {
