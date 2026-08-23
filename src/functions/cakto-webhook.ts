@@ -113,7 +113,7 @@ export async function handleCaktoWebhook(request: Request): Promise<Response> {
         ${utmSource},
         ${utmCampaign}
       )
-      ON CONFLICT (cakto_id) DO NOTHING
+      ON CONFLICT (cakto_id, event) DO NOTHING
     `;
   } catch (err) {
     console.error("[cakto-webhook] falha ao gravar:", err);

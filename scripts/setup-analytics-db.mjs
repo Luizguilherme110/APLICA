@@ -43,12 +43,14 @@ await sql`CREATE INDEX IF NOT EXISTS sample_leads_slug_idx ON sample_leads (slug
 await sql`CREATE INDEX IF NOT EXISTS sample_leads_created_at_idx ON sample_leads (created_at)`;
 
 // Vendas reais, recebidas via webhook da Cakto (src/functions/cakto-webhook.ts).
-// cakto_id é o "data.id" do payload — chave de idempotência: a Cakto pode
-// reenviar o mesmo evento, e ON CONFLICT DO NOTHING evita contar duas vezes.
+// (cakto_id, event) é a chave de idempotência: a Cakto pode reenviar o
+// mesmo evento, e ON CONFLICT DO NOTHING evita contar duas vezes — mas
+// eventos diferentes do mesmo cakto_id (pix_gerado, depois purchase_approved)
+// são estágios distintos da mesma transação, cada um com sua linha.
 await sql`
   CREATE TABLE IF NOT EXISTS purchases (
     id BIGSERIAL PRIMARY KEY,
-    cakto_id TEXT NOT NULL UNIQUE,
+    cakto_id TEXT NOT NULL,
     event TEXT NOT NULL,
     status TEXT,
     product_id TEXT,
@@ -63,6 +65,14 @@ await sql`
 await sql`CREATE INDEX IF NOT EXISTS purchases_event_idx ON purchases (event)`;
 await sql`CREATE INDEX IF NOT EXISTS purchases_created_at_idx ON purchases (created_at)`;
 await sql`CREATE INDEX IF NOT EXISTS purchases_product_id_idx ON purchases (product_id)`;
+
+// Um cakto_id passa por vários eventos ao longo da vida da transação
+// (pix_gerado -> purchase_approved, por exemplo). A unicidade antiga era só
+// em cakto_id, então o segundo evento do mesmo id caía no ON CONFLICT DO
+// NOTHING e sumia — a venda nunca saía de "pix gerado". Troca pra
+// (cakto_id, event): cada estágio da transação grava sua própria linha.
+await sql`ALTER TABLE purchases DROP CONSTRAINT IF EXISTS purchases_cakto_id_key`;
+await sql`CREATE UNIQUE INDEX IF NOT EXISTS purchases_cakto_id_event_idx ON purchases (cakto_id, event)`;
 
 // Melhor esforço: extraído do campo "checkoutUrl" do payload da Cakto, se ela
 // ecoar os parâmetros que a gente anexou no link (ver src/lib/attribution.ts).

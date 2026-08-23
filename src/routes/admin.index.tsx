@@ -4,12 +4,31 @@ import { Copy, LogOut, RefreshCw, TrendingDown } from "lucide-react";
 import { checkAdminSession, adminLogin, adminLogout } from "@/functions/admin-auth";
 import { getFunnelStats, type FunnelStats, type StatsRange } from "@/functions/admin-stats";
 import { getSampleLeads, type SampleLeadRow } from "@/functions/sample-leads";
-import { getPurchaseStats, type PurchaseStats } from "@/functions/purchases";
+import {
+  getPurchaseStats,
+  getCheckoutActivity,
+  type PurchaseStats,
+  type CheckoutActivity,
+} from "@/functions/purchases";
 import { getEbook } from "@/data/ebooks";
 import { META_PIXEL_IDS } from "@/lib/meta-pixel";
 import { cn } from "@/lib/utils";
 
 const EMPTY_PURCHASES: PurchaseStats = { count: 0, revenue: 0, byProduct: [] };
+const EMPTY_CHECKOUT_ACTIVITY: CheckoutActivity = { eventCounts: [], recent: [] };
+
+const CHECKOUT_EVENT_LABELS: Record<string, string> = {
+  purchase_approved: "Compra aprovada",
+  purchase_refused: "Compra recusada",
+  pix_gerado: "Pix gerado",
+  boleto_gerado: "Boleto gerado",
+  picpay_gerado: "Picpay gerado",
+  refund: "Reembolso",
+  chargeback: "Chargeback",
+  subscription_canceled: "Assinatura cancelada",
+  subscription_renewed: "Assinatura renovada",
+  checkout_abandonment: "Abandonou checkout",
+};
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -22,7 +41,7 @@ export const Route = createFileRoute("/admin/")({
     // Leads e vendas são features novas (tabelas sample_leads e purchases).
     // Se a migração ainda não rodou no banco, essas queries falham — e não
     // podem derrubar o resto do painel, que já funcionava sem elas.
-    const [leads, purchases] = await Promise.all([
+    const [leads, purchases, checkoutActivity] = await Promise.all([
       getSampleLeads().catch((err) => {
         console.error("[admin] falha ao buscar sample_leads:", err);
         return [] as SampleLeadRow[];
@@ -31,8 +50,12 @@ export const Route = createFileRoute("/admin/")({
         console.error("[admin] falha ao buscar purchases:", err);
         return EMPTY_PURCHASES;
       }),
+      getCheckoutActivity({ data: { range: "30d" } }).catch((err) => {
+        console.error("[admin] falha ao buscar checkout activity:", err);
+        return EMPTY_CHECKOUT_ACTIVITY;
+      }),
     ]);
-    return { authenticated: true as const, stats, leads, purchases };
+    return { authenticated: true as const, stats, leads, purchases, checkoutActivity };
   },
   component: AdminPage,
 });
@@ -75,7 +98,12 @@ function AdminPage() {
   }
 
   return (
-    <Dashboard initialStats={data.stats} leads={data.leads} initialPurchases={data.purchases} />
+    <Dashboard
+      initialStats={data.stats}
+      leads={data.leads}
+      initialPurchases={data.purchases}
+      initialCheckoutActivity={data.checkoutActivity}
+    />
   );
 }
 
@@ -130,14 +158,17 @@ function Dashboard({
   initialStats,
   leads,
   initialPurchases,
+  initialCheckoutActivity,
 }: {
   initialStats: FunnelStats;
   leads: SampleLeadRow[];
   initialPurchases: PurchaseStats;
+  initialCheckoutActivity: CheckoutActivity;
 }) {
   const [range, setRange] = useState<StatsRange>("30d");
   const [stats, setStats] = useState(initialStats);
   const [purchases, setPurchases] = useState(initialPurchases);
+  const [checkoutActivity, setCheckoutActivity] = useState(initialCheckoutActivity);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -150,12 +181,14 @@ function Dashboard({
   async function reload(nextRange: StatsRange) {
     setLoading(true);
     setRange(nextRange);
-    const [fresh, freshPurchases] = await Promise.all([
+    const [fresh, freshPurchases, freshCheckoutActivity] = await Promise.all([
       getFunnelStats({ data: { range: nextRange } }),
       getPurchaseStats({ data: { range: nextRange } }).catch(() => EMPTY_PURCHASES),
+      getCheckoutActivity({ data: { range: nextRange } }).catch(() => EMPTY_CHECKOUT_ACTIVITY),
     ]);
     setStats(fresh);
     setPurchases(freshPurchases);
+    setCheckoutActivity(freshCheckoutActivity);
     setLoading(false);
   }
 
@@ -261,6 +294,67 @@ function Dashboard({
             </div>
           </div>
         ) : null}
+
+        <div className="mt-6 rounded-2xl border border-white/10 bg-[#111827] p-6">
+          <h2 className="text-sm font-bold text-white/80">Atividade no checkout (Cakto)</h2>
+          <p className="mt-1 text-xs text-white/40">
+            Tudo que a Cakto reporta depois que o lead sai do nosso site, {stats.rangeLabel.toLowerCase()}
+            — não só a venda aprovada.
+          </p>
+
+          {checkoutActivity.eventCounts.length === 0 ? (
+            <p className="py-8 text-center text-sm text-white/40">
+              Sem eventos de checkout registrados ainda nesse período.
+            </p>
+          ) : (
+            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+              {checkoutActivity.eventCounts.map((row) => (
+                <div key={row.event} className="text-xs">
+                  <span className="text-white/80">
+                    {CHECKOUT_EVENT_LABELS[row.event] ?? row.event}
+                  </span>
+                  <span className="ml-1.5 font-semibold text-indigo-400">{row.count}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {checkoutActivity.recent.length > 0 ? (
+            <div className="mt-5 max-h-80 overflow-y-auto overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="sticky top-0 bg-[#111827]">
+                  <tr className="border-b border-white/10 text-[11px] uppercase tracking-wide text-white/40">
+                    <th className="pb-2 pr-4 font-semibold">E-mail</th>
+                    <th className="pb-2 pr-4 font-semibold">Produto</th>
+                    <th className="pb-2 pr-4 font-semibold">Evento</th>
+                    <th className="pb-2 pr-4 font-semibold">Pagamento</th>
+                    <th className="pb-2 font-semibold">Quando</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {checkoutActivity.recent.map((row, i) => (
+                    <tr key={`${row.cakto_id}-${row.event}-${i}`} className="border-b border-white/5">
+                      <td className="py-2.5 pr-4 text-white/90">{row.customer_email ?? "—"}</td>
+                      <td className="py-2.5 pr-4 text-white/60">{row.product_name ?? "—"}</td>
+                      <td className="py-2.5 pr-4 text-white/80">
+                        {CHECKOUT_EVENT_LABELS[row.event] ?? row.event}
+                      </td>
+                      <td className="py-2.5 pr-4 text-white/60">{row.payment_method ?? "—"}</td>
+                      <td className="py-2.5 text-white/40">
+                        {new Date(row.created_at).toLocaleDateString("pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : null}
+        </div>
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div className="rounded-2xl border border-white/10 bg-[#111827] p-6">

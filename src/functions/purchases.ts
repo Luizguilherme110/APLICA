@@ -56,3 +56,69 @@ export const getPurchaseStats = createServerFn({ method: "GET" })
       byProduct: byProductRaw as PurchaseProductRow[],
     };
   });
+
+export type CheckoutEventCountRow = { event: string; count: number };
+export type CheckoutActivityRow = {
+  cakto_id: string;
+  event: string;
+  status: string | null;
+  product_name: string | null;
+  amount: number | null;
+  payment_method: string | null;
+  customer_email: string | null;
+  created_at: string;
+};
+
+export type CheckoutActivity = {
+  eventCounts: CheckoutEventCountRow[];
+  recent: CheckoutActivityRow[];
+};
+
+/**
+ * Tudo que a Cakto reporta sobre o checkout, não só a venda aprovada:
+ * pix/boleto/picpay gerado, abandono, recusa, reembolso, chargeback. Dá pra
+ * ver onde o lead trava depois que sai do nosso site (ver cakto-webhook.ts).
+ */
+export const getCheckoutActivity = createServerFn({ method: "GET" })
+  .validator((data: { range: StatsRange }) => data)
+  .handler(async ({ data }): Promise<CheckoutActivity> => {
+    await adminSessionOrThrow();
+
+    const sql = getSql();
+    const since = rangeToSince(data.range);
+
+    const eventCountsRaw = since
+      ? await sql`
+          SELECT event, COUNT(*)::int AS count
+          FROM purchases
+          WHERE created_at >= ${since.toISOString()}
+          GROUP BY event
+          ORDER BY count DESC
+        `
+      : await sql`
+          SELECT event, COUNT(*)::int AS count
+          FROM purchases
+          GROUP BY event
+          ORDER BY count DESC
+        `;
+
+    const recentRaw = since
+      ? await sql`
+          SELECT cakto_id, event, status, product_name, amount, payment_method, customer_email, created_at
+          FROM purchases
+          WHERE created_at >= ${since.toISOString()}
+          ORDER BY created_at DESC
+          LIMIT 50
+        `
+      : await sql`
+          SELECT cakto_id, event, status, product_name, amount, payment_method, customer_email, created_at
+          FROM purchases
+          ORDER BY created_at DESC
+          LIMIT 50
+        `;
+
+    return {
+      eventCounts: eventCountsRaw as CheckoutEventCountRow[],
+      recent: recentRaw as CheckoutActivityRow[],
+    };
+  });
