@@ -6,6 +6,7 @@ import { getFunnelStats, type FunnelStats, type StatsRange } from "@/functions/a
 import { getSampleLeads, type SampleLeadRow } from "@/functions/sample-leads";
 import { getPurchaseStats, type PurchaseStats } from "@/functions/purchases";
 import { getEbook } from "@/data/ebooks";
+import { META_PIXEL_IDS } from "@/lib/meta-pixel";
 import { cn } from "@/lib/utils";
 
 const EMPTY_PURCHASES: PurchaseStats = { count: 0, revenue: 0, byProduct: [] };
@@ -41,6 +42,22 @@ const STAGE_LABELS: Record<string, string> = {
   view_ebook: "Viu um produto",
   initiate_checkout: "Iniciou checkout",
 };
+
+/**
+ * Cada evento aqui tem uma chamada fbq() pareada no código (ver
+ * src/lib/product-analytics.ts, meta-pixel.ts, WhatsAppButton, SampleModal e
+ * __root.tsx) — então essa contagem é o que o Pixel *deveria* ter recebido.
+ * Não é confirmação da Meta: só prova que o navegador do visitante chamou
+ * fbq(), não que o evento chegou no servidor deles.
+ */
+const PIXEL_EVENT_MAP: { event_name: string; fbEvent: string }[] = [
+  { event_name: "page_view", fbEvent: "PageView" },
+  { event_name: "view_ebook", fbEvent: "ViewContent" },
+  { event_name: "initiate_checkout", fbEvent: "InitiateCheckout" },
+  { event_name: "download_sample", fbEvent: "DownloadSample (custom)" },
+  { event_name: "click_whatsapp", fbEvent: "Contact" },
+  { event_name: "scroll_depth", fbEvent: "ScrollDepth (custom)" },
+];
 
 const RANGES: { value: StatsRange; label: string }[] = [
   { value: "today", label: "Hoje" },
@@ -358,6 +375,29 @@ function Dashboard({
               })}
             </div>
           )}
+        </div>
+
+        <div className="mt-6 rounded-2xl border border-white/10 bg-[#111827] p-6">
+          <h2 className="text-sm font-bold text-white/80">Eventos do Meta Pixel</h2>
+          <p className="mt-1 text-xs text-white/40">
+            Pixel ID {META_PIXEL_IDS.join(", ")} · eventos que o navegador do visitante disparou
+            via fbq(), {stats.rangeLabel.toLowerCase()}. Não confirma recebimento pela Meta — só
+            que o código rodou.
+          </p>
+
+          <div className="mt-4 space-y-2.5">
+            {PIXEL_EVENT_MAP.map(({ event_name, fbEvent }) => {
+              const row = stats.stages.find((s) => s.event_name === event_name);
+              return (
+                <div key={event_name} className="flex items-center justify-between text-sm">
+                  <span className="text-white/80">{fbEvent}</span>
+                  <span className="shrink-0 text-white/50">
+                    {row?.total ?? 0} disparos · {row?.uniq ?? 0} visitantes únicos
+                  </span>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
