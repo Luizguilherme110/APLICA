@@ -781,9 +781,9 @@ export const ebooks: Ebook[] = [
     format: "PDF · Material digital",
     price: "R$ 19,90",
     coverImage: coverEnemEssencial,
-    headline: "Organize seus estudos e tenha materiais de revisão em um só lugar",
+    headline: "Vai fazer o ENEM 2026 e não sabe o que estudar primeiro?",
     subheadline:
-      "Um pacote de materiais selecionados para quem quer começar ou acelerar os estudos para o ENEM sem precisar procurar conteúdo em dezenas de lugares.",
+      "Questões, materiais de revisão e conteúdos de apoio organizados em um só lugar para facilitar sua preparação.",
     audience: [
       "Quem vai prestar o ENEM e quer organizar os estudos",
       "Quem deixou para estudar mais perto da prova",

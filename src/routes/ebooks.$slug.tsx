@@ -142,6 +142,9 @@ function EbookPage() {
                   <Download className="size-3.5" /> PDF por e-mail assim que o pagamento é
                   confirmado
                 </p>
+                <p className="mt-1.5 flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <ShieldCheck className="size-3.5" /> Garantia de 7 dias, reembolso sem burocracia
+                </p>
                 {ebook.sampleUrl ? (
                   <SampleModal
                     ebook={ebook}
