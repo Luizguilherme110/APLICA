@@ -207,7 +207,10 @@ function EbookPage() {
               <Calendar className="size-5" />
             </span>
             <div>
-              <h3 className="text-base font-bold">Bônus: kit de ferramentas e planos de ação</h3>
+              <span className="text-[10px] font-bold uppercase tracking-wide text-primary-foreground/60">
+                Bônus incluso
+              </span>
+              <h3 className="mt-0.5 text-base font-bold">Kit de ferramentas e planos de ação</h3>
               <p className="mt-1 text-sm leading-relaxed text-primary-foreground/75">
                 {ebook.actionPlan}
               </p>
