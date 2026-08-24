@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getSql } from "@/functions/db";
 import { adminSessionOrThrow } from "@/functions/admin-guard";
+import { rangeToSince, type StatsRange } from "@/functions/admin-stats";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -40,16 +41,25 @@ export type SampleLeadRow = {
 };
 
 /** Lista os leads da amostra pro painel admin, mais recentes primeiro. */
-export const getSampleLeads = createServerFn({ method: "GET" }).handler(
-  async (): Promise<SampleLeadRow[]> => {
+export const getSampleLeads = createServerFn({ method: "GET" })
+  .validator((data: { range: StatsRange }) => data)
+  .handler(async ({ data }): Promise<SampleLeadRow[]> => {
     await adminSessionOrThrow();
     const sql = getSql();
-    const rows = await sql`
-      SELECT email, slug, category, created_at
-      FROM sample_leads
-      ORDER BY created_at DESC
-      LIMIT 500
-    `;
+    const since = rangeToSince(data.range);
+    const rows = since
+      ? await sql`
+          SELECT email, slug, category, created_at
+          FROM sample_leads
+          WHERE created_at >= ${since.toISOString()}
+          ORDER BY created_at DESC
+          LIMIT 500
+        `
+      : await sql`
+          SELECT email, slug, category, created_at
+          FROM sample_leads
+          ORDER BY created_at DESC
+          LIMIT 500
+        `;
     return rows as SampleLeadRow[];
-  },
-);
+  });

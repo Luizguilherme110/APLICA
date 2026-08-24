@@ -42,7 +42,7 @@ export const Route = createFileRoute("/admin/")({
     // Se a migração ainda não rodou no banco, essas queries falham — e não
     // podem derrubar o resto do painel, que já funcionava sem elas.
     const [leads, purchases, checkoutActivity] = await Promise.all([
-      getSampleLeads().catch((err) => {
+      getSampleLeads({ data: { range: "30d" } }).catch((err) => {
         console.error("[admin] falha ao buscar sample_leads:", err);
         return [] as SampleLeadRow[];
       }),
@@ -100,7 +100,7 @@ function AdminPage() {
   return (
     <Dashboard
       initialStats={data.stats}
-      leads={data.leads}
+      initialLeads={data.leads}
       initialPurchases={data.purchases}
       initialCheckoutActivity={data.checkoutActivity}
     />
@@ -156,17 +156,18 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
 
 function Dashboard({
   initialStats,
-  leads,
+  initialLeads,
   initialPurchases,
   initialCheckoutActivity,
 }: {
   initialStats: FunnelStats;
-  leads: SampleLeadRow[];
+  initialLeads: SampleLeadRow[];
   initialPurchases: PurchaseStats;
   initialCheckoutActivity: CheckoutActivity;
 }) {
   const [range, setRange] = useState<StatsRange>("30d");
   const [stats, setStats] = useState(initialStats);
+  const [leads, setLeads] = useState(initialLeads);
   const [purchases, setPurchases] = useState(initialPurchases);
   const [checkoutActivity, setCheckoutActivity] = useState(initialCheckoutActivity);
   const [loading, setLoading] = useState(false);
@@ -181,12 +182,14 @@ function Dashboard({
   async function reload(nextRange: StatsRange) {
     setLoading(true);
     setRange(nextRange);
-    const [fresh, freshPurchases, freshCheckoutActivity] = await Promise.all([
+    const [fresh, freshLeads, freshPurchases, freshCheckoutActivity] = await Promise.all([
       getFunnelStats({ data: { range: nextRange } }),
+      getSampleLeads({ data: { range: nextRange } }).catch(() => [] as SampleLeadRow[]),
       getPurchaseStats({ data: { range: nextRange } }).catch(() => EMPTY_PURCHASES),
       getCheckoutActivity({ data: { range: nextRange } }).catch(() => EMPTY_CHECKOUT_ACTIVITY),
     ]);
     setStats(fresh);
+    setLeads(freshLeads);
     setPurchases(freshPurchases);
     setCheckoutActivity(freshCheckoutActivity);
     setLoading(false);
