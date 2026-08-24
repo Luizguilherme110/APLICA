@@ -29,6 +29,7 @@ import {
   getProductFamily,
   isCheckoutPending,
   applyPriceOverride,
+  effectivePrice,
   type Ebook,
 } from "@/data/ebooks";
 import { getPriceOverrides } from "@/functions/product-prices";
@@ -75,7 +76,8 @@ function BuyButton({ ebook, className }: { ebook: Ebook; className?: string }) {
   return (
     <Button asChild variant="cta" size="xl" className={className}>
       <a href={withAttribution(ebook.checkoutUrl)} onClick={() => reportCheckoutIntent(ebook)}>
-        {ebook.ctaLabel ?? "Comprar agora"} <ArrowRight />
+        {ebook.ctaLabel ? `${ebook.ctaLabel} por ${effectivePrice(ebook)}` : "Comprar agora"}{" "}
+        <ArrowRight />
       </a>
     </Button>
   );

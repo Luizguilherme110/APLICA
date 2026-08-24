@@ -818,7 +818,7 @@ export const ebooks: Ebook[] = [
     guarantee:
       "Você tem 7 dias corridos após a compra para pedir reembolso integral, sem precisar justificar. É um direito garantido por lei em qualquer compra digital no Brasil.",
     checkoutUrl: "https://pay.cakto.com.br/qyxma4z_1047701",
-    ctaLabel: "Quero estudar para o ENEM",
+    ctaLabel: "Quero meu Kit ENEM",
     modulesHeading: "O que você recebe",
     installments: false,
   },
