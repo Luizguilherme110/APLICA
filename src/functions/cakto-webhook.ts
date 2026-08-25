@@ -95,9 +95,10 @@ export async function handleCaktoWebhook(request: Request): Promise<Response> {
 
   const { utmSource, utmCampaign } = extractUtmFromCheckoutUrl(data.checkoutUrl);
 
+  let inserted = false;
   try {
     const sql = getSql();
-    await sql`
+    const rows = await sql`
       INSERT INTO purchases
         (cakto_id, event, status, product_id, product_name, amount, customer_email, payment_method, raw, utm_source, utm_campaign)
       VALUES (
@@ -114,12 +115,70 @@ export async function handleCaktoWebhook(request: Request): Promise<Response> {
         ${utmCampaign}
       )
       ON CONFLICT (cakto_id, event) DO NOTHING
+      RETURNING cakto_id
     `;
+    inserted = (rows as { cakto_id: string }[]).length > 0;
   } catch (err) {
     console.error("[cakto-webhook] falha ao gravar:", err);
     // 500 de propósito: erro transitório de banco, a Cakto deve tentar de novo.
     return new Response("internal error", { status: 500 });
   }
 
+  // Reporta a venda pra OpenAI Ads (evento "Purchase Approved" / order_created,
+  // configurado no painel). Só quando o insert foi novo — se a Cakto reenviar
+  // o mesmo webhook, "inserted" vem false e não duplicamos o report.
+  if (inserted && event === "purchase_approved") {
+    reportPurchaseToOpenAiAds(data).catch((err) => {
+      console.error("[cakto-webhook] falha ao reportar pra OpenAI Ads:", err);
+    });
+  }
+
   return new Response("ok", { status: 200 });
+}
+
+const OPENAI_ADS_PIXEL_ID = "7RcoJcygh8svFp1yEuQtEk";
+
+async function reportPurchaseToOpenAiAds(data: NonNullable<CaktoPayload["data"]>): Promise<void> {
+  const apiKey = process.env["OPENAI_ADS_API_KEY"];
+  if (!apiKey) {
+    console.error("[cakto-webhook] OPENAI_ADS_API_KEY não configurada, pulando report");
+    return;
+  }
+
+  const res = await fetch(`https://bzr.openai.com/v1/events?pid=${OPENAI_ADS_PIXEL_ID}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      validate_only: false,
+      events: [
+        {
+          id: data.id,
+          type: "order_created",
+          timestamp_ms: Date.now(),
+          source_url: data.checkoutUrl ?? "https://aplica.site",
+          action_source: "web",
+          data: {
+            type: "contents",
+            amount: Math.round((data.amount ?? 0) * 100),
+            currency: "BRL",
+            contents: [
+              {
+                id: data.product?.id ?? "unknown",
+                name: data.product?.name ?? "unknown",
+                content_type: "product",
+                quantity: 1,
+              },
+            ],
+          },
+        },
+      ],
+    }),
+  });
+
+  if (!res.ok) {
+    console.error("[cakto-webhook] OpenAI Ads respondeu", res.status, await res.text());
+  }
 }

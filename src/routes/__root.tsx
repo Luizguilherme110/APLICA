@@ -19,6 +19,7 @@ import {
   trackPageView,
   trackScrollDepth,
 } from "../lib/meta-pixel";
+import { openaiPixelSnippet } from "../lib/openai-pixel";
 import { WhatsAppButton } from "../components/site/WhatsAppButton";
 import { logFunnelEvent } from "../lib/funnel-analytics";
 import { watchScrollDepth } from "../lib/scroll-depth";
@@ -135,6 +136,9 @@ function RootShell({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: metaPixelSnippet }} />
         <noscript dangerouslySetInnerHTML={{ __html: metaPixelNoscriptHtml }} />
         {/* End Meta Pixel */}
+        {/* OpenAI Ads Pixel */}
+        <script dangerouslySetInnerHTML={{ __html: openaiPixelSnippet }} />
+        {/* End OpenAI Ads Pixel */}
       </head>
       <body>
         {children}

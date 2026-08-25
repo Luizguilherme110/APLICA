@@ -1,12 +1,14 @@
 import { track as trackVercelAnalytics } from "@vercel/analytics/react";
-import { trackContact } from "@/lib/meta-pixel";
+import { trackContact as trackMetaContact } from "@/lib/meta-pixel";
+import { trackContact as trackOpenaiContact } from "@/lib/openai-pixel";
 import { logFunnelEvent } from "@/lib/funnel-analytics";
 
 const PHONE = "554299950491";
 const MESSAGE = "Olá, gostaria de saber mais sobre os Ebook's";
 
 function reportWhatsAppClick() {
-  trackContact();
+  trackMetaContact();
+  trackOpenaiContact();
   trackVercelAnalytics("click_whatsapp");
   logFunnelEvent("click_whatsapp");
 }

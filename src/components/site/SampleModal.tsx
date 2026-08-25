@@ -14,7 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { saveSampleLead } from "@/functions/sample-leads";
-import { trackDownloadSample } from "@/lib/meta-pixel";
+import { trackDownloadSample as trackMetaDownloadSample } from "@/lib/meta-pixel";
+import { trackDownloadSample as trackOpenaiDownloadSample } from "@/lib/openai-pixel";
 import { getSessionId, logFunnelEvent } from "@/lib/funnel-analytics";
 import type { Ebook } from "@/data/ebooks";
 
@@ -55,7 +56,8 @@ export function SampleModal({ ebook, trigger }: { ebook: Ebook; trigger: ReactNo
       console.error("[sample-lead] falha ao gravar:", err);
     }
 
-    trackDownloadSample({ contentName: ebook.title, contentId: ebook.slug });
+    trackMetaDownloadSample({ contentName: ebook.title, contentId: ebook.slug });
+    trackOpenaiDownloadSample();
     trackVercelAnalytics("download_sample", { slug: ebook.slug, category: ebook.category });
     logFunnelEvent("download_sample", { slug: ebook.slug, category: ebook.category });
 

@@ -475,11 +475,11 @@ function Dashboard({
         </div>
 
         <div className="mt-6 rounded-2xl border border-white/10 bg-[#111827] p-6">
-          <h2 className="text-sm font-bold text-white/80">Eventos do Meta Pixel</h2>
+          <h2 className="text-sm font-bold text-white/80">Eventos de pixel (Meta + OpenAI Ads)</h2>
           <p className="mt-1 text-xs text-white/40">
-            Pixel ID {META_PIXEL_IDS.join(", ")} · eventos que o navegador do visitante disparou
-            via fbq(), {stats.rangeLabel.toLowerCase()}. Não confirma recebimento pela Meta — só
-            que o código rodou.
+            Meta Pixel ID {META_PIXEL_IDS.join(", ")} · eventos que o navegador do visitante
+            disparou via fbq(), {stats.rangeLabel.toLowerCase()}. Não confirma recebimento pela
+            Meta ou pela OpenAI — só que o código rodou.
           </p>
 
           <div className="mt-4 space-y-2.5">
